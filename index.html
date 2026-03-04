@@ -2,7 +2,10 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#0b0d14">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <title>منصة الخبر الصحيح | كشف الأخبار المزيفة بالذكاء الاصطناعي</title>
 
 <!-- ═══ SEO الأساسي ═══ -->
@@ -50,6 +53,7 @@
 </script>
 
 <script src="https://app.lemonsqueezy.com/js/lemon.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#0b0d14;--card:#151822;--card2:#1c1f2e;--border:#252838;--accent:#4f8ef7;--purple:#8b5cf6;--green:#10d98a;--red:#ff4560;--yellow:#fbbf24;--text:#eef0f8;--muted:#6b7194}
@@ -206,6 +210,143 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
 .page-modal ul{font-size:13px;line-height:2;color:#b0b4cc;padding-right:20px;margin-bottom:12px}
 .page-close{position:absolute;top:16px;left:16px;background:var(--card2);border:1px solid var(--border);color:var(--muted);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:18px;line-height:32px;text-align:center}
 
+
+/* ═══════════════════════════════════
+   MOBILE RESPONSIVE — Android & iPhone
+═══════════════════════════════════ */
+@media (max-width: 768px) {
+  /* Header */
+  .header{padding:10px 14px}
+  .logo-text .name{font-size:16px}
+  .logo-text .tagline{font-size:9px}
+  .header-actions{gap:6px}
+  .badge{padding:4px 8px;font-size:10px}
+  .lang-btn{padding:6px 10px;font-size:11px}
+  .logout-btn{padding:6px 10px;font-size:10px}
+
+  /* Stats */
+  .stat{padding:10px 6px}
+  .stat-n{font-size:18px}
+  .stat-l{font-size:9px}
+
+  /* Container */
+  .container{padding:16px 12px}
+
+  /* Hero */
+  .hero{padding:30px 12px 20px}
+  .hero-icon{font-size:48px}
+  .hero-title{font-size:24px}
+  .hero-sub{font-size:13px}
+  .hero-cta{padding:14px 28px;font-size:14px}
+
+  /* Features */
+  .features-grid{gap:8px}
+  .feature-box{min-width:calc(50% - 4px);padding:14px 10px}
+  .feature-icon{font-size:22px}
+  .feature-title{font-size:12px}
+  .feature-desc{font-size:10px}
+
+  /* Steps */
+  .steps-row{gap:8px}
+  .step-box{min-width:calc(50% - 4px);padding:12px 8px}
+  .step-icon{font-size:20px}
+  .step-t{font-size:11px}
+  .step-d{font-size:9px}
+
+  /* Pricing */
+  .pricing-grid{flex-direction:column;gap:12px}
+  .price-box{min-width:unset;width:100%}
+  .price-amt{font-size:28px}
+
+  /* Tabs */
+  .tabs{padding:4px}
+  .tab{padding:8px 4px;font-size:12px}
+
+  /* Textarea */
+  textarea{font-size:16px;min-height:100px} /* 16px يمنع zoom على iOS */
+
+  /* Upload area */
+  .upload-area{padding:20px 14px}
+  .upload-icon{font-size:26px}
+  .upload-title{font-size:13px}
+
+  /* Buttons */
+  .analyze-btn{padding:14px;font-size:15px}
+  .subscribe-btn{padding:13px;font-size:13px}
+  .donation-btn{padding:13px;font-size:14px}
+
+  /* Article */
+  .article-section{padding:20px 14px}
+  .article-title{font-size:18px}
+  .article-stat-row{gap:8px}
+  .article-stat{min-width:calc(33% - 6px);padding:10px 8px}
+  .article-stat-n{font-size:20px}
+  .article-stat-l{font-size:9px}
+
+  /* Donation */
+  .donation-grid{gap:8px}
+  .donation-box{min-width:calc(33% - 6px);padding:12px 8px}
+  .donation-amt{font-size:18px}
+  .donation-label{font-size:10px}
+
+  /* Contact form */
+  .form-row{flex-direction:column;gap:0}
+  .contact-form input,.contact-form textarea,.contact-form select{font-size:16px} /* منع zoom على iOS */
+
+  /* Modal */
+  .modal{padding:20px 16px;margin:10px}
+  .modal-title{font-size:16px}
+  .modal-input{font-size:16px;letter-spacing:1px}
+
+  /* Result */
+  .verdict-big{font-size:22px}
+  .conf-bar-bg{max-width:100%}
+
+  /* Welcome bar */
+  .welcome-bar{padding:12px 14px}
+
+  /* Footer */
+  .footer-links{gap:10px}
+  .footer-links a{font-size:11px}
+
+  /* Page modal */
+  .page-modal{padding:20px 16px}
+  .page-modal h1{font-size:18px}
+  .page-modal h2{font-size:14px}
+  .page-modal p,.page-modal ul{font-size:12px}
+
+  /* Card */
+  .card{padding:16px 14px}
+  .card-title{font-size:14px}
+}
+
+@media (max-width: 380px) {
+  .hero-title{font-size:20px}
+  .price-amt{font-size:24px}
+  .stat-n{font-size:16px}
+  .feature-box{min-width:100%}
+  .donation-box{min-width:calc(33% - 6px)}
+}
+
+/* iOS Safari fixes */
+@supports (-webkit-touch-callout: none) {
+  textarea, input, select {
+    font-size: 16px !important;
+  }
+  .modal-overlay, .page-overlay {
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+/* Touch friendly */
+@media (hover: none) {
+  .price-box:hover{transform:none}
+  .analyze-btn:hover:not(:disabled){transform:none;box-shadow:none}
+  .hero-cta:hover{transform:none;box-shadow:none}
+  .donation-box:hover{transform:none}
+  .tab{-webkit-tap-highlight-color:transparent}
+  button{-webkit-tap-highlight-color:transparent}
+}
 </style>
 </head>
 <body>
@@ -821,10 +962,23 @@ function submitContact(){
   const err=document.getElementById('contactErr');
   if(!name||!email||!subject||!message){err.style.display='block';return;}
   err.style.display='none';
-  const body=encodeURIComponent('الاسم: '+name+'\nالبريد: '+email+'\nالموضوع: '+subject+'\n\nالرسالة:\n'+message);
-  window.location.href='mailto:contact@alkhabarsahih.com?subject='+encodeURIComponent(subject)+'&body='+body;
-  document.getElementById('contactFormWrap').style.display='none';
-  document.getElementById('contactSuccess').style.display='block';
+  const btn=document.querySelector('#contactSection .analyze-btn');
+  btn.disabled=true;
+  btn.textContent='⏳ جاري الإرسال...';
+  emailjs.send('service_nzmzcq6','template_xpsiqqq',{
+    from_name: name,
+    from_email: email,
+    subject: subject,
+    message: message
+  }).then(()=>{
+    document.getElementById('contactFormWrap').style.display='none';
+    document.getElementById('contactSuccess').style.display='block';
+  }).catch(()=>{
+    btn.disabled=false;
+    btn.textContent='📤 إرسال الرسالة';
+    err.textContent='حدث خطأ. حاول مجدداً.';
+    err.style.display='block';
+  });
 }
 
 // ════════════════════════
@@ -834,6 +988,11 @@ function openPage(name){document.getElementById(name+'Page').style.display='flex
 function closePage(id){document.getElementById(id).style.display='none';document.body.style.overflow='';}
 function closePageOutside(e,id){if(e.target.id===id)closePage(id);}
 
+
+// ════════════════════════
+// EMAILJS INIT
+// ════════════════════════
+emailjs.init('PT78eEYyef3oDhl2E');
 
 init();
 </script>
