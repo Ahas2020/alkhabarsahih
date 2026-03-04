@@ -3,7 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>منصة الخبر الصحيح | True News Platform</title>
+<title>منصة الخبر الصحيح | كشف الأخبار المزيفة بالذكاء الاصطناعي</title>
+
+<!-- ═══ SEO الأساسي ═══ -->
+<meta name="description" content="منصة الخبر الصحيح — أول منصة عربية متخصصة في كشف الأخبار المزيفة بالذكاء الاصطناعي. حلّل النصوص والصور والفيديوهات في ثوانٍ.">
+<meta name="keywords" content="أخبار مزيفة, كشف التزوير, ذكاء اصطناعي, فاكت تشيك, التحقق من الأخبار, fake news, fact check, AI news verification">
+<meta name="author" content="منصة الخبر الصحيح">
+<meta name="robots" content="index, follow">
+<meta name="language" content="Arabic">
+<link rel="canonical" href="https://truenewsplatform.netlify.app/">
+
+<!-- ═══ Open Graph (Facebook / WhatsApp) ═══ -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://truenewsplatform.netlify.app/">
+<meta property="og:title" content="منصة الخبر الصحيح | كشف الأخبار المزيفة بالذكاء الاصطناعي">
+<meta property="og:description" content="أول منصة عربية متخصصة في كشف الأخبار المزيفة. حلّل أي خبر في ثوانٍ بالذكاء الاصطناعي.">
+<meta property="og:image" content="https://truenewsplatform.netlify.app/og-image.png">
+<meta property="og:locale" content="ar_AR">
+<meta property="og:site_name" content="الخبر الصحيح">
+
+<!-- ═══ Twitter Card ═══ -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="منصة الخبر الصحيح | كشف الأخبار المزيفة">
+<meta name="twitter:description" content="أول منصة عربية لكشف الأخبار المزيفة بالذكاء الاصطناعي">
+
+<!-- ═══ Schema.org — بيانات منظمة لجوجل ═══ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "منصة الخبر الصحيح",
+  "alternateName": "True News Platform",
+  "url": "https://truenewsplatform.netlify.app/",
+  "description": "أول منصة عربية متخصصة في كشف الأخبار المزيفة بالذكاء الاصطناعي",
+  "applicationCategory": "NewsApplication",
+  "operatingSystem": "Web",
+  "offers": [
+    {"@type": "Offer", "name": "أساسي", "price": "1", "priceCurrency": "USD", "billingPeriod": "Monthly"},
+    {"@type": "Offer", "name": "مميز", "price": "3", "priceCurrency": "USD", "billingPeriod": "Monthly"},
+    {"@type": "Offer", "name": "مؤسسي", "price": "5", "priceCurrency": "USD", "billingPeriod": "Monthly"}
+  ],
+  "inLanguage": ["ar", "en"],
+  "audience": {"@type": "Audience", "audienceType": "Journalists, Researchers, General Public"},
+  "keywords": "أخبار مزيفة, كشف التزوير, ذكاء اصطناعي, fact check"
+}
+</script>
+
 <script src="https://app.lemonsqueezy.com/js/lemon.js" defer></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -118,6 +163,49 @@ textarea:focus{border-color:var(--accent)}
 /* WELCOME BAR */
 .welcome-bar{background:linear-gradient(135deg,#4f8ef715,#8b5cf615);border:1px solid #4f8ef740;border-radius:14px;padding:14px 18px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
 footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-top:1px solid var(--border);margin-top:10px}
+/* ═══ ARTICLE SECTION ═══ */
+.article-section{background:linear-gradient(135deg,#0d0f1a,#151822);border:1px solid var(--border);border-radius:16px;padding:32px;margin-bottom:18px}
+.article-tag{display:inline-block;background:linear-gradient(135deg,var(--accent),var(--purple));color:#fff;font-size:10px;font-weight:700;padding:4px 12px;border-radius:99px;margin-bottom:14px}
+.article-title{font-size:22px;font-weight:900;margin-bottom:16px;line-height:1.4;background:linear-gradient(135deg,var(--text),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.article-body{font-size:13px;line-height:2;color:#b0b4cc}
+.article-body h3{font-size:15px;font-weight:800;color:var(--text);margin:20px 0 8px;padding-right:12px;border-right:3px solid var(--accent)}
+.article-body p{margin-bottom:14px}
+.article-body .highlight{background:linear-gradient(135deg,var(--accent)15,var(--purple)15);border-right:3px solid var(--accent);padding:12px 16px;border-radius:0 8px 8px 0;margin:16px 0;font-style:italic;color:var(--text)}
+.article-stat-row{display:flex;gap:12px;flex-wrap:wrap;margin:20px 0}
+.article-stat{flex:1;min-width:120px;background:#0b0d14;border-radius:10px;padding:14px;text-align:center;border:1px solid var(--border)}
+.article-stat-n{font-size:24px;font-weight:900;color:var(--accent)}
+.article-stat-l{font-size:10px;color:var(--muted);margin-top:4px}
+
+/* ═══ CONTACT FORM ═══ */
+.contact-form input,.contact-form textarea,.contact-form select{width:100%;background:#0d0f1a;border:1.5px solid var(--border);border-radius:10px;color:var(--text);padding:12px 14px;font-size:14px;outline:none;font-family:inherit;transition:.2s;margin-bottom:12px}
+.contact-form input:focus,.contact-form textarea:focus,.contact-form select:focus{border-color:var(--accent)}
+.contact-form textarea{resize:vertical;min-height:100px;line-height:1.7}
+.form-row{display:flex;gap:12px}
+.form-row>*{flex:1}
+.contact-success{text-align:center;padding:20px;display:none}
+.contact-success-icon{font-size:48px;margin-bottom:10px}
+
+/* ═══ DONATION ═══ */
+.donation-grid{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+.donation-box{flex:1;min-width:120px;background:#0d0f1a;border:1.5px solid var(--border);border-radius:12px;padding:16px;text-align:center;cursor:pointer;transition:.2s}
+.donation-box:hover,.donation-box.selected{border-color:var(--green);background:#10d98a10;transform:translateY(-2px)}
+.donation-amt{font-size:22px;font-weight:900;color:var(--green)}
+.donation-label{font-size:11px;color:var(--muted);margin-top:4px}
+.donation-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--green),var(--accent));border:none;border-radius:10px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:.2s}
+.donation-btn:hover{transform:translateY(-1px);box-shadow:0 8px 25px #10d98a40}
+
+/* ═══ FOOTER PAGES ═══ */
+.footer-links{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:10px}
+.footer-links a{color:var(--muted);text-decoration:none;font-size:11px;transition:.2s}
+.footer-links a:hover{color:var(--accent)}
+.page-overlay{position:fixed;inset:0;background:#000000dd;z-index:998;display:flex;align-items:flex-start;justify-content:center;padding:20px;backdrop-filter:blur(6px);overflow-y:auto}
+.page-modal{background:var(--card);border-radius:20px;border:1px solid var(--border);width:100%;max-width:680px;padding:32px;position:relative;margin:auto;animation:popIn .25s ease}
+.page-modal h1{font-size:22px;font-weight:900;margin-bottom:6px;background:linear-gradient(135deg,var(--accent),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.page-modal h2{font-size:16px;font-weight:800;margin:20px 0 8px;color:var(--text)}
+.page-modal p{font-size:13px;line-height:1.9;color:#b0b4cc;margin-bottom:12px}
+.page-modal ul{font-size:13px;line-height:2;color:#b0b4cc;padding-right:20px;margin-bottom:12px}
+.page-close{position:absolute;top:16px;left:16px;background:var(--card2);border:1px solid var(--border);color:var(--muted);width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:18px;line-height:32px;text-align:center}
+
 </style>
 </head>
 <body>
@@ -237,6 +325,82 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
       </div>
     </div>
   </div>
+
+  <!-- ═══ لماذا منصة الخبر الصحيح — المقالة ═══ -->
+  <div class="article-section" id="whySection">
+    <span class="article-tag">📰 مقالة تحريرية</span>
+    <div class="article-title">الأخبار المزيفة: وباء العصر الرقمي<br>ولماذا وُجدت منصة الخبر الصحيح؟</div>
+    <div class="article-body">
+
+      <div class="article-stat-row">
+        <div class="article-stat"><div class="article-stat-n">86%</div><div class="article-stat-l">من مستخدمي الإنترنت صادفوا خبراً مزيفاً</div></div>
+        <div class="article-stat"><div class="article-stat-n">6x</div><div class="article-stat-l">الأخبار الكاذبة تنتشر أسرع من الصحيحة</div></div>
+        <div class="article-stat"><div class="article-stat-n">$78B</div><div class="article-stat-l">خسائر اقتصادية سنوية بسبب المعلومات المضللة</div></div>
+      </div>
+
+      <h3>🌍 أزمة المعلومات في زمن الأزمات</h3>
+      <p>في عالم يتسارع فيه تدفق المعلومات بشكل غير مسبوق، باتت الأخبار المزيفة تشكّل تهديداً حقيقياً للمجتمعات العربية. خلال أي أزمة أو حرب أو كارثة، يتضاعف انتشار المعلومات المضللة بشكل مخيف — فيُعمّق الانقسامات، ويُذكي الخوف، ويُعرقل القرارات السليمة.</p>
+
+      <div class="highlight">"دراسة معهد ماساتشوستس للتكنولوجيا (MIT) أثبتت أن الأخبار المزيفة تنتشر بسرعة تفوق الأخبار الصحيحة بست مرات على منصات التواصل الاجتماعي."</div>
+
+      <h3>🎯 لماذا المنطقة العربية بالتحديد؟</h3>
+      <p>يعاني العالم العربي من فراغ حقيقي في أدوات التحقق من المعلومات. معظم منصات فاكت-تشيك العالمية مصمّمة للمحتوى الغربي ولا تفهم السياق الثقافي والسياسي الإقليمي. اللهجات المحلية، والمصطلحات الدينية، والأحداث السياسية الإقليمية — كلها تحتاج إلى أداة متخصصة تفهم هذا السياق.</p>
+
+      <h3>🤖 قوة الذكاء الاصطناعي في خدمة الحقيقة</h3>
+      <p>منصة الخبر الصحيح تستخدم أحدث نماذج الذكاء الاصطناعي لتحليل المحتوى من زوايا متعددة في آنٍ واحد: تحليل لغوي، وتحقق من السياق التاريخي، وكشف أنماط التضليل المعروفة، ومقارنة المصادر. كل هذا يحدث في ثوانٍ معدودة بدلاً من ساعات من البحث اليدوي.</p>
+
+      <h3>🛡️ مهمتنا: حماية المجتمع بالمعرفة</h3>
+      <p>نؤمن بأن كل مواطن يستحق أن يملك أداة تساعده على التمييز بين الحقيقة والزيف. ليس فقط الصحفيون والباحثون — بل كل أم تتلقى خبراً على واتساب، وكل شاب يرى مقطعاً مثيراً على تيك توك، وكل صانع قرار يحتاج إلى معلومة موثوقة. منصة الخبر الصحيح وُجدت لتكون الحارس الأمين للحقيقة في الفضاء الرقمي العربي.</p>
+
+    </div>
+  </div>
+
+  <!-- ═══ التبرع ═══ -->
+  <div class="card" id="donationSection">
+    <div class="card-title" style="justify-content:center;font-size:18px">🤲 <span>ادعم مهمتنا</span></div>
+    <p style="text-align:center;font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.8">منصة الخبر الصحيح رسالة قبل أن تكون منصة.<br>تبرعك يساعدنا على الوصول لمن لا يستطيع الاشتراك.</p>
+    <div class="donation-grid" id="donationGrid">
+      <div class="donation-box selected" onclick="selectDonation(this,'d1','https://alkhabarsahih.lemonsqueezy.com/checkout/buy/fadc21e6-3479-4e48-b991-433ba3098092')">
+        <div class="donation-amt">$2</div><div class="donation-label">☕ داعم</div>
+      </div>
+      <div class="donation-box" onclick="selectDonation(this,'d2','https://alkhabarsahih.lemonsqueezy.com/checkout/buy/147bf906-0ce7-494c-9b92-4d579c74d5a4')">
+        <div class="donation-amt">$5</div><div class="donation-label">🌟 شريك</div>
+      </div>
+      <div class="donation-box" onclick="selectDonation(this,'d3','https://alkhabarsahih.lemonsqueezy.com/checkout/buy/d7d2fa8d-dcfa-44ea-9718-6153a8e30434')">
+        <div class="donation-amt">$10</div><div class="donation-label">🏆 مؤسس</div>
+      </div>
+    </div>
+    <button class="donation-btn" id="donateBtn" onclick="donate()">🤲 تبرع الآن وادعم الحقيقة</button>
+    <p style="text-align:center;font-size:10px;color:var(--muted);margin-top:8px">🔒 دفع آمن عبر Lemon Squeezy — شكراً لدعمك</p>
+  </div>
+
+  <!-- ═══ اتصل بنا ═══ -->
+  <div class="card" id="contactSection">
+    <div class="card-title">📬 <span>اتصل بنا</span></div>
+    <div id="contactFormWrap" class="contact-form">
+      <div class="form-row">
+        <input type="text" id="contactName" placeholder="الاسم الكامل">
+        <input type="email" id="contactEmail" placeholder="البريد الإلكتروني">
+      </div>
+      <select id="contactSubject">
+        <option value="">اختر موضوع الرسالة</option>
+        <option value="support">🔧 دعم فني</option>
+        <option value="subscription">💳 استفسار عن الاشتراك</option>
+        <option value="media">📰 شراكة إعلامية</option>
+        <option value="suggestion">💡 اقتراح أو ملاحظة</option>
+        <option value="other">📩 أخرى</option>
+      </select>
+      <textarea id="contactMessage" placeholder="اكتب رسالتك هنا..."></textarea>
+      <div id="contactErr" style="color:var(--red);font-size:12px;margin-bottom:8px;display:none">يرجى ملء جميع الحقول</div>
+      <button class="analyze-btn" onclick="submitContact()" style="margin-top:0">📤 إرسال الرسالة</button>
+    </div>
+    <div class="contact-success" id="contactSuccess">
+      <div class="contact-success-icon">✅</div>
+      <div style="font-weight:800;font-size:18px;color:var(--green);margin-bottom:8px">تم إرسال رسالتك!</div>
+      <div style="font-size:13px;color:var(--muted)">سنرد عليك خلال 24 ساعة على بريدك الإلكتروني.</div>
+    </div>
+  </div>
+
 </div>
 </div>
 
@@ -310,9 +474,91 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
 </div>
 
 <footer>
-  <div style="margin-bottom:6px;font-weight:700" id="footerName">منصة الخبر الصحيح</div>
-  <div id="footerCopy">© 2026 جميع الحقوق محفوظة — مدعوم بالذكاء الاصطناعي</div>
+  <div style="margin-bottom:10px;font-weight:800;font-size:15px" id="footerName">منصة الخبر الصحيح</div>
+  <div class="footer-links">
+    <a href="#" onclick="openPage('mission');return false;" id="fl1">🎯 حول مهمتنا</a>
+    <a href="#" onclick="openPage('privacy');return false;" id="fl2">🔒 سياسة الخصوصية</a>
+    <a href="#" onclick="openPage('terms');return false;" id="fl3">📜 الشروط والأحكام</a>
+    <a href="#" onclick="document.getElementById('contactSection')?.scrollIntoView({behavior:'smooth'});return false;" id="fl4">📬 اتصل بنا</a>
+    <a href="#" onclick="document.getElementById('donationSection')?.scrollIntoView({behavior:'smooth'});return false;" id="fl5">🤲 تبرع</a>
+  </div>
+  <div id="footerCopy" style="margin-top:8px">© 2026 جميع الحقوق محفوظة — مدعوم بالذكاء الاصطناعي</div>
 </footer>
+
+<!-- ═══ PAGES OVERLAYS ═══ -->
+
+<!-- حول مهمتنا -->
+<div class="page-overlay" id="missionPage" style="display:none" onclick="closePageOutside(event,'missionPage')">
+  <div class="page-modal">
+    <button class="page-close" onclick="closePage('missionPage')">×</button>
+    <h1>🎯 حول مهمتنا</h1>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:20px">منصة الخبر الصحيح — True News Platform</p>
+    <h2>من نحن؟</h2>
+    <p>منصة الخبر الصحيح هي أول منصة عربية متخصصة في كشف الأخبار المزيفة والمحتوى المضلل باستخدام الذكاء الاصطناعي. أُسست عام 2026 بهدف واحد: حماية المجتمع العربي من وباء المعلومات الكاذبة.</p>
+    <h2>🌟 رؤيتنا</h2>
+    <p>نؤمن بأن الحقيقة حق أساسي لكل إنسان. نسعى لبناء مجتمع رقمي عربي أكثر وعياً ومناعة ضد التضليل الإعلامي، حيث يملك كل فرد الأدوات اللازمة للتمييز بين الحقيقة والزيف.</p>
+    <h2>🎯 مهمتنا</h2>
+    <p>توفير أداة ذكية وسهلة الاستخدام تُمكّن الصحفيين والباحثين والمواطنين من التحقق من صحة الأخبار والمحتوى الرقمي في ثوانٍ، بدقة عالية وبأسعار في متناول الجميع.</p>
+    <h2>💪 قيمنا</h2>
+    <ul>
+      <li>الشفافية: نشرح كيف توصلنا لكل نتيجة</li>
+      <li>الحياد: لا أيديولوجيا ولا انحياز سياسي</li>
+      <li>الأمانة: نعترف بحدود قدراتنا</li>
+      <li>الخدمة: مصلحة المستخدم قبل أي شيء</li>
+    </ul>
+    <button class="analyze-btn" onclick="closePage('missionPage')" style="margin-top:16px">إغلاق</button>
+  </div>
+</div>
+
+<!-- سياسة الخصوصية -->
+<div class="page-overlay" id="privacyPage" style="display:none" onclick="closePageOutside(event,'privacyPage')">
+  <div class="page-modal">
+    <button class="page-close" onclick="closePage('privacyPage')">×</button>
+    <h1>🔒 سياسة الخصوصية</h1>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:20px">آخر تحديث: يناير 2026</p>
+    <h2>1. المعلومات التي نجمعها</h2>
+    <p>نجمع فقط البيانات الضرورية لتشغيل الخدمة: البريد الإلكتروني عند الاشتراك، ومحتوى المواد التي ترسلها للتحليل (يُحذف فور انتهاء التحليل)، وبيانات الدفع (تُعالج بالكامل عبر Lemon Squeezy ولا نحتفظ بها).</p>
+    <h2>2. كيف نستخدم بياناتك</h2>
+    <ul>
+      <li>تقديم خدمة التحليل والتحقق من الأخبار</li>
+      <li>إدارة حسابك واشتراكك</li>
+      <li>التواصل معك بشأن الخدمة</li>
+      <li>تحسين جودة المنصة</li>
+    </ul>
+    <h2>3. حماية البيانات</h2>
+    <p>نستخدم تشفير SSL لجميع الاتصالات. لا نبيع بياناتك لأطراف ثالثة. المحتوى الذي تحلله لا يُخزَّن ولا يُستخدم لتدريب النماذج.</p>
+    <h2>4. حقوقك</h2>
+    <p>يحق لك طلب حذف حسابك وبياناتك في أي وقت بالتواصل معنا عبر فورم الاتصال.</p>
+    <h2>5. التواصل</h2>
+    <p>لأي استفسار حول الخصوصية، تواصل معنا عبر قسم "اتصل بنا" في الموقع.</p>
+    <button class="analyze-btn" onclick="closePage('privacyPage')" style="margin-top:16px">إغلاق</button>
+  </div>
+</div>
+
+<!-- الشروط والأحكام -->
+<div class="page-overlay" id="termsPage" style="display:none" onclick="closePageOutside(event,'termsPage')">
+  <div class="page-modal">
+    <button class="page-close" onclick="closePage('termsPage')">×</button>
+    <h1>📜 الشروط والأحكام</h1>
+    <p style="font-size:12px;color:var(--muted);margin-bottom:20px">آخر تحديث: يناير 2026</p>
+    <h2>1. قبول الشروط</h2>
+    <p>باستخدامك لمنصة الخبر الصحيح، فإنك توافق على هذه الشروط والأحكام. إذا كنت لا توافق عليها، يرجى عدم استخدام الخدمة.</p>
+    <h2>2. وصف الخدمة</h2>
+    <p>توفر المنصة أداة للتحقق من الأخبار والمحتوى الرقمي باستخدام الذكاء الاصطناعي. نتائج التحليل للاسترشاد فقط ولا تُعدّ حكماً قاطعاً.</p>
+    <h2>3. الاستخدام المقبول</h2>
+    <ul>
+      <li>يُحظر استخدام المنصة لأغراض غير قانونية</li>
+      <li>يُحظر محاولة اختراق أو إساءة استخدام الخدمة</li>
+      <li>يُحظر مشاركة بيانات الاشتراك مع الغير</li>
+      <li>المستخدم مسؤول عن المحتوى الذي يرفعه</li>
+    </ul>
+    <h2>4. الاشتراكات والدفع</h2>
+    <p>تُجدَّد الاشتراكات تلقائياً شهرياً. يمكن إلغاء الاشتراك في أي وقت من لوحة تحكم Lemon Squeezy. لا يحق استرداد المبالغ عن الفترة المنقضية.</p>
+    <h2>5. إخلاء المسؤولية</h2>
+    <p>المنصة أداة مساعدة وليست مرجعاً نهائياً. القرار النهائي في تقييم أي محتوى يعود للمستخدم. لا نتحمل مسؤولية أي قرارات مبنية على نتائج التحليل.</p>
+    <button class="analyze-btn" onclick="closePage('termsPage')" style="margin-top:16px">إغلاق</button>
+  </div>
+</div>
 
 <script>
 // ══════════════════════════
@@ -550,6 +796,44 @@ function showResult(r){
   document.getElementById('resultCard').innerHTML=`<div class="result-card" style="background:var(--card);border:2px solid ${c}"><div class="verdict-big" style="color:${c}">${lbl}</div><div class="verdict-summary">${r.summary_ar}</div><div class="conf-bar-bg"><div class="conf-bar" style="width:${r.confidence}%;background:${c}"></div></div><div class="conf-label">${t.conf}: <strong style="color:${c}">${r.confidence}%</strong></div><div class="card-title" style="margin-top:8px">📋 ${t.reasons}</div><div>${reasons}</div>${flags?`<div class="card-title" style="margin-top:12px">🚩 ${t.flags}</div><div class="flags-row">${flags}</div>`:''}<div class="advice-box" style="background:${c}15;border:1px solid ${c}40;margin-top:12px"><div class="advice-lbl" style="color:${c}">💡 ${t.advice}</div><div class="advice-txt">${r.advice_ar}</div></div><button class="reset-btn" onclick="resetApp()">${t.reset}</button></div>`;
 }
 function resetApp(){document.getElementById('resultCard').style.display='none';document.getElementById('inputCard').style.display='block';document.getElementById('newsText').value='';document.getElementById('errBox').style.display='none';imgData=null;vidFrameData=null;}
+// ════════════════════════
+// DONATION
+// ════════════════════════
+let selectedDonationUrl = 'https://alkhabarsahih.lemonsqueezy.com/checkout/buy/fadc21e6-3479-4e48-b991-433ba3098092';
+function selectDonation(el,id,url){
+  document.querySelectorAll('.donation-box').forEach(b=>b.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedDonationUrl=url;
+}
+function donate(){
+  if(typeof LemonSqueezy!=='undefined') LemonSqueezy.Url.Open(selectedDonationUrl);
+  else window.open(selectedDonationUrl,'_blank');
+}
+
+// ════════════════════════
+// CONTACT FORM
+// ════════════════════════
+function submitContact(){
+  const name=document.getElementById('contactName').value.trim();
+  const email=document.getElementById('contactEmail').value.trim();
+  const subject=document.getElementById('contactSubject').value;
+  const message=document.getElementById('contactMessage').value.trim();
+  const err=document.getElementById('contactErr');
+  if(!name||!email||!subject||!message){err.style.display='block';return;}
+  err.style.display='none';
+  const body=encodeURIComponent('الاسم: '+name+'\nالبريد: '+email+'\nالموضوع: '+subject+'\n\nالرسالة:\n'+message);
+  window.location.href='mailto:contact@alkhabarsahih.com?subject='+encodeURIComponent(subject)+'&body='+body;
+  document.getElementById('contactFormWrap').style.display='none';
+  document.getElementById('contactSuccess').style.display='block';
+}
+
+// ════════════════════════
+// LEGAL PAGES
+// ════════════════════════
+function openPage(name){document.getElementById(name+'Page').style.display='flex';document.body.style.overflow='hidden';}
+function closePage(id){document.getElementById(id).style.display='none';document.body.style.overflow='';}
+function closePageOutside(e,id){if(e.target.id===id)closePage(id);}
+
 
 init();
 </script>
