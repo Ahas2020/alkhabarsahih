@@ -53,7 +53,7 @@
 </script>
 
 <script src="https://app.lemonsqueezy.com/js/lemon.js" defer></script>
-<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--bg:#0b0d14;--card:#151822;--card2:#1c1f2e;--border:#252838;--accent:#4f8ef7;--purple:#8b5cf6;--green:#10d98a;--red:#ff4560;--yellow:#fbbf24;--text:#eef0f8;--muted:#6b7194}
@@ -960,23 +960,51 @@ function submitContact(){
   const subject=document.getElementById('contactSubject').value;
   const message=document.getElementById('contactMessage').value.trim();
   const err=document.getElementById('contactErr');
-  if(!name||!email||!subject||!message){err.style.display='block';return;}
+
+  if(!name||!email||!subject||!message){
+    err.textContent='يرجى ملء جميع الحقول';
+    err.style.display='block';
+    return;
+  }
+  if(!email.includes('@')){
+    err.textContent='البريد الإلكتروني غير صحيح';
+    err.style.display='block';
+    return;
+  }
+
   err.style.display='none';
   const btn=document.querySelector('#contactSection .analyze-btn');
   btn.disabled=true;
-  btn.textContent='⏳ جاري الإرسال...';
-  emailjs.send('service_nzmzcq6','template_xpsiqqq',{
+  btn.innerHTML='⏳ جاري الإرسال...';
+
+  // تحقق أن EmailJS محمّل
+  if(typeof emailjs==='undefined'){
+    err.textContent='خدمة الإرسال غير جاهزة. أعد تحميل الصفحة.';
+    err.style.display='block';
+    btn.disabled=false;
+    btn.innerHTML='📤 إرسال الرسالة';
+    return;
+  }
+
+  const templateParams = {
     from_name: name,
     from_email: email,
     subject: subject,
-    message: message
-  }).then(()=>{
+    message: message,
+    reply_to: email
+  };
+
+  emailjs.send('service_nzmzcq6', 'template_xpsiqqq', templateParams)
+  .then(function(response){
+    console.log('SUCCESS', response.status, response.text);
     document.getElementById('contactFormWrap').style.display='none';
     document.getElementById('contactSuccess').style.display='block';
-  }).catch(()=>{
+  })
+  .catch(function(error){
+    console.error('FAILED', JSON.stringify(error));
     btn.disabled=false;
-    btn.textContent='📤 إرسال الرسالة';
-    err.textContent='حدث خطأ. حاول مجدداً.';
+    btn.innerHTML='📤 إرسال الرسالة';
+    err.textContent='حدث خطأ: ' + (error.text || 'تحقق من الاتصال');
     err.style.display='block';
   });
 }
@@ -992,7 +1020,14 @@ function closePageOutside(e,id){if(e.target.id===id)closePage(id);}
 // ════════════════════════
 // EMAILJS INIT
 // ════════════════════════
-emailjs.init('PT78eEYyef3oDhl2E');
+window.addEventListener('load', function(){
+  if(typeof emailjs !== 'undefined'){
+    emailjs.init('PT78eEYyef3oDhl2E');
+    console.log('EmailJS initialized ✅');
+  } else {
+    console.error('EmailJS not loaded ❌');
+  }
+});
 
 init();
 </script>
