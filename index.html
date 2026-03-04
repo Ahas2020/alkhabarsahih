@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة الخبر الصحيح | True News Platform</title>
+<script src="https://app.lemonsqueezy.com/js/lemon.js" defer></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0b0d14;--card:#151822;--card2:#1c1f2e;--border:#252838;--accent:#4f8ef7;--purple:#8b5cf6;--green:#10d98a;--red:#ff4560;--yellow:#fbbf24;--text:#eef0f8;--muted:#6b7194}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',Tahoma,Arial,sans-serif;min-height:100vh}
+.header{background:linear-gradient(135deg,#10131f,#0b0d14);border-bottom:1px solid var(--border);padding:14px 28px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+.logo-wrap{display:flex;align-items:center;gap:14px;cursor:pointer}
+.logo-text .name{font-size:20px;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.logo-text .tagline{font-size:10px;color:var(--muted)}
+.header-actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.badge{background:var(--card2);border:1px solid var(--border);border-radius:20px;padding:5px 12px;font-size:11px;color:var(--muted)}
+.badge span{color:var(--green);font-weight:700}
+.lang-btn{background:linear-gradient(135deg,var(--accent),var(--purple));border:none;color:#fff;border-radius:8px;padding:7px 16px;cursor:pointer;font-weight:700;font-size:12px}
+.logout-btn{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:7px 14px;cursor:pointer;font-size:11px;font-family:inherit}
+.plan-badge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#4f8ef720,#8b5cf620);border:1px solid var(--accent);border-radius:99px;padding:4px 12px;font-size:11px;font-weight:700;color:var(--accent)}
+.stats{display:flex;justify-content:center;background:#0d0f1a;border-bottom:1px solid var(--border)}
+.stat{flex:1;max-width:200px;text-align:center;padding:14px;border-left:1px solid var(--border)}
+.stat:last-child{border-left:none}
+.stat-n{font-size:22px;font-weight:900}
+.stat-l{font-size:10px;color:var(--muted);margin-top:2px}
+.container{max-width:780px;margin:0 auto;padding:28px 16px}
+/* HERO */
+.hero{text-align:center;padding:50px 20px 30px}
+.hero-icon{font-size:64px;margin-bottom:16px}
+.hero-title{font-size:32px;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:12px;line-height:1.2}
+.hero-sub{font-size:15px;color:var(--muted);margin-bottom:30px;line-height:1.8;max-width:500px;margin-left:auto;margin-right:auto}
+.hero-cta{padding:16px 40px;background:linear-gradient(135deg,var(--accent),var(--purple));border:none;border-radius:12px;color:#fff;font-size:16px;font-weight:800;cursor:pointer;font-family:inherit;transition:.2s}
+.hero-cta:hover{transform:translateY(-2px);box-shadow:0 10px 30px #4f8ef750}
+.hero-note{font-size:12px;color:var(--muted);margin-top:12px}
+/* FEATURES */
+.features-grid{display:flex;gap:14px;flex-wrap:wrap;margin:24px 0}
+.feature-box{flex:1;min-width:140px;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;text-align:center}
+.feature-icon{font-size:28px;margin-bottom:8px}
+.feature-title{font-weight:700;font-size:13px;margin-bottom:4px}
+.feature-desc{font-size:11px;color:var(--muted);line-height:1.5}
+/* TABS */
+.tabs{display:flex;gap:6px;margin-bottom:20px;background:var(--card);border-radius:12px;padding:6px;border:1px solid var(--border)}
+.tab{flex:1;padding:10px;text-align:center;border-radius:8px;cursor:pointer;font-size:13px;font-weight:600;transition:.2s;border:none;background:transparent;color:var(--muted)}
+.tab.active{background:linear-gradient(135deg,var(--accent),var(--purple));color:#fff}
+.card{background:var(--card);border-radius:16px;border:1px solid var(--border);padding:22px;margin-bottom:18px}
+.card-title{font-weight:700;font-size:15px;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+textarea{width:100%;background:#0d0f1a;border:1.5px solid var(--border);border-radius:10px;color:var(--text);padding:14px;font-size:14px;resize:vertical;outline:none;font-family:inherit;line-height:1.8;min-height:120px;transition:.2s}
+textarea:focus{border-color:var(--accent)}
+.upload-area{border:2px dashed var(--border);border-radius:12px;padding:28px;text-align:center;cursor:pointer;transition:.3s;background:#0d0f1a;position:relative}
+.upload-area:hover,.upload-area.drag{border-color:var(--accent);background:#4f8ef710}
+.upload-area input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+.upload-icon{font-size:34px;margin-bottom:8px}
+.upload-title{font-weight:700;margin-bottom:4px;font-size:14px}
+.upload-sub{font-size:11px;color:var(--muted)}
+.preview-wrap{margin-top:12px;position:relative;display:inline-block}
+.preview-img,.preview-video{max-width:100%;max-height:200px;border-radius:10px;border:2px solid var(--border)}
+.remove-btn{position:absolute;top:-8px;right:-8px;background:var(--red);border:none;color:#fff;width:24px;height:24px;border-radius:50%;cursor:pointer;font-size:14px;line-height:24px;text-align:center}
+.analyze-btn{margin-top:14px;width:100%;padding:15px;background:linear-gradient(135deg,var(--accent),var(--purple));border:none;border-radius:12px;color:#fff;font-size:16px;font-weight:800;cursor:pointer;font-family:inherit;transition:.2s}
+.analyze-btn:disabled{opacity:.4;cursor:not-allowed}
+.analyze-btn:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 8px 25px #4f8ef740}
+.reset-btn{width:100%;padding:12px;background:var(--card2);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;margin-top:4px}
+.err{color:var(--red);font-size:12px;margin-top:8px;padding:8px 12px;background:#ff456010;border-radius:8px;border:1px solid #ff456030}
+.loading-wrap{text-align:center;padding:30px}
+.spinner{width:44px;height:44px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 14px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.result-card{border-radius:16px;padding:24px;margin-bottom:18px}
+.verdict-big{text-align:center;font-size:28px;font-weight:900;margin-bottom:8px}
+.verdict-summary{text-align:center;font-size:13px;color:var(--muted);margin-bottom:18px;line-height:1.7}
+.conf-bar-bg{background:var(--border);border-radius:99px;height:8px;max-width:280px;margin:0 auto}
+.conf-bar{height:100%;border-radius:99px;transition:width 1.2s ease}
+.conf-label{text-align:center;font-size:12px;color:var(--muted);margin-top:6px;margin-bottom:18px}
+.reason-item{display:flex;gap:10px;margin-bottom:8px;background:#0d0f1a;border-radius:8px;padding:10px 12px}
+.r-num{font-weight:800;min-width:18px;font-size:13px}
+.r-text{font-size:13px;line-height:1.6}
+.flags-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.flag{background:#ff456015;color:var(--red);border-radius:99px;padding:4px 12px;font-size:11px;border:1px solid #ff456030}
+.advice-box{border-radius:10px;padding:14px;margin-bottom:14px}
+.advice-lbl{font-weight:700;font-size:12px;margin-bottom:4px}
+.advice-txt{font-size:13px;line-height:1.7}
+/* STEPS */
+.steps-row{display:flex;gap:10px;flex-wrap:wrap}
+.step-box{flex:1;min-width:130px;background:#0d0f1a;border-radius:10px;padding:14px;text-align:center}
+.step-icon{font-size:24px;margin-bottom:6px}
+.step-t{font-weight:700;font-size:12px;margin-bottom:3px}
+.step-d{font-size:10px;color:var(--muted);line-height:1.5}
+/* PRICING */
+.pricing-grid{display:flex;gap:14px;flex-wrap:wrap}
+.price-box{flex:1;min-width:200px;border-radius:16px;padding:22px;transition:.2s}
+.price-box:hover{transform:translateY(-4px)}
+.popular-badge{background:linear-gradient(135deg,var(--accent),var(--purple));color:#fff;font-size:9px;font-weight:700;padding:3px 10px;border-radius:99px;display:inline-block;margin-bottom:10px}
+.price-icon{font-size:30px;margin-bottom:8px}
+.price-amt{font-size:32px;font-weight:900;line-height:1}
+.price-period{font-size:11px;color:var(--muted);margin-bottom:4px}
+.price-name{font-weight:800;font-size:17px;margin-bottom:8px}
+.price-desc{font-size:11px;color:var(--muted);margin-bottom:14px;line-height:1.6}
+.features-list{list-style:none;margin-bottom:18px}
+.features-list li{font-size:12px;padding:5px 0;border-bottom:1px solid #ffffff0a;display:flex;align-items:center;gap:6px}
+.features-list li:last-child{border-bottom:none}
+.f-yes{color:var(--green)}.f-no{color:var(--muted);opacity:.5}
+.subscribe-btn{width:100%;padding:12px;border:none;border-radius:10px;color:#fff;cursor:pointer;font-weight:700;font-size:14px;font-family:inherit;transition:.2s;margin-bottom:6px}
+.subscribe-btn:hover{opacity:.85}
+.pp-secure{font-size:10px;color:var(--muted);text-align:center}
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:#000000cc;z-index:999;display:flex;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(6px)}
+.modal{background:var(--card);border-radius:20px;border:1px solid var(--border);width:100%;max-width:400px;padding:28px;position:relative;animation:popIn .25s ease}
+@keyframes popIn{from{transform:scale(.9);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-close{position:absolute;top:16px;left:16px;background:var(--card2);border:1px solid var(--border);color:var(--muted);width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:16px;line-height:30px;text-align:center}
+.modal-title{font-size:18px;font-weight:900;margin-bottom:6px;text-align:center}
+.modal-sub{font-size:12px;color:var(--muted);text-align:center;margin-bottom:20px;line-height:1.7}
+.modal-input{width:100%;background:#0d0f1a;border:1.5px solid var(--border);border-radius:10px;color:var(--text);padding:13px 14px;font-size:15px;outline:none;font-family:inherit;text-align:center;letter-spacing:2px;font-weight:700;transition:.2s}
+.modal-input:focus{border-color:var(--accent)}
+.modal-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--accent),var(--purple));border:none;border-radius:10px;color:#fff;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:12px}
+.modal-err{color:var(--red);font-size:12px;text-align:center;margin-top:8px;display:none;padding:6px;background:#ff456010;border-radius:8px}
+.modal-divider{text-align:center;color:var(--muted);font-size:12px;margin:16px 0}
+.outline-btn{width:100%;padding:11px;background:transparent;border:1px solid var(--border);border-radius:10px;color:var(--muted);font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;transition:.2s}
+.outline-btn:hover{border-color:var(--accent);color:var(--text)}
+/* WELCOME BAR */
+.welcome-bar{background:linear-gradient(135deg,#4f8ef715,#8b5cf615);border:1px solid #4f8ef740;border-radius:14px;padding:14px 18px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px}
+footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-top:1px solid var(--border);margin-top:10px}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="logo-wrap" onclick="goHome()">
+    <svg width="44" height="44" viewBox="0 0 48 48" fill="none">
+      <defs><linearGradient id="lg1" x1="0" y1="0" x2="48" y2="48" gradientUnits="userSpaceOnUse"><stop stop-color="#4f8ef7"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>
+      <rect width="48" height="48" rx="12" fill="url(#lg1)"/>
+      <circle cx="21" cy="20" r="9" stroke="white" stroke-width="2.5" fill="none"/>
+      <line x1="27.5" y1="27.5" x2="35" y2="35" stroke="white" stroke-width="3" stroke-linecap="round"/>
+      <polyline points="16,20 19.5,23.5 26,17" stroke="#10d98a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </svg>
+    <div class="logo-text">
+      <div class="name" id="siteName">منصة الخبر الصحيح</div>
+      <div class="tagline" id="siteTagline">كشف الأخبار المزيفة بالذكاء الاصطناعي</div>
+    </div>
+  </div>
+  <div class="header-actions">
+    <div id="userBadge" style="display:none"><span class="plan-badge" id="planBadge">⭐</span></div>
+    <div class="badge" id="remBadge" style="display:none">🟢 <span id="remCount">∞</span> <span id="remLabel">تحليلات متبقية</span></div>
+    <button class="logout-btn" id="logoutBtn" style="display:none" onclick="logout()">خروج</button>
+    <button class="lang-btn" onclick="toggleLang()" id="langBtn">EN</button>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stat"><div class="stat-n" style="color:var(--accent)">2.4M</div><div class="stat-l" id="st1">خبر حُلِّل</div></div>
+  <div class="stat"><div class="stat-n" style="color:var(--red)">847K</div><div class="stat-l" id="st2">مزيف كُشف</div></div>
+  <div class="stat"><div class="stat-n" style="color:var(--green)">156K</div><div class="stat-l" id="st3">مستخدم نشط</div></div>
+</div>
+
+<!-- ═══ LANDING (غير مشترك) ═══ -->
+<div id="landingPage">
+<div class="container">
+  <div class="hero">
+    <div class="hero-icon">🔍</div>
+    <div class="hero-title" id="heroTitle">اكشف الأخبار المزيفة<br>بالذكاء الاصطناعي</div>
+    <div class="hero-sub" id="heroSub">منصة متخصصة لتحليل النصوص والصور والفيديوهات والكشف عن الأخبار المضللة في ثوانٍ</div>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <button class="hero-cta" onclick="scrollToPricing()" id="heroCta">💎 اشترك الآن</button>
+      <button onclick="openActivation()" style="padding:16px 32px;background:transparent;border:2px solid var(--accent);border-radius:12px;color:var(--accent);font-size:16px;font-weight:800;cursor:pointer;font-family:inherit;transition:.2s" onmouseover="this.style.background='var(--accent)';this.style.color='#fff'" onmouseout="this.style.background='transparent';this.style.color='var(--accent)'" id="heroActivate">🔑 لدي اشتراك — تفعيل</button>
+    </div>
+    <div class="hero-note" id="heroNote" style="display:none"></div>
+  </div>
+
+  <div class="features-grid">
+    <div class="feature-box"><div class="feature-icon">📝</div><div class="feature-title" id="f1t">تحليل النصوص</div><div class="feature-desc" id="f1d">الصق أي خبر واحصل على تحليل فوري</div></div>
+    <div class="feature-box"><div class="feature-icon">🖼️</div><div class="feature-title" id="f2t">تحليل الصور</div><div class="feature-desc" id="f2d">كشف التلاعب والصور المفبركة</div></div>
+    <div class="feature-box"><div class="feature-icon">🎬</div><div class="feature-title" id="f3t">تحليل الفيديو</div><div class="feature-desc" id="f3d">تحليل مقاطع الفيديو المشبوهة</div></div>
+    <div class="feature-box"><div class="feature-icon">🌐</div><div class="feature-title" id="f4t">عربي / إنجليزي</div><div class="feature-desc" id="f4d">واجهة كاملة بلغتين</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">⚙️ <span id="howTitle">كيف تعمل المنصة؟</span></div>
+    <div class="steps-row">
+      <div class="step-box"><div class="step-icon">💳</div><div class="step-t" id="s1t">اشترك</div><div class="step-d" id="s1d">اختر خطتك وادفع بأي بطاقة</div></div>
+      <div class="step-box"><div class="step-icon">🔑</div><div class="step-t" id="s2t">فعّل حسابك</div><div class="step-d" id="s2d">أدخل كود التفعيل الذي يصلك</div></div>
+      <div class="step-box"><div class="step-icon">🔍</div><div class="step-t" id="s3t">ابدأ التحليل</div><div class="step-d" id="s3d">حلّل نصوصاً وصوراً وفيديوهات</div></div>
+      <div class="step-box"><div class="step-icon">🛡️</div><div class="step-t" id="s4t">كن آمناً</div><div class="step-d" id="s4d">لا تشارك الأخبار الزائفة</div></div>
+    </div>
+  </div>
+
+  <div class="card" id="pricingSection">
+    <div class="card-title" style="justify-content:center;font-size:18px">💎 <span id="pricingTitle">خطط الاشتراك</span></div>
+    <div class="pricing-grid">
+      <div class="price-box" style="background:#0d0f1a;border:1.5px solid var(--border)">
+        <div class="price-icon">📰</div><div class="price-amt" style="color:var(--accent)">$1</div>
+        <div class="price-period" id="pp1">/شهر</div><div class="price-name" id="pn1">أساسي</div>
+        <div class="price-desc" id="pd1">مثالي للأفراد والمدونين</div>
+        <ul class="features-list">
+          <li><span class="f-yes">✓</span><span id="f1_1">30 تحليلاً شهرياً</span></li>
+          <li><span class="f-yes">✓</span><span id="f1_2">تحليل النصوص</span></li>
+          <li><span class="f-yes">✓</span><span id="f1_3">تحليل الصور</span></li>
+          <li><span class="f-no">✗</span><span id="f1_4" style="opacity:.4">تحليل الفيديوهات</span></li>
+          <li><span class="f-no">✗</span><span id="f1_5" style="opacity:.4">تقارير PDF مفصّلة</span></li>
+          <li><span class="f-no">✗</span><span id="f1_6" style="opacity:.4">API للمطورين</span></li>
+          <li><span class="f-no">✗</span><span id="f1_7" style="opacity:.4">دعم أولوية</span></li>
+        </ul>
+        <button class="subscribe-btn" style="background:linear-gradient(135deg,var(--accent),var(--purple))" onclick="subscribe('basic')" id="pb1">اشترك الآن</button>
+        <div class="pp-secure">🔒 <span id="pps1">دفع آمن — Lemon Squeezy</span></div>
+      </div>
+      <div class="price-box" style="background:#4f8ef712;border:2px solid var(--accent)">
+        <div class="popular-badge" id="popBadge">⭐ الأكثر شعبية</div>
+        <div class="price-icon">🎯</div><div class="price-amt" style="color:var(--accent)">$3</div>
+        <div class="price-period" id="pp2">/شهر</div><div class="price-name" id="pn2">مميز</div>
+        <div class="price-desc" id="pd2">للصحفيين والباحثين</div>
+        <ul class="features-list">
+          <li><span class="f-yes">✓</span><span id="f2_1">تحليلات غير محدودة</span></li>
+          <li><span class="f-yes">✓</span><span id="f2_2">تحليل النصوص</span></li>
+          <li><span class="f-yes">✓</span><span id="f2_3">تحليل الصور</span></li>
+          <li><span class="f-yes">✓</span><span id="f2_4">تحليل الفيديوهات</span></li>
+          <li><span class="f-yes">✓</span><span id="f2_5">تقارير PDF مفصّلة</span></li>
+          <li><span class="f-no">✗</span><span id="f2_6" style="opacity:.4">API للمطورين</span></li>
+          <li><span class="f-yes">✓</span><span id="f2_7">دعم أولوية</span></li>
+        </ul>
+        <button class="subscribe-btn" style="background:linear-gradient(135deg,var(--accent),var(--purple))" onclick="subscribe('premium')" id="pb2">اشترك الآن</button>
+        <div class="pp-secure">🔒 <span id="pps2">دفع آمن — Lemon Squeezy</span></div>
+      </div>
+      <div class="price-box" style="background:#10d98a0d;border:1.5px solid var(--green)">
+        <div class="price-icon">🏛️</div><div class="price-amt" style="color:var(--green)">$5</div>
+        <div class="price-period" id="pp3">/شهر</div><div class="price-name" id="pn3">مؤسسي</div>
+        <div class="price-desc" id="pd3">للمؤسسات الإعلامية والصحف</div>
+        <ul class="features-list">
+          <li><span class="f-yes">✓</span><span id="f3_1">تحليلات غير محدودة</span></li>
+          <li><span class="f-yes">✓</span><span id="f3_2">تحليل النصوص</span></li>
+          <li><span class="f-yes">✓</span><span id="f3_3">تحليل الصور</span></li>
+          <li><span class="f-yes">✓</span><span id="f3_4">تحليل الفيديوهات</span></li>
+          <li><span class="f-yes">✓</span><span id="f3_5">تقارير PDF مفصّلة</span></li>
+          <li><span class="f-yes">✓</span><span id="f3_6">API للمطورين</span></li>
+          <li><span class="f-yes">✓</span><span id="f3_7">دعم على مدار الساعة</span></li>
+        </ul>
+        <button class="subscribe-btn" style="background:linear-gradient(135deg,var(--green),var(--accent))" onclick="subscribe('institutional')" id="pb3">اشترك الآن</button>
+        <div class="pp-secure">🔒 <span id="pps3">دفع آمن — Lemon Squeezy</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ═══ DASHBOARD (مشترك) ═══ -->
+<div id="dashboardPage" style="display:none">
+<div class="container">
+  <div class="welcome-bar">
+    <div>
+      <div style="font-weight:800;font-size:15px" id="welcomeText">مرحباً بك! 👋</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px" id="planText">خطتك الحالية</div>
+    </div>
+    <span class="plan-badge" id="dashPlanBadge">⭐</span>
+  </div>
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab(0)" id="tab0">📝 <span id="t0">نص</span></button>
+    <button class="tab" onclick="switchTab(1)" id="tab1">🖼️ <span id="t1">صورة</span></button>
+    <button class="tab" onclick="switchTab(2)" id="tab2">🎬 <span id="t2">فيديو</span></button>
+  </div>
+  <div class="card" id="inputCard">
+    <div id="pane0">
+      <div class="card-title">📰 <span id="textLabel">الصق النص أو الخبر المشكوك فيه</span></div>
+      <textarea id="newsText"></textarea>
+    </div>
+    <div id="pane1" style="display:none">
+      <div class="card-title">🖼️ <span id="imgLabel">ارفع صورة للتحليل</span></div>
+      <div class="upload-area" id="imgDrop" ondragover="drag(event,'imgDrop')" ondragleave="undrag('imgDrop')" ondrop="dropFile(event,'img')">
+        <input type="file" accept="image/*" onchange="loadImage(event)">
+        <div id="imgPlaceholder"><div class="upload-icon">🖼️</div><div class="upload-title" id="imgUploadTitle">اسحب الصورة هنا أو انقر للاختيار</div><div class="upload-sub">JPG, PNG, WEBP — حتى 10MB</div></div>
+        <div id="imgPreviewWrap" style="display:none"><img id="imgPreview" class="preview-img" src=""><button class="remove-btn" onclick="clearMedia('img',event)">×</button></div>
+      </div>
+      <textarea id="imgContext" rows="2" style="margin-top:10px" placeholder="سياق اختياري..."></textarea>
+    </div>
+    <div id="pane2" style="display:none">
+      <div class="card-title">🎬 <span id="vidLabel">ارفع فيديو للتحليل</span></div>
+      <div class="upload-area" id="vidDrop" ondragover="drag(event,'vidDrop')" ondragleave="undrag('vidDrop')" ondrop="dropFile(event,'vid')">
+        <input type="file" accept="video/*" onchange="loadVideo(event)">
+        <div id="vidPlaceholder"><div class="upload-icon">🎬</div><div class="upload-title" id="vidUploadTitle">اسحب الفيديو هنا أو انقر للاختيار</div><div class="upload-sub">MP4, MOV, AVI — حتى 50MB</div></div>
+        <div id="vidPreviewWrap" style="display:none"><video id="vidPreview" class="preview-video" controls></video><button class="remove-btn" onclick="clearMedia('vid',event)">×</button></div>
+      </div>
+      <canvas id="frameCanvas" style="display:none"></canvas>
+      <textarea id="vidContext" rows="2" style="margin-top:10px" placeholder="سياق اختياري..."></textarea>
+    </div>
+    <div id="errBox" class="err" style="display:none"></div>
+    <button class="analyze-btn" id="analyzeBtn" onclick="analyze()">🔍 <span id="analyzeBtnText">تحليل الآن</span></button>
+  </div>
+  <div id="loadingCard" style="display:none">
+    <div class="card loading-wrap">
+      <div class="spinner"></div>
+      <div style="font-weight:700;font-size:15px" id="loadingText">جاري التحليل بالذكاء الاصطناعي...</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:6px">يرجى الانتظار قليلاً</div>
+    </div>
+  </div>
+  <div id="resultCard" style="display:none"></div>
+</div>
+</div>
+
+<!-- ═══ ACTIVATION MODAL ═══ -->
+<div class="modal-overlay" id="activationModal" style="display:none" onclick="closeActOutside(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeActivation()">×</button>
+    <div style="text-align:center;font-size:40px;margin-bottom:12px">🔑</div>
+    <div class="modal-title" id="actTitle">تفعيل الاشتراك</div>
+    <div class="modal-sub" id="actSub">أدخل كود التفعيل الذي وصلك بعد الدفع عبر Lemon Squeezy</div>
+    <input type="text" id="activationCode" class="modal-input" placeholder="BASIC-XXXX-XXXX" oninput="this.value=this.value.toUpperCase()">
+    <div id="actErr" class="modal-err"><span id="actErrText">كود غير صحيح. تحقق وحاول مجدداً</span></div>
+    <button class="modal-btn" onclick="activateCode()" id="actBtn">تفعيل الحساب</button>
+    <div class="modal-divider" id="actDivider">أو</div>
+    <div style="font-size:12px;color:var(--muted);text-align:center;margin-bottom:10px" id="actNoCode">لم تشترك بعد؟</div>
+    <button class="outline-btn" onclick="closeActivation();scrollToPricing()" id="actSubscribeBtn">اشترك الآن</button>
+  </div>
+</div>
+
+<footer>
+  <div style="margin-bottom:6px;font-weight:700" id="footerName">منصة الخبر الصحيح</div>
+  <div id="footerCopy">© 2026 جميع الحقوق محفوظة — مدعوم بالذكاء الاصطناعي</div>
+</footer>
+
+<script>
+// ══════════════════════════
+// Lemon Squeezy URLs
+// ══════════════════════════
+const LS_URLS = {
+  basic:         'https://alkhabarsahih.lemonsqueezy.com/checkout/buy/fadc21e6-3479-4e48-b991-433ba3098092',
+  premium:       'https://alkhabarsahih.lemonsqueezy.com/checkout/buy/147bf906-0ce7-494c-9b92-4d579c74d5a4',
+  institutional: 'https://alkhabarsahih.lemonsqueezy.com/checkout/buy/d7d2fa8d-dcfa-44ea-9718-6153a8e30434'
+};
+
+// ══════════════════════════════════════════════════════════
+// كودات التفعيل — أضف كوداً جديداً لكل مشترك يدفع
+// لاحقاً: ستُدار تلقائياً عبر Netlify Functions + Lemon Squeezy Webhook
+// ══════════════════════════════════════════════════════════
+const VALID_CODES = {
+  'BASIC-TEST-2026':         { plan:'basic',         limit:30   },
+  'PREMIUM-TEST-2026':       { plan:'premium',       limit:9999 },
+  'INSTITUTIONAL-TEST-2026': { plan:'institutional', limit:9999 },
+};
+
+const T = {
+  ar:{
+    siteName:'منصة الخبر الصحيح',tagline:'كشف الأخبار المزيفة بالذكاء الاصطناعي',
+    remLabel:'تحليلات متبقية',langBtn:'EN',st1:'خبر حُلِّل',st2:'مزيف كُشف',st3:'مستخدم نشط',
+    heroSub:'منصة متخصصة لتحليل النصوص والصور والفيديوهات والكشف عن الأخبار المضللة في ثوانٍ',
+    heroCta:'اشترك وابدأ الآن',heroNote:'لديك اشتراك بالفعل؟',heroActivate:'فعّل حسابك هنا',
+    f1t:'تحليل النصوص',f1d:'الصق أي خبر واحصل على تحليل فوري',
+    f2t:'تحليل الصور',f2d:'كشف التلاعب والصور المفبركة',
+    f3t:'تحليل الفيديو',f3d:'تحليل مقاطع الفيديو المشبوهة',
+    f4t:'عربي / إنجليزي',f4d:'واجهة كاملة بلغتين',
+    howTitle:'كيف تعمل المنصة؟',
+    s1t:'اشترك',s1d:'اختر خطتك وادفع بأي بطاقة',
+    s2t:'فعّل حسابك',s2d:'أدخل كود التفعيل الذي يصلك',
+    s3t:'ابدأ التحليل',s3d:'حلّل نصوصاً وصوراً وفيديوهات',
+    s4t:'كن آمناً',s4d:'لا تشارك الأخبار الزائفة',
+    pricingTitle:'خطط الاشتراك',
+    pp1:'/شهر',pp2:'/شهر',pp3:'/شهر',
+    pn1:'أساسي',pd1:'مثالي للأفراد والمدونين',
+    pn2:'مميز',pd2:'للصحفيين والباحثين',
+    pn3:'مؤسسي',pd3:'للمؤسسات الإعلامية والصحف',
+    pb1:'اشترك الآن',pb2:'اشترك الآن',pb3:'اشترك الآن',
+    pps1:'دفع آمن — Lemon Squeezy',pps2:'دفع آمن — Lemon Squeezy',pps3:'دفع آمن — Lemon Squeezy',
+    popBadge:'⭐ الأكثر شعبية',footerName:'منصة الخبر الصحيح',footerCopy:'© 2026 جميع الحقوق محفوظة',
+    t0:'نص',t1:'صورة',t2:'فيديو',
+    textLabel:'الصق النص أو الخبر المشكوك فيه',
+    imgLabel:'ارفع صورة للتحليل',vidLabel:'ارفع فيديو للتحليل',
+    analyzeBtnText:'تحليل الآن',loadingText:'جاري التحليل بالذكاء الاصطناعي...',
+    errEmpty:'الرجاء إدخال نص أو رفع ملف',errNoRem:'انتهت تحليلاتك. جدّد اشتراكك!',
+    errFail:'حدث خطأ. تحقق من اتصالك وحاول مجدداً.',
+    verdictTrue:'✅ خبر صحيح',verdictFalse:'❌ خبر مزيف',verdictUnverified:'⚠️ غير مؤكد',
+    conf:'نسبة الثقة',reasons:'الأسباب',flags:'علامات تحذير',advice:'نصيحة',
+    reset:'🔄 تحليل محتوى آخر',
+    actTitle:'تفعيل الاشتراك',
+    actSub:'أدخل كود التفعيل الذي وصلك بعد الدفع عبر Lemon Squeezy',
+    actBtn:'تفعيل الحساب',actDivider:'أو',actNoCode:'لم تشترك بعد؟',actSubscribeBtn:'اشترك الآن',
+    actErrText:'كود غير صحيح. تحقق وحاول مجدداً',
+    welcomeText:'مرحباً بك! 👋',logoutBtn:'خروج',
+    planNames:{basic:'أساسي 📰',premium:'مميز 🎯',institutional:'مؤسسي 🏛️'},
+    planLabel:'خطتك الحالية: ',
+    f1_1:'30 تحليلاً شهرياً',f1_2:'تحليل النصوص',f1_3:'تحليل الصور',f1_4:'تحليل الفيديوهات',f1_5:'تقارير PDF مفصّلة',f1_6:'API للمطورين',f1_7:'دعم أولوية',
+    f2_1:'تحليلات غير محدودة',f2_2:'تحليل النصوص',f2_3:'تحليل الصور',f2_4:'تحليل الفيديوهات',f2_5:'تقارير PDF مفصّلة',f2_6:'API للمطورين',f2_7:'دعم أولوية',
+    f3_1:'تحليلات غير محدودة',f3_2:'تحليل النصوص',f3_3:'تحليل الصور',f3_4:'تحليل الفيديوهات',f3_5:'تقارير PDF مفصّلة',f3_6:'API للمطورين',f3_7:'دعم على مدار الساعة',
+    videoLocked:'تحليل الفيديو متاح في الخطة المميزة وما فوق',
+  },
+  en:{
+    siteName:'True News Platform',tagline:'AI-Powered Fake News Detection',
+    remLabel:'analyses remaining',langBtn:'ع',st1:'News Analyzed',st2:'Fakes Detected',st3:'Active Users',
+    heroSub:'A specialized platform for analyzing texts, images, and videos to detect misleading news in seconds',
+    heroCta:'Subscribe & Start Now',heroNote:'Already subscribed?',heroActivate:'Activate your account',
+    f1t:'Text Analysis',f1d:'Paste any news and get instant analysis',
+    f2t:'Image Analysis',f2d:'Detect manipulated and fabricated images',
+    f3t:'Video Analysis',f3d:'Analyze suspicious video clips',
+    f4t:'Arabic / English',f4d:'Full bilingual interface',
+    howTitle:'How does it work?',
+    s1t:'Subscribe',s1d:'Choose your plan and pay by any card',
+    s2t:'Activate',s2d:'Enter the activation code you receive',
+    s3t:'Start Analyzing',s3d:'Analyze texts, images, and videos',
+    s4t:'Stay Safe',s4d:"Don't share fake news",
+    pricingTitle:'Subscription Plans',
+    pp1:'/mo',pp2:'/mo',pp3:'/mo',
+    pn1:'Basic',pd1:'Ideal for individuals & bloggers',
+    pn2:'Premium',pd2:'For journalists & researchers',
+    pn3:'Institutional',pd3:'For media organizations',
+    pb1:'Subscribe Now',pb2:'Subscribe Now',pb3:'Subscribe Now',
+    pps1:'Secure — Lemon Squeezy',pps2:'Secure — Lemon Squeezy',pps3:'Secure — Lemon Squeezy',
+    popBadge:'⭐ Most Popular',footerName:'True News Platform',footerCopy:'© 2026 All rights reserved',
+    t0:'Text',t1:'Image',t2:'Video',
+    textLabel:'Paste the suspicious news or text here',
+    imgLabel:'Upload an image for analysis',vidLabel:'Upload a video for analysis',
+    analyzeBtnText:'Analyze Now',loadingText:'AI is analyzing...',
+    errEmpty:'Please enter text or upload a file',errNoRem:'Analyses exhausted. Renew subscription!',
+    errFail:'An error occurred. Please try again.',
+    verdictTrue:'✅ True News',verdictFalse:'❌ Fake News',verdictUnverified:'⚠️ Unverified',
+    conf:'Confidence',reasons:'Reasons',flags:'Red Flags',advice:'Advice',
+    reset:'🔄 Analyze Another',
+    actTitle:'Activate Subscription',actSub:'Enter the activation code received after payment via Lemon Squeezy',
+    actBtn:'Activate Account',actDivider:'or',actNoCode:"Haven't subscribed yet?",actSubscribeBtn:'Subscribe Now',
+    actErrText:'Invalid code. Please check and try again.',
+    welcomeText:'Welcome! 👋',logoutBtn:'Logout',
+    planNames:{basic:'Basic 📰',premium:'Premium 🎯',institutional:'Institutional 🏛️'},
+    planLabel:'Current plan: ',
+    f1_1:'30 analyses/month',f1_2:'Text analysis',f1_3:'Image analysis',f1_4:'Video analysis',f1_5:'PDF reports',f1_6:'Developer API',f1_7:'Priority support',
+    f2_1:'Unlimited analyses',f2_2:'Text analysis',f2_3:'Image analysis',f2_4:'Video analysis',f2_5:'PDF reports',f2_6:'Developer API',f2_7:'Priority support',
+    f3_1:'Unlimited analyses',f3_2:'Text analysis',f3_3:'Image analysis',f3_4:'Video analysis',f3_5:'PDF reports',f3_6:'Developer API',f3_7:'24/7 support',
+    videoLocked:'Video analysis is available in Premium plan and above',
+  }
+};
+
+let lang='ar', tab=0, imgData=null, vidFrameData=null;
+let session = JSON.parse(sessionStorage.getItem('khs') || 'null');
+
+function init(){ applyLang(); session ? showDashboard() : showLanding(); }
+
+function applyLang(){
+  const t=T[lang],isAr=lang==='ar';
+  document.documentElement.lang=lang; document.documentElement.dir=isAr?'rtl':'ltr';
+  ['siteName','siteTagline','langBtn','st1','st2','st3','heroSub','heroCta','heroNote','heroActivate',
+   'f1t','f1d','f2t','f2d','f3t','f3d','f4t','f4d','howTitle',
+   's1t','s1d','s2t','s2d','s3t','s3d','s4t','s4d','pricingTitle',
+   'pp1','pp2','pp3','pn1','pd1','pn2','pd2','pn3','pd3','pb1','pb2','pb3',
+   'pps1','pps2','pps3','popBadge','footerName','footerCopy','remLabel',
+   't0','t1','t2','textLabel','imgLabel','vidLabel','analyzeBtnText','loadingText',
+   'actTitle','actSub','actBtn','actDivider','actNoCode','actSubscribeBtn','actErrText',
+   'welcomeText','logoutBtn',
+   'f1_1','f1_2','f1_3','f1_4','f1_5','f1_6','f1_7',
+   'f2_1','f2_2','f2_3','f2_4','f2_5','f2_6','f2_7',
+   'f3_1','f3_2','f3_3','f3_4','f3_5','f3_6','f3_7'
+  ].forEach(id=>{const el=document.getElementById(id);if(el&&t[id]!==undefined)el.innerHTML=t[id]});
+  const ht=document.getElementById('heroTitle');
+  if(ht)ht.innerHTML=lang==='ar'?'اكشف الأخبار المزيفة<br>بالذكاء الاصطناعي':'Detect Fake News<br>with AI';
+  const nt=document.getElementById('newsText');if(nt)nt.placeholder=t.textLabel;
+}
+function toggleLang(){ lang=lang==='ar'?'en':'ar'; applyLang(); if(session)showDashboard(); }
+
+function showLanding(){
+  document.getElementById('landingPage').style.display='block';
+  document.getElementById('dashboardPage').style.display='none';
+  document.getElementById('remBadge').style.display='none';
+  document.getElementById('userBadge').style.display='none';
+  document.getElementById('logoutBtn').style.display='none';
+}
+
+function showDashboard(){
+  const t=T[lang], pname=t.planNames[session.plan];
+  document.getElementById('landingPage').style.display='none';
+  document.getElementById('dashboardPage').style.display='block';
+  document.getElementById('remBadge').style.display='flex';
+  document.getElementById('userBadge').style.display='flex';
+  document.getElementById('logoutBtn').style.display='block';
+  document.getElementById('planBadge').textContent=pname;
+  document.getElementById('dashPlanBadge').textContent=pname;
+  document.getElementById('remCount').textContent=session.limit>=9999?'∞':session.remaining;
+  document.getElementById('planText').textContent=t.planLabel+pname;
+  document.getElementById('tab2').style.opacity=session.plan==='basic'?'.4':'1';
+}
+
+function goHome(){ session?showDashboard():showLanding(); }
+function logout(){ session=null; sessionStorage.removeItem('khs'); showLanding(); }
+
+function subscribe(plan){
+  if(typeof LemonSqueezy!=='undefined') LemonSqueezy.Url.Open(LS_URLS[plan]);
+  else window.open(LS_URLS[plan],'_blank');
+}
+function scrollToPricing(){ document.getElementById('pricingSection')?.scrollIntoView({behavior:'smooth'}); }
+
+function openActivation(){ document.getElementById('activationModal').style.display='flex'; document.getElementById('activationCode').value=''; document.getElementById('actErr').style.display='none'; }
+function closeActivation(){ document.getElementById('activationModal').style.display='none'; }
+function closeActOutside(e){ if(e.target.id==='activationModal') closeActivation(); }
+
+function activateCode(){
+  const code=document.getElementById('activationCode').value.trim().toUpperCase();
+  if(VALID_CODES[code]){
+    const info=VALID_CODES[code];
+    session={plan:info.plan,remaining:info.limit,limit:info.limit,code};
+    sessionStorage.setItem('khs',JSON.stringify(session));
+    closeActivation(); showDashboard();
+  } else {
+    document.getElementById('actErr').style.display='block';
+  }
+}
+
+function switchTab(i){
+  if(i===2&&session?.plan==='basic'){ alert(T[lang].videoLocked); return; }
+  tab=i;
+  [0,1,2].forEach(j=>{
+    document.getElementById('tab'+j).classList.toggle('active',j===i);
+    document.getElementById('pane'+j).style.display=j===i?'block':'none';
+  });
+}
+function drag(e,id){e.preventDefault();document.getElementById(id).classList.add('drag')}
+function undrag(id){document.getElementById(id).classList.remove('drag')}
+function dropFile(e,type){e.preventDefault();undrag(type==='img'?'imgDrop':'vidDrop');const f=e.dataTransfer.files[0];if(f)type==='img'?processImage(f):processVideo(f)}
+function loadImage(e){const f=e.target.files[0];if(f)processImage(f)}
+function processImage(f){const r=new FileReader();r.onload=ev=>{imgData=ev.target.result;document.getElementById('imgPreview').src=imgData;document.getElementById('imgPlaceholder').style.display='none';document.getElementById('imgPreviewWrap').style.display='inline-block';};r.readAsDataURL(f);}
+function loadVideo(e){const f=e.target.files[0];if(f)processVideo(f)}
+function processVideo(f){const url=URL.createObjectURL(f);const vid=document.getElementById('vidPreview');vid.src=url;document.getElementById('vidPlaceholder').style.display='none';document.getElementById('vidPreviewWrap').style.display='inline-block';vid.onloadedmetadata=()=>{vid.currentTime=Math.min(2,vid.duration/2)};vid.onseeked=()=>{const c=document.getElementById('frameCanvas');c.width=vid.videoWidth;c.height=vid.videoHeight;c.getContext('2d').drawImage(vid,0,0);vidFrameData=c.toDataURL('image/jpeg',.8);};}
+function clearMedia(type,e){e.stopPropagation();if(type==='img'){imgData=null;document.getElementById('imgPreview').src='';document.getElementById('imgPlaceholder').style.display='block';document.getElementById('imgPreviewWrap').style.display='none';}else{vidFrameData=null;document.getElementById('vidPreview').src='';document.getElementById('vidPlaceholder').style.display='block';document.getElementById('vidPreviewWrap').style.display='none';}}
+
+async function analyze(){
+  const t=T[lang],eb=document.getElementById('errBox');eb.style.display='none';
+  if(!session){showLanding();return;}
+  if(session.remaining<=0&&session.limit<9999){eb.textContent='⚠️ '+t.errNoRem;eb.style.display='block';return;}
+  let messages=[],isMedia=false;
+  if(tab===0){const txt=document.getElementById('newsText').value.trim();if(!txt){eb.textContent='⚠️ '+t.errEmpty;eb.style.display='block';return;}messages=mkText(txt);}
+  else if(tab===1){if(!imgData){eb.textContent='⚠️ '+t.errEmpty;eb.style.display='block';return;}messages=mkImg(imgData,document.getElementById('imgContext').value.trim());isMedia=true;}
+  else{if(!vidFrameData){eb.textContent='⚠️ '+t.errEmpty;eb.style.display='block';return;}messages=mkVid(vidFrameData,document.getElementById('vidContext').value.trim());isMedia=true;}
+  document.getElementById('inputCard').style.display='none';
+  document.getElementById('loadingCard').style.display='block';
+  document.getElementById('analyzeBtn').disabled=true;
+  try{
+    const res=await fetch('/.netlify/functions/analyze',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages})});
+    const data=await res.json();
+    const raw=data.content.map(i=>i.text||'').join('');
+    const r=JSON.parse(raw.replace(/```json|```/g,'').trim());
+    if(session.limit<9999){session.remaining--;sessionStorage.setItem('khs',JSON.stringify(session));document.getElementById('remCount').textContent=session.remaining;}
+    showResult(r);
+  }catch(e){document.getElementById('inputCard').style.display='block';eb.textContent='⚠️ '+t.errFail;eb.style.display='block';}
+  document.getElementById('loadingCard').style.display='none';
+  document.getElementById('analyzeBtn').disabled=false;
+}
+
+const bp=()=>`أنت محلل متخصص في كشف الأخبار المزيفة للمنطقة العربية. أعطني JSON فقط بدون أي نص إضافي:{"verdict":"true"أو"false"أو"unverified","confidence":رقم0-100,"summary_ar":"ملخص النتيجة بجملتين","reasons_ar":["سبب1","سبب2","سبب3"],"advice_ar":"نصيحة عملية","red_flags":["علامة1","علامة2"]}`;
+function mkText(txt){return[{role:'user',content:bp()+`\nالنص:"${txt}"`}]}
+function mkImg(b64,ctx){const m=b64.split(';')[0].split(':')[1],d=b64.split(',')[1];return[{role:'user',content:[{type:'image',source:{type:'base64',media_type:m,data:d}},{type:'text',text:bp()+`\nحلل هذه الصورة${ctx?' السياق:'+ctx:''}`}]}]}
+function mkVid(f,ctx){const m=f.split(';')[0].split(':')[1],d=f.split(',')[1];return[{role:'user',content:[{type:'image',source:{type:'base64',media_type:m,data:d}},{type:'text',text:bp()+`\nلقطة مستخرجة من فيديو${ctx?' السياق:'+ctx:''}`}]}]}
+
+function showResult(r){
+  const t=T[lang];
+  const c=r.verdict==='true'?'var(--green)':r.verdict==='false'?'var(--red)':'var(--yellow)';
+  const lbl=r.verdict==='true'?t.verdictTrue:r.verdict==='false'?t.verdictFalse:t.verdictUnverified;
+  const reasons=(r.reasons_ar||[]).map((s,i)=>`<div class="reason-item"><span class="r-num" style="color:${c}">${i+1}.</span><span class="r-text">${s}</span></div>`).join('');
+  const flags=(r.red_flags||[]).filter(Boolean).map(f=>`<span class="flag">${f}</span>`).join('');
+  document.getElementById('resultCard').style.display='block';
+  document.getElementById('resultCard').innerHTML=`<div class="result-card" style="background:var(--card);border:2px solid ${c}"><div class="verdict-big" style="color:${c}">${lbl}</div><div class="verdict-summary">${r.summary_ar}</div><div class="conf-bar-bg"><div class="conf-bar" style="width:${r.confidence}%;background:${c}"></div></div><div class="conf-label">${t.conf}: <strong style="color:${c}">${r.confidence}%</strong></div><div class="card-title" style="margin-top:8px">📋 ${t.reasons}</div><div>${reasons}</div>${flags?`<div class="card-title" style="margin-top:12px">🚩 ${t.flags}</div><div class="flags-row">${flags}</div>`:''}<div class="advice-box" style="background:${c}15;border:1px solid ${c}40;margin-top:12px"><div class="advice-lbl" style="color:${c}">💡 ${t.advice}</div><div class="advice-txt">${r.advice_ar}</div></div><button class="reset-btn" onclick="resetApp()">${t.reset}</button></div>`;
+}
+function resetApp(){document.getElementById('resultCard').style.display='none';document.getElementById('inputCard').style.display='block';document.getElementById('newsText').value='';document.getElementById('errBox').style.display='none';imgData=null;vidFrameData=null;}
+
+init();
+</script>
+</body>
+</html>
