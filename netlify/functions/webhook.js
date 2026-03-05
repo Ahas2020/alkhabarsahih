@@ -6,7 +6,7 @@ const crypto = require("crypto");
 // ══════════════════════════════════════════
 const WEBHOOK_SECRET = "khabar-sahih-webhook-2026";
 const RESEND_API_KEY = "re_RFWsQkpo_L8s14pPrujqQxAN66PKJ23Aa";
-const FROM_EMAIL = "onboarding@resend.dev"; // مؤقتاً حتى نربط الدومين
+const FROM_EMAIL = "noreply@alkhabarsahih.com"; 
 const PLATFORM_NAME = "منصة الخبر الصحيح";
 
 // ══════════════════════════════════════════
