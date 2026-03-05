@@ -5,9 +5,9 @@ const crypto = require("crypto");
 // CONFIG
 // ══════════════════════════════════════════
 const WEBHOOK_SECRET = "khabar-sahih-webhook-2026";
-const EMAILJS_SERVICE_ID = "service_ahhfkjd";
-const EMAILJS_TEMPLATE_ID = "template_d2z1tid";
-const EMAILJS_PUBLIC_KEY = "PT78eEYyef3oDhl2E";
+const RESEND_API_KEY = "re_RFWsQkpo_L8s14pPrujqQxAN66PKJ23Aa";
+const FROM_EMAIL = "onboarding@resend.dev"; // مؤقتاً حتى نربط الدومين
+const PLATFORM_NAME = "منصة الخبر الصحيح";
 
 // ══════════════════════════════════════════
 // توليد كود تفعيل فريد
@@ -30,56 +30,73 @@ function getPlan(productName) {
 }
 
 // ══════════════════════════════════════════
-// إرسال الكود عبر EmailJS
+// إرسال الكود عبر Resend
 // ══════════════════════════════════════════
 function sendEmail(toEmail, toName, code, plan) {
   const planNames = {
     basic: "أساسي 📰 — 30 تحليلاً شهرياً",
     premium: "مميز 🎯 — تحليلات غير محدودة",
-    institutional: "مؤسسي 🏛️ — جميع المميزات"
+    institutional: "مؤسسي 🏛️ — جميع المميزات + API"
   };
 
-  const templateParams = {
-    from_name: "منصة الخبر الصحيح",
-    from_email: "noreply@alkhabarsahih.com",
-    to_name: toName || "عزيزي المشترك",
-    to_email: toEmail,
-    subject: "كود تفعيل اشتراكك — منصة الخبر الصحيح",
-    message: `مرحباً ${toName || ""},
+  const emailBody = {
+    from: `${PLATFORM_NAME} <${FROM_EMAIL}>`,
+    to: [toEmail],
+    subject: "🔑 كود تفعيل اشتراكك — منصة الخبر الصحيح",
+    html: `
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head><meta charset="UTF-8"></head>
+<body style="font-family:Arial,sans-serif;background:#0b0d14;color:#eef0f8;padding:30px;margin:0">
+  <div style="max-width:500px;margin:0 auto;background:#151822;border-radius:16px;padding:32px;border:1px solid #252838">
 
-شكراً لاشتراكك في منصة الخبر الصحيح! 🎉
+    <div style="text-align:center;margin-bottom:24px">
+      <div style="font-size:48px">🔍</div>
+      <h1 style="background:linear-gradient(135deg,#4f8ef7,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:22px;margin:8px 0">
+        منصة الخبر الصحيح
+      </h1>
+      <p style="color:#6b7194;font-size:13px">كشف الأخبار المزيفة بالذكاء الاصطناعي</p>
+    </div>
 
-━━━━━━━━━━━━━━━━━━━━━
-كود التفعيل الخاص بك:
-${code}
-━━━━━━━━━━━━━━━━━━━━━
+    <p style="font-size:15px;margin-bottom:8px">مرحباً ${toName || "عزيزي المشترك"} 👋</p>
+    <p style="color:#b0b4cc;font-size:13px;line-height:1.8">
+      شكراً لاشتراكك في منصة الخبر الصحيح! إليك كود التفعيل الخاص بك:
+    </p>
 
-خطتك: ${planNames[plan]}
+    <div style="background:#0d0f1a;border:2px solid #4f8ef7;border-radius:12px;padding:20px;text-align:center;margin:20px 0">
+      <div style="font-size:11px;color:#6b7194;margin-bottom:8px">كود التفعيل</div>
+      <div style="font-size:28px;font-weight:900;color:#4f8ef7;letter-spacing:4px">${code}</div>
+      <div style="font-size:11px;color:#6b7194;margin-top:8px">خطتك: ${planNames[plan]}</div>
+    </div>
 
-كيف تفعّل حسابك؟
-1. افتح الموقع: https://truenewsplatform.netlify.app
-2. انقر: 🔑 لدي اشتراك — تفعيل
-3. أدخل الكود أعلاه
-4. ابدأ التحليل فوراً!
+    <div style="background:#1c1f2e;border-radius:10px;padding:16px;margin-bottom:20px">
+      <div style="font-weight:700;font-size:13px;margin-bottom:10px">⚡ كيف تفعّل حسابك؟</div>
+      <div style="font-size:12px;color:#b0b4cc;line-height:2">
+        1. افتح الموقع: <a href="https://truenewsplatform.netlify.app" style="color:#4f8ef7">truenewsplatform.netlify.app</a><br>
+        2. انقر: 🔑 لدي اشتراك — تفعيل<br>
+        3. أدخل الكود أعلاه<br>
+        4. ابدأ التحليل فوراً! 🚀
+      </div>
+    </div>
 
-⚠️ احتفظ بهذا الكود — لا تشاركه مع أحد.
-
-مع تحيات فريق الخبر الصحيح 🛡️`
+    <p style="font-size:11px;color:#6b7194;text-align:center">
+      ⚠️ احتفظ بهذا الكود — لا تشاركه مع أحد<br>
+      © 2026 منصة الخبر الصحيح — جميع الحقوق محفوظة
+    </p>
+  </div>
+</body>
+</html>`
   };
 
   return new Promise((resolve, reject) => {
-    const body = JSON.stringify({
-      service_id: EMAILJS_SERVICE_ID,
-      template_id: EMAILJS_TEMPLATE_ID,
-      user_id: EMAILJS_PUBLIC_KEY,
-      template_params: templateParams
-    });
+    const body = JSON.stringify(emailBody);
 
     const options = {
-      hostname: "api.emailjs.com",
-      path: "/api/v1.0/email/send",
+      hostname: "api.resend.com",
+      path: "/emails",
       method: "POST",
       headers: {
+        "Authorization": `Bearer ${RESEND_API_KEY}`,
         "Content-Type": "application/json",
         "Content-Length": Buffer.byteLength(body)
       }
@@ -89,9 +106,9 @@ ${code}
       let data = "";
       res.on("data", chunk => { data += chunk; });
       res.on("end", () => {
-        console.log("EmailJS response:", res.statusCode, data);
-        if (res.statusCode === 200) resolve(data);
-        else reject(new Error(`EmailJS error: ${res.statusCode} ${data}`));
+        console.log("Resend response:", res.statusCode, data);
+        if (res.statusCode === 200 || res.statusCode === 201) resolve(data);
+        else reject(new Error(`Resend error: ${res.statusCode} ${data}`));
       });
     });
 
@@ -131,11 +148,9 @@ exports.handler = async function(event, context) {
     // ── تحليل بيانات الطلب ──
     const payload = JSON.parse(event.body);
     console.log("Webhook event:", payload.meta?.event_name);
-    console.log("Payload:", JSON.stringify(payload).substring(0, 300));
 
     const eventName = payload.meta?.event_name || "";
 
-    // نتعامل فقط مع الطلبات المدفوعة
     if (eventName !== "order_created" && eventName !== "subscription_created") {
       return { statusCode: 200, headers, body: JSON.stringify({ message: "Event ignored" }) };
     }
@@ -145,15 +160,12 @@ exports.handler = async function(event, context) {
     const customerEmail = data.user_email || data.email || "";
     const customerName = data.user_name || data.first_name || "مشترك جديد";
     const productName = data.first_order_item?.product_name ||
-                       data.product_name ||
-                       payload.data?.relationships?.order_items?.data?.[0]?.attributes?.product_name ||
-                       "basic";
+                       data.product_name || "basic";
 
     console.log("Customer:", customerEmail, customerName);
     console.log("Product:", productName);
 
     if (!customerEmail) {
-      console.log("No email found in payload");
       return { statusCode: 200, headers, body: JSON.stringify({ message: "No email found" }) };
     }
 
@@ -165,7 +177,7 @@ exports.handler = async function(event, context) {
 
     await sendEmail(customerEmail, customerName, code, plan);
 
-    console.log(`✅ Code sent to ${customerEmail}`);
+    console.log(`✅ Code sent successfully to ${customerEmail}`);
 
     return {
       statusCode: 200,
