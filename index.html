@@ -346,6 +346,17 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
   .tab{-webkit-tap-highlight-color:transparent}
   button{-webkit-tap-highlight-color:transparent}
 }
+
+/* ═══ FREE TRIAL ═══ */
+.trial-form{background:linear-gradient(135deg,#0d0f1a,#151822);border:1px solid var(--accent);border-radius:16px;padding:24px;margin:20px 0}
+.trial-badge{display:inline-block;background:linear-gradient(135deg,var(--green),var(--accent));color:#fff;font-size:11px;font-weight:700;padding:4px 14px;border-radius:99px;margin-bottom:14px}
+.trial-result{background:#0d0f1a;border-radius:12px;padding:20px;margin-top:16px;display:none}
+.trial-verdict{font-size:20px;font-weight:900;margin-bottom:8px}
+.trial-summary{font-size:13px;color:#b0b4cc;line-height:1.8;margin-bottom:16px}
+.trial-cta{background:linear-gradient(135deg,var(--accent),var(--purple));border:none;border-radius:12px;color:#fff;padding:16px;width:100%;font-size:15px;font-weight:800;cursor:pointer;font-family:inherit;margin-top:8px;transition:.2s}
+.trial-cta:hover{transform:translateY(-2px);box-shadow:0 8px 25px #4f8ef740}
+.trial-lock{text-align:center;padding:20px;display:none}
+.trial-lock-icon{font-size:48px;margin-bottom:10px}
 </style>
 </head>
 <body>
@@ -408,6 +419,43 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
       <div class="step-box"><div class="step-icon">🔑</div><div class="step-t" id="s2t">فعّل حسابك</div><div class="step-d" id="s2d">أدخل كود التفعيل الذي يصلك</div></div>
       <div class="step-box"><div class="step-icon">🔍</div><div class="step-t" id="s3t">ابدأ التحليل</div><div class="step-d" id="s3d">حلّل نصوصاً وصوراً وفيديوهات</div></div>
       <div class="step-box"><div class="step-icon">🛡️</div><div class="step-t" id="s4t">كن آمناً</div><div class="step-d" id="s4d">لا تشارك الأخبار الزائفة</div></div>
+    </div>
+  </div>
+
+  <!-- ═══ تجربة مجانية ═══ -->
+  <div class="trial-form" id="trialSection">
+    <span class="trial-badge">⚡ تحليل مجاني — جرّب الآن</span>
+
+    <div id="trialFormArea">
+      <textarea id="trialText" rows="4" style="width:100%;background:#0b0d14;border:1.5px solid var(--border);border-radius:10px;color:var(--text);padding:12px 14px;font-size:14px;outline:none;font-family:inherit;resize:vertical;margin-bottom:12px;box-sizing:border-box" placeholder="الصق هنا أي خبر تريد التحقق منه..."></textarea>
+      <div id="trialErr" style="color:var(--red);font-size:12px;margin-bottom:8px;display:none">يرجى كتابة نص للتحليل</div>
+      <button class="analyze-btn" onclick="trialAnalyze()" id="trialBtn">🔍 حلّل مجاناً الآن</button>
+    </div>
+
+    <div id="trialLoading" style="text-align:center;padding:20px;display:none">
+      <div style="font-size:32px;animation:spin 1s linear infinite">⚙️</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:8px">جاري التحليل بالذكاء الاصطناعي...</div>
+    </div>
+
+    <div class="trial-result" id="trialResult">
+      <div class="trial-verdict" id="trialVerdict"></div>
+      <div class="trial-summary" id="trialSummary"></div>
+      <div style="background:#151822;border-radius:10px;padding:14px;margin-bottom:16px">
+        <div style="font-size:11px;color:var(--muted);margin-bottom:8px">🔍 أسباب الحكم:</div>
+        <div id="trialReasons" style="font-size:12px;color:#b0b4cc;line-height:2"></div>
+      </div>
+      <div style="background:linear-gradient(135deg,var(--accent)15,var(--purple)15);border-radius:12px;padding:16px;text-align:center;border:1px solid var(--accent)">
+        <div style="font-size:14px;font-weight:800;margin-bottom:6px">🎯 أعجبك التحليل؟</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:14px">اشترك للحصول على تحليلات غير محدودة من $1 فقط/شهر</div>
+        <button class="trial-cta" onclick="scrollToPricing()">🚀 اشترك الآن وابدأ فوراً</button>
+      </div>
+    </div>
+
+    <div class="trial-lock" id="trialLock">
+      <div class="trial-lock-icon">🔒</div>
+      <div style="font-size:16px;font-weight:800;margin-bottom:8px">استنفدت تحليلك المجاني!</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.8">اشترك للحصول على تحليلات غير محدودة<br>من $1 فقط شهرياً</div>
+      <button class="trial-cta" onclick="scrollToPricing()">🚀 اشترك الآن</button>
     </div>
   </div>
 
@@ -554,17 +602,30 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
     <span class="plan-badge" id="dashPlanBadge">⭐</span>
   </div>
   <div class="tabs">
-    <button class="tab active" onclick="switchTab(0)" id="tab0">📝 <span id="t0">نص</span></button>
-    <button class="tab" onclick="switchTab(1)" id="tab1">🖼️ <span id="t1">صورة</span></button>
-    <button class="tab" onclick="switchTab(2)" id="tab2">🎬 <span id="t2">فيديو</span></button>
+    <button class="tab active" onclick="switchTab(0)" id="tab0">
+      <span style="font-size:20px">📰</span><br>
+      <span style="font-size:11px;font-weight:700" id="t0">تحقق من خبر</span>
+    </button>
+    <button class="tab" onclick="switchTab(1)" id="tab1">
+      <span style="font-size:20px">🖼️</span><br>
+      <span style="font-size:11px;font-weight:700" id="t1">تحقق من صورة</span>
+    </button>
+    <button class="tab" onclick="switchTab(2)" id="tab2">
+      <span style="font-size:20px">🎬</span><br>
+      <span style="font-size:11px;font-weight:700" id="t2">تحقق من فيديو</span>
+    </button>
   </div>
   <div class="card" id="inputCard">
     <div id="pane0">
       <div class="card-title">📰 <span id="textLabel">الصق النص أو الخبر المشكوك فيه</span></div>
-      <textarea id="newsText"></textarea>
+      <textarea id="newsText" maxlength="5000" style="min-height:120px" oninput="updateCharCount()" placeholder="الصق هنا النص أو الخبر المشكوك فيه... (حتى 5000 حرف)"></textarea>
+      <div style="text-align:left;font-size:10px;color:var(--muted);margin-top:4px"><span id="charCount">0</span> / 5000</div>
     </div>
     <div id="pane1" style="display:none">
-      <div class="card-title">🖼️ <span id="imgLabel">ارفع صورة للتحليل</span></div>
+      <div class="card-title">🖼️ <span id="imgLabel">تحقق من صورة</span></div>
+      <div style="display:flex;gap:8px;margin-bottom:12px">
+        <input type="text" id="imgUrlInput" placeholder="أو الصق رابط الصورة هنا..." style="flex:1;background:#0d0f1a;border:1.5px solid var(--border);border-radius:10px;color:var(--text);padding:10px 12px;font-size:13px;outline:none;font-family:inherit" oninput="loadImageUrl()">
+      </div>
       <div class="upload-area" id="imgDrop" ondragover="drag(event,'imgDrop')" ondragleave="undrag('imgDrop')" ondrop="dropFile(event,'img')">
         <input type="file" accept="image/*" onchange="loadImage(event)">
         <div id="imgPlaceholder"><div class="upload-icon">🖼️</div><div class="upload-title" id="imgUploadTitle">اسحب الصورة هنا أو انقر للاختيار</div><div class="upload-sub">JPG, PNG, WEBP — حتى 10MB</div></div>
@@ -717,6 +778,7 @@ const VALID_CODES = {
   'BASIC-TEST-2026':         { plan:'basic',         limit:30   },
   'PREMIUM-TEST-2026':       { plan:'premium',       limit:9999 },
   'INSTITUTIONAL-TEST-2026': { plan:'institutional', limit:9999 },
+  'SUPERADMIN-KHABAR-2026':  { plan:'institutional', limit:999999 },
 };
 
 const T = {
@@ -1025,6 +1087,109 @@ window.addEventListener('load', function(){
     console.error('EmailJS not loaded ❌');
   }
 });
+
+// ════════════════════════
+// FREE TRIAL
+// ════════════════════════
+// ════════════════════════
+// CHAR COUNT + IMAGE URL
+// ════════════════════════
+function updateCharCount(){
+  const txt = document.getElementById('newsText');
+  const count = document.getElementById('charCount');
+  if(txt && count) count.textContent = txt.value.length;
+}
+
+async function loadImageUrl(){
+  const url = document.getElementById('imgUrlInput')?.value.trim();
+  if(!url || !url.startsWith('http')) return;
+  try{
+    const res = await fetch(url);
+    const blob = await res.blob();
+    const reader = new FileReader();
+    reader.onload = e => {
+      imgData = e.target.result;
+      const placeholder = document.getElementById('imgPlaceholder');
+      const preview = document.getElementById('imgPreview');
+      if(preview){ preview.src = imgData; preview.style.display='block'; }
+      if(placeholder) placeholder.style.display='none';
+    };
+    reader.readAsDataURL(blob);
+  }catch(e){
+    console.log('URL load failed:', e.message);
+  }
+}
+
+function initTrial(){
+  const used = localStorage.getItem('khs_trial_used');
+  if(used){
+    document.getElementById('trialFormArea').style.display='none';
+    document.getElementById('trialLock').style.display='block';
+  }
+}
+
+async function trialAnalyze(){
+  const text = document.getElementById('trialText').value.trim();
+  const err = document.getElementById('trialErr');
+
+  if(!text){ err.style.display='block'; return; }
+  err.style.display='none';
+
+  // Check if already used
+  if(localStorage.getItem('khs_trial_used')){
+    document.getElementById('trialFormArea').style.display='none';
+    document.getElementById('trialLock').style.display='block';
+    return;
+  }
+
+  // Show loading
+  document.getElementById('trialFormArea').style.display='none';
+  document.getElementById('trialLoading').style.display='block';
+  document.getElementById('trialResult').style.display='none';
+
+  try{
+    const messages=[{role:'user',content:[{type:'text',text:text}]}];
+    const res = await fetch('/.netlify/functions/analyze',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({messages})
+    });
+    const data = await res.json();
+    const raw = data.content.map(i=>i.text||'').join('');
+    const r = JSON.parse(raw.replace(/```json|```/g,'').trim());
+
+    // Mark trial as used
+    localStorage.setItem('khs_trial_used','1');
+
+    // Show result
+    document.getElementById('trialLoading').style.display='none';
+    document.getElementById('trialResult').style.display='block';
+
+    const verdicts = {
+      true:  { icon:'✅', label:'خبر صحيح', color:'var(--green)' },
+      false: { icon:'❌', label:'خبر مزيف', color:'var(--red)' },
+      unverified: { icon:'⚠️', label:'غير مؤكد', color:'var(--yellow)' }
+    };
+    const v = verdicts[r.verdict] || verdicts['unverified'];
+
+    document.getElementById('trialVerdict').innerHTML =
+      `<span style="color:${v.color};font-size:28px">${v.icon}</span> <span style="color:${v.color}">${v.label}</span> <span style="font-size:13px;color:var(--muted)">(${r.confidence}%)</span>`;
+    document.getElementById('trialSummary').textContent = r.summary_ar || '';
+    document.getElementById('trialReasons').innerHTML =
+      (r.reasons_ar||[]).map(r=>`<div style="margin-bottom:4px">• ${r}</div>`).join('');
+
+  }catch(e){
+    document.getElementById('trialLoading').style.display='none';
+    document.getElementById('trialFormArea').style.display='block';
+    err.textContent='⚠️ حدث خطأ. تحقق من اتصالك وحاول مجدداً.';
+    err.style.display='block';
+  }
+}
+
+function scrollToPricing(){
+  document.getElementById('pricingSection')?.scrollIntoView({behavior:'smooth'});
+}
+
 
 function subscribe(url){
   window.open(url,'_blank');
