@@ -427,9 +427,60 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
     <span class="trial-badge">⚡ تحليل مجاني — جرّب الآن</span>
 
     <div id="trialFormArea">
-      <textarea id="trialText" rows="4" style="width:100%;background:#0b0d14;border:1.5px solid var(--border);border-radius:10px;color:var(--text);padding:12px 14px;font-size:14px;outline:none;font-family:inherit;resize:vertical;margin-bottom:12px;box-sizing:border-box" placeholder="الصق هنا أي خبر تريد التحقق منه..."></textarea>
-      <div id="trialErr" style="color:var(--red);font-size:12px;margin-bottom:8px;display:none">يرجى كتابة نص للتحليل</div>
-      <button class="analyze-btn" onclick="trialAnalyze()" id="trialBtn">🔍 حلّل مجاناً الآن</button>
+      <!-- أزرار التبويب -->
+      <div class="tabs" style="margin-bottom:14px">
+        <button class="tab active" onclick="switchTrialTab(0)" id="ttab0">
+          <span style="font-size:20px">📰</span><br>
+          <span style="font-size:11px;font-weight:700">تحقق من خبر</span>
+        </button>
+        <button class="tab" onclick="switchTrialTab(1)" id="ttab1">
+          <span style="font-size:20px">🖼️</span><br>
+          <span style="font-size:11px;font-weight:700">تحقق من صورة</span>
+        </button>
+        <button class="tab" onclick="switchTrialTab(2)" id="ttab2">
+          <span style="font-size:20px">🎬</span><br>
+          <span style="font-size:11px;font-weight:700">تحقق من فيديو</span>
+        </button>
+      </div>
+
+      <!-- تبويب النص -->
+      <div id="trialPane0">
+        <textarea id="trialText" maxlength="5000" rows="4"
+          oninput="document.getElementById('trialCharCount').textContent=this.value.length"
+          style="width:100%;background:#0b0d14;border:1.5px solid var(--border);border-radius:10px;color:var(--text);padding:12px 14px;font-size:14px;outline:none;font-family:inherit;resize:vertical;margin-bottom:4px;box-sizing:border-box"
+          placeholder="الصق هنا النص أو الخبر المشكوك فيه... (حتى 5000 حرف)"></textarea>
+        <div style="text-align:left;font-size:10px;color:var(--muted);margin-bottom:10px">
+          <span id="trialCharCount">0</span> / 5000
+        </div>
+      </div>
+
+      <!-- تبويب الصورة -->
+      <div id="trialPane1" style="display:none">
+        <input type="text" id="trialImgUrl"
+          placeholder="الصق رابط الصورة هنا..."
+          style="width:100%;background:#0b0d14;border:1.5px solid var(--border);border-radius:10px;color:var(--text);padding:10px 14px;font-size:13px;outline:none;font-family:inherit;margin-bottom:10px;box-sizing:border-box">
+        <div class="upload-area" onclick="document.getElementById('trialImgFile').click()" style="cursor:pointer">
+          <input type="file" id="trialImgFile" accept="image/*" style="display:none" onchange="loadTrialImage(event)">
+          <div id="trialImgPlaceholder">
+            <div style="font-size:32px">🖼️</div>
+            <div style="font-size:13px;color:var(--muted);margin-top:8px">انقر لاختيار صورة أو الصق رابطها أعلاه</div>
+          </div>
+          <img id="trialImgPreview" style="display:none;max-width:100%;border-radius:8px;max-height:200px">
+        </div>
+      </div>
+
+      <!-- تبويب الفيديو -->
+      <div id="trialPane2" style="display:none">
+        <input type="text" id="trialVidUrl"
+          placeholder="الصق رابط الفيديو (YouTube, Twitter...)"
+          style="width:100%;background:#0b0d14;border:1.5px solid var(--border);border-radius:10px;color:var(--text);padding:10px 14px;font-size:13px;outline:none;font-family:inherit;margin-bottom:10px;box-sizing:border-box">
+        <textarea id="trialVidContext" rows="2"
+          style="width:100%;background:#0b0d14;border:1.5px solid var(--border);border-radius:10px;color:var(--text);padding:10px 14px;font-size:13px;outline:none;font-family:inherit;resize:none;box-sizing:border-box"
+          placeholder="اكتب سياقاً إضافياً حول الفيديو للتحليل..."></textarea>
+      </div>
+
+      <div id="trialErr" style="color:var(--red);font-size:12px;margin-bottom:8px;display:none">يرجى إدخال محتوى للتحليل</div>
+      <button class="analyze-btn" onclick="trialAnalyze()" id="trialBtn">🔍 تحليل مجاني الآن</button>
     </div>
 
     <div id="trialLoading" style="text-align:center;padding:20px;display:none">
@@ -1120,6 +1171,33 @@ async function loadImageUrl(){
   }
 }
 
+// ════════════════════════
+// TRIAL TABS
+// ════════════════════════
+let trialTab = 0;
+let trialImgData = null;
+
+function switchTrialTab(n){
+  trialTab = n;
+  [0,1,2].forEach(i=>{
+    document.getElementById('ttab'+i)?.classList.toggle('active', i===n);
+    document.getElementById('trialPane'+i) && (document.getElementById('trialPane'+i).style.display = i===n ? 'block' : 'none');
+  });
+}
+
+function loadTrialImage(e){
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    trialImgData = ev.target.result;
+    document.getElementById('trialImgPreview').src = trialImgData;
+    document.getElementById('trialImgPreview').style.display = 'block';
+    document.getElementById('trialImgPlaceholder').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+
 function initTrial(){
   const used = localStorage.getItem('khs_trial_used');
   if(used){
@@ -1129,10 +1207,7 @@ function initTrial(){
 }
 
 async function trialAnalyze(){
-  const text = document.getElementById('trialText').value.trim();
   const err = document.getElementById('trialErr');
-
-  if(!text){ err.style.display='block'; return; }
   err.style.display='none';
 
   // Check if already used
@@ -1142,13 +1217,37 @@ async function trialAnalyze(){
     return;
   }
 
+  // Build messages based on tab
+  let messages = [];
+  if(trialTab === 0){
+    const text = document.getElementById('trialText').value.trim();
+    if(!text){ err.style.display='block'; return; }
+    messages = [{role:'user',content:[{type:'text',text}]}];
+  } else if(trialTab === 1){
+    // Try URL first, then uploaded image
+    const urlInput = document.getElementById('trialImgUrl').value.trim();
+    if(urlInput && urlInput.startsWith('http')){
+      messages = [{role:'user',content:[{type:'text',text:'حلل هذه الصورة وتحقق من صحتها: '+urlInput}]}];
+    } else if(trialImgData){
+      const b64 = trialImgData.split(',')[1];
+      const mt = trialImgData.split(';')[0].split(':')[1];
+      messages = [{role:'user',content:[{type:'image',source:{type:'base64',media_type:mt,data:b64}},{type:'text',text:'حلل هذه الصورة وتحقق من صحتها'}]}];
+    } else {
+      err.textContent='يرجى رفع صورة أو إدخال رابط'; err.style.display='block'; return;
+    }
+  } else {
+    const vidUrl = document.getElementById('trialVidUrl').value.trim();
+    const ctx = document.getElementById('trialVidContext').value.trim();
+    if(!vidUrl && !ctx){ err.textContent='يرجى إدخال رابط الفيديو أو سياق'; err.style.display='block'; return; }
+    messages = [{role:'user',content:[{type:'text',text:'حلل هذا المحتوى المرئي وتحقق من صحته. الرابط: '+vidUrl+(ctx?' السياق: '+ctx:'')}]}];
+  }
+
   // Show loading
   document.getElementById('trialFormArea').style.display='none';
   document.getElementById('trialLoading').style.display='block';
   document.getElementById('trialResult').style.display='none';
 
   try{
-    const messages=[{role:'user',content:[{type:'text',text:text}]}];
     const res = await fetch('/.netlify/functions/analyze',{
       method:'POST',
       headers:{'Content-Type':'application/json'},
