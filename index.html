@@ -496,22 +496,21 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
   </div>
 
   <!-- ═══ التبرع ═══ -->
-  <div class="card" id="donationSection">
-    <div class="card-title" style="justify-content:center;font-size:18px">🤲 <span>ادعم مهمتنا</span></div>
-    <p style="text-align:center;font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.8">منصة الخبر الصحيح رسالة قبل أن تكون منصة.<br>تبرعك يساعدنا على الوصول لمن لا يستطيع الاشتراك.</p>
-    <div class="donation-grid" id="donationGrid">
-      <div class="donation-box selected" onclick="selectDonation(this,'d1','https://ko-fi.com/summary/e30f8e0c-fe8f-4c59-9f34-7e5161caaa86')">
-        <div class="donation-amt">$2</div><div class="donation-label">☕ داعم</div>
-      </div>
-      <div class="donation-box" onclick="selectDonation(this,'d2','https://ko-fi.com/summary/39884980-55a9-4ff3-9508-710f3e6a22f2')">
-        <div class="donation-amt">$5</div><div class="donation-label">🌟 شريك</div>
-      </div>
-      <div class="donation-box" onclick="selectDonation(this,'d3','https://ko-fi.com/summary/fac719e3-78ee-4e66-a6c2-e233047bcfc9')">
-        <div class="donation-amt">$10</div><div class="donation-label">🏆 مؤسس</div>
-      </div>
+  <div class="card" id="donationSection" style="text-align:center">
+    <div style="font-size:48px;margin-bottom:12px">🤲</div>
+    <div style="font-size:20px;font-weight:900;margin-bottom:10px;background:linear-gradient(135deg,var(--green),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent">ادعم مهمتنا</div>
+    <p style="font-size:13px;color:var(--muted);margin-bottom:8px;line-height:1.9">
+      منصة الخبر الصحيح رسالة قبل أن تكون منصة.<br>
+      تبرعك يساعدنا على الوصول لمن لا يستطيع الاشتراك.<br>
+      كل مبلغ مهما صغر يصنع فرقاً حقيقياً. 💚
+    </p>
+    <div style="display:flex;gap:12px;justify-content:center;margin:16px 0;flex-wrap:wrap">
+      <span style="background:#10d98a20;color:var(--green);padding:6px 14px;border-radius:99px;font-size:12px;font-weight:700">☕ $2 داعم</span>
+      <span style="background:#10d98a20;color:var(--green);padding:6px 14px;border-radius:99px;font-size:12px;font-weight:700">🌟 $5 شريك</span>
+      <span style="background:#10d98a20;color:var(--green);padding:6px 14px;border-radius:99px;font-size:12px;font-weight:700">🏆 $10 مؤسس</span>
     </div>
-    <button class="donation-btn" id="donateBtn" onclick="donate()">🤲 تبرع الآن وادعم الحقيقة</button>
-    <p style="text-align:center;font-size:10px;color:var(--muted);margin-top:8px">🔒 دفع آمن عبر Ko-fi — شكراً لدعمك</p>
+    <button class="donation-btn" onclick="donate()">🤲 تبرع الآن وادعم الحقيقة</button>
+    <p style="font-size:10px;color:var(--muted);margin-top:10px">🔒 دفع آمن عبر Ko-fi — شكراً لدعمك 💚</p>
   </div>
 
   <!-- ═══ اتصل بنا ═══ -->
