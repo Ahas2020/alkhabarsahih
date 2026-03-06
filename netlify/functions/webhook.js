@@ -4,9 +4,8 @@ const crypto = require("crypto");
 // ══════════════════════════════════════════
 // CONFIG
 // ══════════════════════════════════════════
-const WEBHOOK_SECRET = "khabar-sahih-webhook-2026";
 const RESEND_API_KEY = "re_RFWsQkpo_L8s14pPrujqQxAN66PKJ23Aa";
-const FROM_EMAIL = "noreply@alkhabarsahih.com"; 
+const FROM_EMAIL = "noreply@alkhabarsahih.com";
 const PLATFORM_NAME = "منصة الخبر الصحيح";
 
 // ══════════════════════════════════════════
@@ -19,13 +18,15 @@ function generateCode(plan) {
 }
 
 // ══════════════════════════════════════════
-// تحديد الخطة من اسم المنتج
+// تحديد الخطة من المبلغ أو الاسم
 // ══════════════════════════════════════════
-function getPlan(productName) {
-  const name = (productName || "").toLowerCase();
-  if (name.includes("basic") || name.includes("أساسي")) return "basic";
-  if (name.includes("premium") || name.includes("مميز")) return "premium";
-  if (name.includes("institutional") || name.includes("مؤسسي")) return "institutional";
+function getPlan(amount, tierName) {
+  const name = (tierName || "").toLowerCase();
+  const price = parseFloat(amount || 0);
+
+  if (name.includes("basic") || name.includes("أساسي") || price <= 1) return "basic";
+  if (name.includes("premium") || name.includes("مميز") || price <= 3) return "premium";
+  if (name.includes("inst") || name.includes("مؤسسي") || price >= 5) return "institutional";
   return "basic";
 }
 
@@ -36,7 +37,7 @@ function sendEmail(toEmail, toName, code, plan) {
   const planNames = {
     basic: "أساسي 📰 — 30 تحليلاً شهرياً",
     premium: "مميز 🎯 — تحليلات غير محدودة",
-    institutional: "مؤسسي 🏛️ — جميع المميزات + API"
+    institutional: "مؤسسي 🏛️ — جميع المميزات"
   };
 
   const emailBody = {
@@ -72,7 +73,7 @@ function sendEmail(toEmail, toName, code, plan) {
     <div style="background:#1c1f2e;border-radius:10px;padding:16px;margin-bottom:20px">
       <div style="font-weight:700;font-size:13px;margin-bottom:10px">⚡ كيف تفعّل حسابك؟</div>
       <div style="font-size:12px;color:#b0b4cc;line-height:2">
-        1. افتح الموقع: <a href="https://truenewsplatform.netlify.app" style="color:#4f8ef7">truenewsplatform.netlify.app</a><br>
+        1. افتح الموقع: <a href="https://alkhabarsahih.com" style="color:#4f8ef7">alkhabarsahih.com</a><br>
         2. انقر: 🔑 لدي اشتراك — تفعيل<br>
         3. أدخل الكود أعلاه<br>
         4. ابدأ التحليل فوراً! 🚀
@@ -90,7 +91,6 @@ function sendEmail(toEmail, toName, code, plan) {
 
   return new Promise((resolve, reject) => {
     const body = JSON.stringify(emailBody);
-
     const options = {
       hostname: "api.resend.com",
       path: "/emails",
@@ -111,7 +111,6 @@ function sendEmail(toEmail, toName, code, plan) {
         else reject(new Error(`Resend error: ${res.statusCode} ${data}`));
       });
     });
-
     req.on("error", reject);
     req.write(body);
     req.end();
@@ -119,7 +118,7 @@ function sendEmail(toEmail, toName, code, plan) {
 }
 
 // ══════════════════════════════════════════
-// MAIN HANDLER
+// MAIN HANDLER — يدعم Ko-fi + Lemon Squeezy
 // ══════════════════════════════════════════
 exports.handler = async function(event, context) {
 
@@ -128,61 +127,74 @@ exports.handler = async function(event, context) {
     "Content-Type": "application/json"
   };
 
+  if (event.httpMethod === "OPTIONS") {
+    return { statusCode: 200, headers, body: "" };
+  }
+
   if (event.httpMethod !== "POST") {
     return { statusCode: 405, headers, body: JSON.stringify({ error: "Method Not Allowed" }) };
   }
 
   try {
-    // ── التحقق من الـ Secret ──
-    const signature = event.headers["x-signature"] || event.headers["X-Signature"] || "";
-    const expectedSig = crypto
-      .createHmac("sha256", WEBHOOK_SECRET)
-      .update(event.body)
-      .digest("hex");
-
-    if (signature && signature !== expectedSig) {
-      console.log("Invalid signature!");
-      return { statusCode: 401, headers, body: JSON.stringify({ error: "Unauthorized" }) };
-    }
-
-    // ── تحليل بيانات الطلب ──
     const payload = JSON.parse(event.body);
-    console.log("Webhook event:", payload.meta?.event_name);
+    console.log("Webhook received:", JSON.stringify(payload).substring(0, 400));
 
-    const eventName = payload.meta?.event_name || "";
+    let customerEmail = "";
+    let customerName = "";
+    let plan = "basic";
 
-    if (eventName !== "order_created" && eventName !== "subscription_created") {
-      return { statusCode: 200, headers, body: JSON.stringify({ message: "Event ignored" }) };
+    // ── Ko-fi Webhook ──
+    if (payload.type === "Donation" || payload.type === "Subscription" || payload.kofi_transaction_id) {
+      console.log("Ko-fi webhook detected");
+
+      customerEmail = payload.email || "";
+      customerName = payload.from_name || "عزيزي المشترك";
+      const amount = payload.amount || "1";
+      const tierName = payload.tier_name || "";
+
+      console.log("Ko-fi customer:", customerEmail, customerName);
+      console.log("Ko-fi amount:", amount, "tier:", tierName);
+
+      plan = getPlan(amount, tierName);
     }
 
-    // ── استخراج بيانات المشترك ──
-    const data = payload.data?.attributes || {};
-    const customerEmail = data.user_email || data.email || "";
-    const customerName = data.user_name || data.first_name || "مشترك جديد";
-    const productName = data.first_order_item?.product_name ||
-                       data.product_name || "basic";
+    // ── Lemon Squeezy Webhook ──
+    else if (payload.meta?.event_name) {
+      console.log("Lemon Squeezy webhook detected");
 
-    console.log("Customer:", customerEmail, customerName);
-    console.log("Product:", productName);
+      const eventName = payload.meta.event_name;
+      if (eventName !== "order_created" && eventName !== "subscription_created") {
+        return { statusCode: 200, headers, body: JSON.stringify({ message: "Event ignored" }) };
+      }
 
+      const data = payload.data?.attributes || {};
+      customerEmail = data.user_email || data.email || "";
+      customerName = data.user_name || "عزيزي المشترك";
+      const productName = data.first_order_item?.product_name || "";
+      plan = getPlan(null, productName);
+    }
+
+    else {
+      console.log("Unknown webhook format:", Object.keys(payload));
+      return { statusCode: 200, headers, body: JSON.stringify({ message: "Unknown format" }) };
+    }
+
+    // ── إرسال الكود ──
     if (!customerEmail) {
-      return { statusCode: 200, headers, body: JSON.stringify({ message: "No email found" }) };
+      console.log("No email found");
+      return { statusCode: 200, headers, body: JSON.stringify({ message: "No email" }) };
     }
 
-    // ── توليد الكود وإرساله ──
-    const plan = getPlan(productName);
     const code = generateCode(plan);
-
-    console.log(`Generated code: ${code} for plan: ${plan}`);
+    console.log(`Generated: ${code} for ${customerEmail} plan: ${plan}`);
 
     await sendEmail(customerEmail, customerName, code, plan);
-
-    console.log(`✅ Code sent successfully to ${customerEmail}`);
+    console.log(`✅ Code sent to ${customerEmail}`);
 
     return {
       statusCode: 200,
       headers,
-      body: JSON.stringify({ success: true, message: "Code sent successfully" })
+      body: JSON.stringify({ success: true })
     };
 
   } catch (error) {
@@ -190,7 +202,7 @@ exports.handler = async function(event, context) {
     return {
       statusCode: 500,
       headers,
-      body: JSON.stringify({ error: "Server error: " + error.message })
+      body: JSON.stringify({ error: error.message })
     };
   }
 };
