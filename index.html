@@ -2,6 +2,8 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>">
+<link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="theme-color" content="#0b0d14">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -424,22 +426,22 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
 
   <!-- ═══ تجربة مجانية ═══ -->
   <div class="trial-form" id="trialSection">
-    <span class="trial-badge">⚡ تحليل مجاني — جرّب الآن</span>
+    <span class="trial-badge" id="trialBadgeEl">⚡ تحليل مجاني — جرّب الآن</span>
 
     <div id="trialFormArea">
       <!-- أزرار التبويب -->
       <div class="tabs" style="margin-bottom:14px">
         <button class="tab active" onclick="switchTrialTab(0)" id="ttab0">
           <span style="font-size:20px">📰</span><br>
-          <span style="font-size:11px;font-weight:700">تحقق من خبر</span>
+          <span style="font-size:11px;font-weight:700" id="trialTab0El">تحقق من خبر</span>
         </button>
         <button class="tab" onclick="switchTrialTab(1)" id="ttab1">
           <span style="font-size:20px">🖼️</span><br>
-          <span style="font-size:11px;font-weight:700">تحقق من صورة</span>
+          <span style="font-size:11px;font-weight:700" id="trialTab1El">تحقق من صورة</span>
         </button>
         <button class="tab" onclick="switchTrialTab(2)" id="ttab2">
           <span style="font-size:20px">🎬</span><br>
-          <span style="font-size:11px;font-weight:700">تحقق من فيديو</span>
+          <span style="font-size:11px;font-weight:700" id="trialTab2El">تحقق من فيديو</span>
         </button>
       </div>
 
@@ -480,7 +482,7 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
       </div>
 
       <div id="trialErr" style="color:var(--red);font-size:12px;margin-bottom:8px;display:none">يرجى إدخال محتوى للتحليل</div>
-      <button class="analyze-btn" onclick="trialAnalyze()" id="trialBtn">🔍 تحليل مجاني الآن</button>
+      <button class="analyze-btn" onclick="trialAnalyze()" id="trialBtn">🔍 <span id="trialBtnEl">تحليل مجاني الآن</span></button>
     </div>
 
     <div id="trialLoading" style="text-align:center;padding:20px;display:none">
@@ -504,7 +506,7 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
 
     <div class="trial-lock" id="trialLock">
       <div class="trial-lock-icon">🔒</div>
-      <div style="font-size:16px;font-weight:800;margin-bottom:8px">استنفدت تحليلك المجاني!</div>
+      <div style="font-size:16px;font-weight:800;margin-bottom:8px"><span id="trialUsedTitleEl">استنفدت تحليلك المجاني!</span></div>
       <div style="font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.8">اشترك للحصول على تحليلات غير محدودة<br>من $1 فقط شهرياً</div>
       <button class="trial-cta" onclick="scrollToPricing()">🚀 اشترك الآن</button>
     </div>
@@ -600,7 +602,7 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
     <!-- العنوان -->
     <div style="text-align:center;margin-bottom:20px">
       <div style="font-size:13px;color:var(--accent);font-weight:700;letter-spacing:2px;margin-bottom:8px">🤝 PARTNERS & MEDIA</div>
-      <div style="font-size:20px;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent">شركاؤنا الإعلاميون</div>
+      <div style="font-size:20px;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent"><span id="partnersTitleEl">شركاؤنا الإعلاميون</span></div>
       <p style="font-size:12px;color:var(--muted);margin-top:8px;line-height:1.8">نفخر بالتعاون مع أبرز المؤسسات الإعلامية الموثوقة<br>في المنطقة العربية</p>
     </div>
 
@@ -660,7 +662,7 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
     <!-- CTA الإعلاني -->
     <div style="background:linear-gradient(135deg,#0d0f1a,#151822);border:1px solid var(--accent);border-radius:14px;padding:20px;text-align:center">
       <div style="font-size:22px;margin-bottom:8px">🚀</div>
-      <div style="font-size:15px;font-weight:900;margin-bottom:6px">اعرض علامتك التجارية أمام آلاف القراء العرب!</div>
+      <div style="font-size:15px;font-weight:900;margin-bottom:6px"><span id="partnersCtaEl">اعرض علامتك التجارية أمام آلاف القراء العرب!</span></div>
       <p style="font-size:12px;color:var(--muted);line-height:1.9;margin-bottom:16px">
         منصة الخبر الصحيح تستهدف الصحفيين والباحثين والمهتمين بالإعلام<br>
         في السعودية والإمارات والخليج وسائر الدول العربية<br>
@@ -688,7 +690,7 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
   <!-- ═══ التبرع ═══ -->
   <div class="card" id="donationSection" style="text-align:center">
     <div style="font-size:48px;margin-bottom:12px">🤲</div>
-    <div style="font-size:20px;font-weight:900;margin-bottom:10px;background:linear-gradient(135deg,var(--green),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent">ادعم مهمتنا</div>
+    <div style="font-size:20px;font-weight:900;margin-bottom:10px;background:linear-gradient(135deg,var(--green),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent"><span id="donateTitleEl">ادعم مهمتنا</span></div>
     <p style="font-size:13px;color:var(--muted);margin-bottom:8px;line-height:1.9">
       منصة الخبر الصحيح رسالة قبل أن تكون منصة.<br>
       تبرعك يساعدنا على الوصول لمن لا يستطيع الاشتراك.<br>
@@ -699,7 +701,7 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
       <span style="background:#10d98a20;color:var(--green);padding:6px 14px;border-radius:99px;font-size:12px;font-weight:700">🌟 $5 شريك</span>
       <span style="background:#10d98a20;color:var(--green);padding:6px 14px;border-radius:99px;font-size:12px;font-weight:700">🏆 $10 مؤسس</span>
     </div>
-    <button class="donation-btn" onclick="donate()">🤲 تبرع الآن وادعم الحقيقة</button>
+    <button class="donation-btn" onclick="donate()">🤲 <span id="donateBtnEl">تبرع الآن وادعم الحقيقة</span></button>
     <p style="font-size:10px;color:var(--muted);margin-top:10px">🔒 دفع آمن عبر Ko-fi — شكراً لدعمك 💚</p>
   </div>
 
@@ -907,7 +909,7 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
 <div id="emailCollectModal" style="display:none;position:fixed;inset:0;background:#000a;z-index:9999;align-items:center;justify-content:center;padding:20px">
   <div style="background:#151822;border-radius:16px;padding:28px;max-width:380px;width:100%;border:1px solid var(--accent)">
     <div style="text-align:center;font-size:36px;margin-bottom:12px">📧</div>
-    <div style="font-size:17px;font-weight:900;text-align:center;margin-bottom:6px">أدخل بريدك الإلكتروني</div>
+    <div style="font-size:17px;font-weight:900;text-align:center;margin-bottom:6px" id="emailModalTitleEl">أدخل بريدك الإلكتروني</div>
     <p style="font-size:12px;color:var(--muted);text-align:center;line-height:1.8;margin-bottom:18px">
       سنرسل إليك كود التفعيل فور إتمام الدفع<br>
       <strong style="color:var(--green)">تأكد من صحة البريد!</strong>
@@ -915,10 +917,10 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
     <input type="email" id="subscriberEmail" placeholder="example@email.com"
       style="width:100%;background:#0d0f1a;border:1.5px solid var(--border);border-radius:10px;color:var(--text);padding:12px 14px;font-size:14px;outline:none;font-family:inherit;box-sizing:border-box;margin-bottom:8px;direction:ltr;text-align:left">
     <div id="emailCollectErr" style="color:var(--red);font-size:11px;margin-bottom:10px;display:none">يرجى إدخال بريد إلكتروني صحيح</div>
-    <button onclick="confirmSubscribe()" style="width:100%;background:linear-gradient(135deg,var(--accent),var(--purple));border:none;border-radius:10px;color:#fff;padding:13px;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;margin-bottom:10px">
+    <button id="confirmSubBtn" onclick="confirmSubscribe()" style="width:100%;background:linear-gradient(135deg,var(--accent),var(--purple));border:none;border-radius:10px;color:#fff;padding:13px;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;margin-bottom:10px">
       🚀 متابعة إلى صفحة الدفع
     </button>
-    <button onclick="document.getElementById('emailCollectModal').style.display='none'" style="width:100%;background:transparent;border:1px solid var(--border);border-radius:10px;color:var(--muted);padding:10px;font-size:12px;cursor:pointer;font-family:inherit">
+    <button id="cancelSubBtn" onclick="document.getElementById('emailCollectModal').style.display='none'" style="width:100%;background:transparent;border:1px solid var(--border);border-radius:10px;color:var(--muted);padding:10px;font-size:12px;cursor:pointer;font-family:inherit">
       إلغاء
     </button>
   </div>
@@ -996,6 +998,44 @@ const T = {
     f2_1:'تحليلات غير محدودة',f2_2:'تحليل النصوص',f2_3:'تحليل الصور',f2_4:'تحليل الفيديوهات',f2_5:'تقارير PDF مفصّلة',f2_6:'API للمطورين',f2_7:'دعم أولوية',
     f3_1:'تحليلات غير محدودة',f3_2:'تحليل النصوص',f3_3:'تحليل الصور',f3_4:'تحليل الفيديوهات',f3_5:'تقارير PDF مفصّلة',f3_6:'API للمطورين',f3_7:'دعم على مدار الساعة',
     videoLocked:'تحليل الفيديو متاح في الخطة المميزة وما فوق',
+    trialBadge:'⚡ تحليل مجاني — جرّب الآن',
+    trialTab0:'تحقق من خبر',trialTab1:'تحقق من صورة',trialTab2:'تحقق من فيديو',
+    trialBtn:'🔍 تحليل مجاني الآن',
+    trialImgUrl:'الصق رابط الصورة هنا...',
+    trialVidUrl:'الصق رابط الفيديو (YouTube, Twitter...)',
+    trialVidCtx:'اكتب سياقاً إضافياً حول الفيديو...',
+    trialUsedTitle:'استنفدت تحليلك المجاني!',
+    trialUsedSub:'اشترك للحصول على تحليلات غير محدودة من $1 فقط شهرياً',
+    trialUsedBtn:'🚀 اشترك الآن',
+    trialCta1:'🎯 أعجبك التحليل؟',
+    trialCta2:'اشترك للحصول على تحليلات غير محدودة من $1 فقط/شهر',
+    trialCtaBtn:'🚀 اشترك الآن وابدأ فوراً',
+    partnersLabel:'🤝 PARTNERS & MEDIA',
+    partnersTitle:'شركاؤنا الإعلاميون',
+    partnersSub:'نفخر بالتعاون مع أبرز المؤسسات الإعلامية الموثوقة في المنطقة العربية',
+    partnersSlot:'مكان إعلانك',
+    partnersCta:'🚀 اعرض علامتك التجارية أمام آلاف القراء العرب!',
+    partnersDesc:'منصة الخبر الصحيح تستهدف الصحفيين والباحثين في السعودية والإمارات والخليج وسائر الدول العربية',
+    partnersHighlight:'جمهور نوعي ومتفاعل — الفرصة محدودة!',
+    partnersEmail:'📧 راسلنا بالبريد',
+    partnersWa:'💬 واتساب مباشر',
+    partnersStats:'📊 إحصائيات المنصة متاحة عند الطلب',
+    donateTitle:'ادعم مهمتنا',
+    donateSub:'منصة الخبر الصحيح رسالة قبل أن تكون منصة. تبرعك يساعدنا على الوصول لمن لا يستطيع الاشتراك.',
+    donateImpact:'كل مبلغ مهما صغر يصنع فرقاً حقيقياً. 💚',
+    donateTier1:'☕ $2 داعم',donateTier2:'🌟 $5 شريك',donateTier3:'🏆 $10 مؤسس',
+    donateBtn:'🤲 تبرع الآن وادعم الحقيقة',
+    donateSafe:'🔒 دفع آمن عبر Ko-fi — شكراً لدعمك 💚',
+    emailModalTitle:'أدخل بريدك الإلكتروني',
+    emailModalSub:'سنرسل إليك كود التفعيل فور إتمام الدفع.',
+    emailModalNote:'تأكد من صحة البريد!',
+    emailModalBtn:'🚀 متابعة إلى صفحة الدفع',
+    emailModalCancel:'إلغاء',
+    emailModalErr:'يرجى إدخال بريد إلكتروني صحيح',
+    postPayTitle:'✅ أتممت الدفع؟',
+    postPaySub:'تحقق من بريدك — الكود في طريقه إليك!',
+    postPayBtn:'🔑 أدخل كود التفعيل',
+    postPayClose:'إغلاق',
   },
   en:{
     siteName:'True News Platform',tagline:'AI-Powered Fake News Detection',
@@ -1038,6 +1078,63 @@ const T = {
     f2_1:'Unlimited analyses',f2_2:'Text analysis',f2_3:'Image analysis',f2_4:'Video analysis',f2_5:'PDF reports',f2_6:'Developer API',f2_7:'Priority support',
     f3_1:'Unlimited analyses',f3_2:'Text analysis',f3_3:'Image analysis',f3_4:'Video analysis',f3_5:'PDF reports',f3_6:'Developer API',f3_7:'24/7 support',
     videoLocked:'Video analysis is available in Premium plan and above',
+    // Trial form
+    trialBadge:'⚡ Free Analysis — Try Now',
+    trialPlaceholder:'Paste any suspicious news here... (up to 5000 characters)',
+    trialBtn:'🔍 Analyze Free Now',
+    trialTab0:'Verify News',trialTab1:'Verify Image',trialTab2:'Verify Video',
+    trialImgUrl:'Paste image URL here...',
+    trialVidUrl:'Paste video link (YouTube, Twitter...)',
+    trialVidCtx:'Add context about the video...',
+    trialErrEmpty:'Please enter content to analyze',
+    trialErrImg:'Please upload an image or enter a URL',
+    trialErrVid:'Please enter a video link or context',
+    trialUsedTitle:'Free trial used!',
+    trialUsedSub:'Subscribe for unlimited analyses from just $1/month',
+    trialUsedBtn:'🚀 Subscribe Now',
+    trialCta1:'🎯 Enjoyed the analysis?',
+    trialCta2:'Subscribe for unlimited analyses from just $1/month',
+    trialCtaBtn:'🚀 Subscribe Now & Start Instantly',
+    // Why section
+    whyTitle:'Why True News Platform?',
+    whyStat1:'86%',whyStat1d:'of internet users encountered fake news this week',
+    whyStat2:'6x',whyStat2d:'faster spread of fake news vs real news',
+    whyStat3:'$78B',whyStat3d:'annual economic losses from misinformation',
+    // Partners section
+    partnersLabel:'🤝 PARTNERS & MEDIA',
+    partnersTitle:'Our Media Partners',
+    partnersSub:'We are proud to collaborate with leading trusted media institutions in the Arab region',
+    partnersSlot:'Your Ad Here',
+    partnersCta:'🚀 Showcase Your Brand to Thousands of Arab Readers!',
+    partnersDesc:'True News Platform targets journalists, researchers, and media enthusiasts across Saudi Arabia, UAE, Gulf and the Arab world.',
+    partnersHighlight:'Quality engaged audience — Limited spots available!',
+    partnersEmail:'📧 Email Us',
+    partnersWa:'💬 WhatsApp',
+    partnersStats:'📊 Platform statistics available on request',
+    // Donation section
+    donateTitle:'Support Our Mission',
+    donateSub:'True News Platform is a mission before a business. Your support helps us reach those who cannot afford a subscription.',
+    donateImpact:'Every contribution, however small, makes a real difference. 💚',
+    donateTier1:'☕ $2 Supporter',donateTier2:'🌟 $5 Partner',donateTier3:'🏆 $10 Founder',
+    donateBtn:'🤲 Donate Now & Support the Truth',
+    donateSafe:'🔒 Secure payment via Ko-fi — Thank you for your support 💚',
+    // Email modal
+    emailModalTitle:'Enter Your Email Address',
+    emailModalSub:'We will send you the activation code immediately after payment.',
+    emailModalNote:'Make sure your email is correct!',
+    emailModalBtn:'🚀 Proceed to Payment',
+    emailModalCancel:'Cancel',
+    emailModalErr:'Please enter a valid email address',
+    postPayTitle:'✅ Payment Complete?',
+    postPaySub:'Check your inbox — the code is on its way!',
+    postPayBtn:'🔑 Enter Activation Code',
+    postPayClose:'Close',
+    // Activation
+    actSub2:'Enter the activation code received in your email after payment',
+    // Ko-fi secure
+    pps1:'🔒 Secure Payment — Ko-fi',
+    pps2:'🔒 Secure Payment — Ko-fi',
+    pps3:'🔒 Secure Payment — Ko-fi',
   }
 };
 
@@ -1064,6 +1161,34 @@ function applyLang(){
   const ht=document.getElementById('heroTitle');
   if(ht)ht.innerHTML=lang==='ar'?'اكشف الأخبار المزيفة<br>بالذكاء الاصطناعي':'Detect Fake News<br>with AI';
   const nt=document.getElementById('newsText');if(nt)nt.placeholder=t.textLabel;
+
+  // Trial section
+  const tb=document.getElementById('trialBadgeEl');if(tb)tb.textContent=t.trialBadge||'⚡ تحليل مجاني — جرّب الآن';
+  ['0','1','2'].forEach(i=>{const el=document.getElementById('trialTab'+i+'El');if(el)el.textContent=t['trialTab'+i]||el.textContent;});
+  const tBtn=document.getElementById('trialBtnEl');if(tBtn)tBtn.textContent=t.trialBtn||tBtn.textContent;
+  const tut=document.getElementById('trialUsedTitleEl');if(tut)tut.textContent=t.trialUsedTitle||tut.textContent;
+  const ti=document.getElementById('trialImgUrl');if(ti)ti.placeholder=t.trialImgUrl||ti.placeholder;
+  const tv=document.getElementById('trialVidUrl');if(tv)tv.placeholder=t.trialVidUrl||tv.placeholder;
+  const tvc=document.getElementById('trialVidContext');if(tvc)tvc.placeholder=t.trialVidCtx||tvc.placeholder;
+  const tt=document.getElementById('trialText');if(tt)tt.placeholder=t.trialPlaceholder||tt.placeholder;
+
+  // Partners section
+  const ptEl=document.getElementById('partnersTitleEl');if(ptEl)ptEl.textContent=t.partnersTitle||ptEl.textContent;
+  const pcEl=document.getElementById('partnersCtaEl');if(pcEl)pcEl.textContent=t.partnersCta||pcEl.textContent;
+  document.querySelectorAll('[id^="partnersSlot"]').forEach(el=>{el.textContent=t.partnersSlot||el.textContent;});
+
+  // Donation section
+  const dtEl=document.getElementById('donateTitleEl');if(dtEl)dtEl.textContent=t.donateTitle||dtEl.textContent;
+  const dbEl=document.getElementById('donateBtnEl');if(dbEl)dbEl.textContent=t.donateBtn||dbEl.textContent;
+
+  // Modals
+  const emTitle=document.getElementById('emailModalTitleEl');if(emTitle)emTitle.textContent=t.emailModalTitle||emTitle.textContent;
+  const emBtn=document.getElementById('confirmSubBtn');if(emBtn)emBtn.textContent=t.emailModalBtn||emBtn.textContent;
+  const emCancel=document.getElementById('cancelSubBtn');if(emCancel)emCancel.textContent=t.emailModalCancel||emCancel.textContent;
+  const emErr=document.getElementById('emailCollectErr');if(emErr&&!emErr.textContent.includes('@'))emErr.textContent=t.emailModalErr||emErr.textContent;
+
+  // Ko-fi secure text
+  ['pps1','pps2','pps3'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=t[id]||el.textContent;});
 }
 function toggleLang(){ lang=lang==='ar'?'en':'ar'; applyLang(); if(session)showDashboard(); }
 
@@ -1436,7 +1561,7 @@ initTrial();
 <div id="emailCollectModal" style="display:none;position:fixed;inset:0;background:#000a;z-index:9999;align-items:center;justify-content:center;padding:20px">
   <div style="background:#151822;border-radius:16px;padding:28px;max-width:380px;width:100%;border:1px solid var(--accent)">
     <div style="text-align:center;font-size:36px;margin-bottom:12px">📧</div>
-    <div style="font-size:17px;font-weight:900;text-align:center;margin-bottom:6px">أدخل بريدك الإلكتروني</div>
+    <div style="font-size:17px;font-weight:900;text-align:center;margin-bottom:6px" id="emailModalTitleEl">أدخل بريدك الإلكتروني</div>
     <p style="font-size:12px;color:var(--muted);text-align:center;line-height:1.8;margin-bottom:18px">
       سنرسل إليك كود التفعيل فور إتمام الدفع<br>
       <strong style="color:var(--green)">تأكد من صحة البريد!</strong>
@@ -1444,10 +1569,10 @@ initTrial();
     <input type="email" id="subscriberEmail" placeholder="example@email.com"
       style="width:100%;background:#0d0f1a;border:1.5px solid var(--border);border-radius:10px;color:var(--text);padding:12px 14px;font-size:14px;outline:none;font-family:inherit;box-sizing:border-box;margin-bottom:8px;direction:ltr;text-align:left">
     <div id="emailCollectErr" style="color:var(--red);font-size:11px;margin-bottom:10px;display:none">يرجى إدخال بريد إلكتروني صحيح</div>
-    <button onclick="confirmSubscribe()" style="width:100%;background:linear-gradient(135deg,var(--accent),var(--purple));border:none;border-radius:10px;color:#fff;padding:13px;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;margin-bottom:10px">
+    <button id="confirmSubBtn" onclick="confirmSubscribe()" style="width:100%;background:linear-gradient(135deg,var(--accent),var(--purple));border:none;border-radius:10px;color:#fff;padding:13px;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;margin-bottom:10px">
       🚀 متابعة إلى صفحة الدفع
     </button>
-    <button onclick="document.getElementById('emailCollectModal').style.display='none'" style="width:100%;background:transparent;border:1px solid var(--border);border-radius:10px;color:var(--muted);padding:10px;font-size:12px;cursor:pointer;font-family:inherit">
+    <button id="cancelSubBtn" onclick="document.getElementById('emailCollectModal').style.display='none'" style="width:100%;background:transparent;border:1px solid var(--border);border-radius:10px;color:var(--muted);padding:10px;font-size:12px;cursor:pointer;font-family:inherit">
       إلغاء
     </button>
   </div>
