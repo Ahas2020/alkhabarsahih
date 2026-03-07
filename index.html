@@ -590,8 +590,8 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
       <h3>🤖 قوة الذكاء الاصطناعي في خدمة الحقيقة</h3>
       <p>منصة الخبر الصحيح تستخدم أحدث نماذج الذكاء الاصطناعي لتحليل المحتوى من زوايا متعددة في آنٍ واحد: تحليل لغوي، وتحقق من السياق التاريخي، وكشف أنماط التضليل المعروفة، ومقارنة المصادر. كل هذا يحدث في ثوانٍ معدودة بدلاً من ساعات من البحث اليدوي.</p>
 
-      <h3>🛡️ مهمتنا: حماية المجتمع بالمعرفة</h3>
-      <p>نؤمن بأن كل مواطن يستحق أن يملك أداة تساعده على التمييز بين الحقيقة والزيف. ليس فقط الصحفيون والباحثون — بل كل أم تتلقى خبراً على واتساب، وكل شاب يرى مقطعاً مثيراً على تيك توك، وكل صانع قرار يحتاج إلى معلومة موثوقة. منصة الخبر الصحيح وُجدت لتكون الحارس الأمين للحقيقة في الفضاء الرقمي العربي.</p>
+      <h3 id="articleH3El">🛡️ مهمتنا: حماية المجتمع بالمعرفة</h3>
+      <p id="articleP3El">نؤمن بأن كل مواطن يستحق أن يملك أداة تساعده على التمييز بين الحقيقة والزيف. ليس فقط الصحفيون والباحثون — بل كل أم تتلقى خبراً على واتساب، وكل شاب يرى مقطعاً مثيراً على تيك توك، وكل صانع قرار يحتاج إلى معلومة موثوقة. منصة الخبر الصحيح وُجدت لتكون الحارس الأمين للحقيقة في الفضاء الرقمي العربي.</p>
 
     </div>
   </div>
@@ -603,7 +603,7 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
     <div style="text-align:center;margin-bottom:20px">
       <div style="font-size:13px;color:var(--accent);font-weight:700;letter-spacing:2px;margin-bottom:8px">🤝 PARTNERS & MEDIA</div>
       <div style="font-size:20px;font-weight:900;background:linear-gradient(135deg,var(--accent),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent"><span id="partnersTitleEl">شركاؤنا الإعلاميون</span></div>
-      <p style="font-size:12px;color:var(--muted);margin-top:8px;line-height:1.8">نفخر بالتعاون مع أبرز المؤسسات الإعلامية الموثوقة<br>في المنطقة العربية</p>
+      <p style="font-size:12px;color:var(--muted);margin-top:8px;line-height:1.8"><span id="partnersSubEl">نفخر بالتعاون مع أبرز المؤسسات الإعلامية الموثوقة في المنطقة العربية</span></p>
     </div>
 
     <!-- شبكة البانرات -->
@@ -666,7 +666,7 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
       <p style="font-size:12px;color:var(--muted);line-height:1.9;margin-bottom:16px">
         منصة الخبر الصحيح تستهدف الصحفيين والباحثين والمهتمين بالإعلام<br>
         في السعودية والإمارات والخليج وسائر الدول العربية<br>
-        <strong style="color:var(--green)">جمهور نوعي ومتفاعل — الفرصة محدودة!</strong>
+        <strong style="color:var(--green)" id="partnersHighlightEl">جمهور نوعي ومتفاعل — الفرصة محدودة!</strong>
       </p>
 
       <!-- أزرار التواصل -->
@@ -681,7 +681,7 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
       </div>
 
       <div style="font-size:10px;color:var(--muted);margin-top:12px">
-        📊 إحصائيات المنصة متاحة عند الطلب
+        📊 <span id="partnersStatsEl">إحصائيات المنصة متاحة عند الطلب</span>
       </div>
     </div>
 
@@ -702,7 +702,7 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
       <span style="background:#10d98a20;color:var(--green);padding:6px 14px;border-radius:99px;font-size:12px;font-weight:700">🏆 $10 مؤسس</span>
     </div>
     <button class="donation-btn" onclick="donate()">🤲 <span id="donateBtnEl">تبرع الآن وادعم الحقيقة</span></button>
-    <p style="font-size:10px;color:var(--muted);margin-top:10px">🔒 دفع آمن عبر Ko-fi — شكراً لدعمك 💚</p>
+    <p style="font-size:10px;color:var(--muted);margin-top:10px">🔒 <span id="donateSafeEl">دفع آمن عبر Ko-fi — شكراً لدعمك 💚</span></p>
   </div>
 
   <!-- ═══ اتصل بنا ═══ -->
@@ -723,7 +723,7 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
       </select>
       <textarea id="contactMessage" id="contactMsg" placeholder="اكتب رسالتك هنا..."></textarea>
       <div id="contactErr" style="color:var(--red);font-size:12px;margin-bottom:8px;display:none">يرجى ملء جميع الحقول</div>
-      <button class="analyze-btn" onclick="submitContact()" style="margin-top:0">📤 إرسال الرسالة</button>
+      <button class="analyze-btn" id="contactBtn" onclick="submitContact()" style="margin-top:0">📤 <span id="contactBtnEl">إرسال الرسالة</span></button>
     </div>
     <div class="contact-success" id="contactSuccess">
       <div class="contact-success-icon">✅</div>
@@ -824,7 +824,7 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
     <a href="#" onclick="openPage('privacy');return false;" id="fl2">🔒 <span id="fl2t">سياسة الخصوصية</span></a>
     <a href="#" onclick="openPage('terms');return false;" id="fl3">📜 <span id="fl3t">الشروط والأحكام</span></a>
     <a href="#" onclick="document.getElementById('contactSection')?.scrollIntoView({behavior:'smooth'});return false;" id="fl4">📬 <span id="fl4t">اتصل بنا</span></a>
-    <a href="#" onclick="document.getElementById('donationSection')?.scrollIntoView({behavior:'smooth'});return false;" id="fl5">🤲 تبرع</a>
+    <a href="#" onclick="document.getElementById('donationSection')?.scrollIntoView({behavior:'smooth'});return false;" id="fl5">🤲 <span id="fl5t">تبرع</span></a>
   </div>
   <div id="footerCopy" style="margin-top:8px">© 2026 جميع الحقوق محفوظة — مدعوم بالذكاء الاصطناعي</div>
 </footer>
@@ -1019,7 +1019,7 @@ const T = {
     partnersHighlight:'جمهور نوعي ومتفاعل — الفرصة محدودة!',
     partnersEmail:'📧 راسلنا بالبريد',
     partnersWa:'💬 واتساب مباشر',
-    partnersStats:'📊 إحصائيات المنصة متاحة عند الطلب',
+    partnersStats:'📊 <span id="partnersStatsEl">إحصائيات المنصة متاحة عند الطلب</span>',
     donateTitle:'ادعم مهمتنا',
     donateSub:'<span id="donateSubEl">منصة الخبر الصحيح رسالة قبل أن تكون منصة. تبرعك يساعدنا على الوصول لمن لا يستطيع الاشتراك.</span>',
     donateImpact:'<span id="donateImpactEl">كل مبلغ مهما صغر يصنع فرقاً حقيقياً. 💚</span>',
@@ -1151,6 +1151,15 @@ const T = {
     articleStatL1:'of internet users encountered fake news this week',
     articleStatL2:'fake news spreads faster than real news',
     articleStatL3:'annual economic losses from misinformation',
+    articleH3En:'🛡️ Our Mission: Protecting Society Through Knowledge',
+    articleP3En:'We believe every citizen deserves a tool to distinguish truth from falsehood. Not just journalists and researchers — but every mother who receives news on WhatsApp, every young person who sees a provocative clip on TikTok, every decision-maker who needs reliable information. True News Platform exists to be the trusted guardian of truth in the Arab digital space.',
+    partnersSubEn:'We are proud to collaborate with leading trusted media institutions in the Arab region.',
+    partnersHighlightEn:'Quality engaged audience — Limited spots available!',
+    partnersStatsEn:'📊 Platform statistics available on request',
+    donateSafeEn:'Secure payment via Ko-fi — Thank you for your support 💚',
+    contactBtnEn:'Send Message',
+    contactMsgPhEn:'Write your message here...',
+    fl5En:'Donate',
     // Contact form
     contactTitle:'📬 Contact Us',
     contactNamePh:'Full Name',
@@ -1281,6 +1290,34 @@ function applyLang(){
   // Tagline fix
   const tgEl=document.getElementById('siteTagline');
   if(tgEl)tgEl.textContent=t.tagline||tgEl.textContent;
+
+  // Article mission paragraph
+  const ah3El=document.getElementById('articleH3El');
+  if(ah3El)ah3El.textContent=(lang==='en'?t.articleH3En:t.articleH3)||ah3El.textContent;
+  const ap3El=document.getElementById('articleP3El');
+  if(ap3El)ap3El.textContent=(lang==='en'?t.articleP3En:t.articleP3)||ap3El.textContent;
+
+  // Partners remaining texts
+  const psEl=document.getElementById('partnersSubEl');
+  if(psEl)psEl.textContent=(lang==='en'?t.partnersSubEn:t.partnersSub)||psEl.textContent;
+  const phEl=document.getElementById('partnersHighlightEl');
+  if(phEl)phEl.textContent=(lang==='en'?t.partnersHighlightEn:t.partnersHighlight)||phEl.textContent;
+  const pstEl=document.getElementById('partnersStatsEl');
+  if(pstEl)pstEl.textContent=(lang==='en'?t.partnersStatsEn:t.partnersStats)||pstEl.textContent;
+
+  // Donate safe
+  const dsEl=document.getElementById('donateSafeEl');
+  if(dsEl)dsEl.textContent=(lang==='en'?t.donateSafeEn:t.donateSafe)||dsEl.textContent;
+
+  // Contact button & placeholder
+  const cbtnEl=document.getElementById('contactBtnEl');
+  if(cbtnEl)cbtnEl.textContent=(lang==='en'?t.contactBtnEn:t.contactBtn?.replace('📤 ',''))||cbtnEl.textContent;
+  const cmsgEl=document.getElementById('contactMsg');
+  if(cmsgEl)cmsgEl.placeholder=(lang==='en'?t.contactMsgPhEn:t.contactMsgPh)||cmsgEl.placeholder;
+
+  // Footer donate
+  const fl5tEl=document.getElementById('fl5t');
+  if(fl5tEl)fl5tEl.textContent=(lang==='en'?t.fl5En:'تبرع')||fl5tEl.textContent;
 }
 function toggleLang(){ lang=lang==='ar'?'en':'ar'; applyLang(); if(session)showDashboard(); }
 
