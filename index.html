@@ -669,11 +669,7 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
 
       <!-- أزرار التواصل -->
       <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-        <a href="mailto:truenewsplatform@gmail.com?subject=طلب إعلان — منصة الخبر الصحيح"
-           style="background:linear-gradient(135deg,var(--accent),var(--purple));color:#fff;padding:11px 20px;border-radius:10px;font-size:12px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:.2s"
-           onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
-          📧 راسلنا بالبريد
-        </a>
+        <a href="#" onclick="document.getElementById('contactSection').scrollIntoView({behavior:'smooth'});return false;" style="background:linear-gradient(135deg,var(--accent),var(--purple));color:#fff;padding:11px 20px;border-radius:10px;font-size:12px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:.2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">📧 راسلنا بالبريد</a>
         <a href="https://wa.me/212609018612?text=السلام عليكم، أريد الاستفسار عن الإعلان على منصة الخبر الصحيح"
            target="_blank"
            style="background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;padding:11px 20px;border-radius:10px;font-size:12px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:.2s"
@@ -809,7 +805,7 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
     <button class="modal-close" onclick="closeActivation()">×</button>
     <div style="text-align:center;font-size:40px;margin-bottom:12px">🔑</div>
     <div class="modal-title" id="actTitle">تفعيل الاشتراك</div>
-    <div class="modal-sub" id="actSub">أدخل كود التفعيل الذي وصلك بعد الدفع عبر Lemon Squeezy</div>
+    <div class="modal-sub" id="actSub">أدخل كود التفعيل الذي وصلك على بريدك الإلكتروني بعد الدفع</div>
     <input type="text" id="activationCode" class="modal-input" placeholder="BASIC-XXXX-XXXX" oninput="this.value=this.value.toUpperCase()">
     <div id="actErr" class="modal-err"><span id="actErrText">كود غير صحيح. تحقق وحاول مجدداً</span></div>
     <button class="modal-btn" onclick="activateCode()" id="actBtn">تفعيل الحساب</button>
@@ -906,7 +902,37 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
   </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+<!-- ═══ Email Collection Modal ═══ -->
+<div id="emailCollectModal" style="display:none;position:fixed;inset:0;background:#000a;z-index:9999;align-items:center;justify-content:center;padding:20px">
+  <div style="background:#151822;border-radius:16px;padding:28px;max-width:380px;width:100%;border:1px solid var(--accent)">
+    <div style="text-align:center;font-size:36px;margin-bottom:12px">📧</div>
+    <div style="font-size:17px;font-weight:900;text-align:center;margin-bottom:6px">أدخل بريدك الإلكتروني</div>
+    <p style="font-size:12px;color:var(--muted);text-align:center;line-height:1.8;margin-bottom:18px">
+      سنرسل إليك كود التفعيل فور إتمام الدفع<br>
+      <strong style="color:var(--green)">تأكد من صحة البريد!</strong>
+    </p>
+    <input type="email" id="subscriberEmail" placeholder="example@email.com"
+      style="width:100%;background:#0d0f1a;border:1.5px solid var(--border);border-radius:10px;color:var(--text);padding:12px 14px;font-size:14px;outline:none;font-family:inherit;box-sizing:border-box;margin-bottom:8px;direction:ltr;text-align:left">
+    <div id="emailCollectErr" style="color:var(--red);font-size:11px;margin-bottom:10px;display:none">يرجى إدخال بريد إلكتروني صحيح</div>
+    <button onclick="confirmSubscribe()" style="width:100%;background:linear-gradient(135deg,var(--accent),var(--purple));border:none;border-radius:10px;color:#fff;padding:13px;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;margin-bottom:10px">
+      🚀 متابعة إلى صفحة الدفع
+    </button>
+    <button onclick="document.getElementById('emailCollectModal').style.display='none'" style="width:100%;background:transparent;border:1px solid var(--border);border-radius:10px;color:var(--muted);padding:10px;font-size:12px;cursor:pointer;font-family:inherit">
+      إلغاء
+    </button>
+  </div>
+</div>
+
+<!-- ═══ Post Payment Hint ═══ -->
+<div id="postPaymentHint" style="display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#151822;border:1px solid var(--green);border-radius:12px;padding:14px 20px;z-index:9999;text-align:center;max-width:320px;width:90%">
+  <div style="font-size:13px;font-weight:700;color:var(--green);margin-bottom:4px">✅ أتممت الدفع؟</div>
+  <div style="font-size:11px;color:var(--muted);margin-bottom:10px">تحقق من بريدك — الكود في طريقه إليك!</div>
+  <button onclick="document.getElementById('activationModal').style.display='flex';document.getElementById('postPaymentHint').style.display='none'" style="background:linear-gradient(135deg,var(--accent),var(--purple));border:none;border-radius:8px;color:#fff;padding:8px 16px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit">
+    🔑 أدخل كود التفعيل
+  </button>
+  <button onclick="this.parentElement.style.display='none'" style="background:transparent;border:none;color:var(--muted);font-size:11px;cursor:pointer;margin-top:6px;display:block;margin:6px auto 0">إغلاق</button>
+</div><script>
 // ══════════════════════════
 // Lemon Squeezy URLs
 // ══════════════════════════
@@ -960,7 +986,7 @@ const T = {
     conf:'نسبة الثقة',reasons:'الأسباب',flags:'علامات تحذير',advice:'نصيحة',
     reset:'🔄 تحليل محتوى آخر',
     actTitle:'تفعيل الاشتراك',
-    actSub:'أدخل كود التفعيل الذي وصلك بعد الدفع عبر Lemon Squeezy',
+    actSub:'أدخل كود التفعيل الذي وصلك على بريدك الإلكتروني بعد الدفع',
     actBtn:'تفعيل الحساب',actDivider:'أو',actNoCode:'لم تشترك بعد؟',actSubscribeBtn:'اشترك الآن',
     actErrText:'كود غير صحيح. تحقق وحاول مجدداً',
     welcomeText:'مرحباً بك! 👋',logoutBtn:'خروج',
@@ -1066,9 +1092,27 @@ function showDashboard(){
 function goHome(){ session?showDashboard():showLanding(); }
 function logout(){ session=null; sessionStorage.removeItem('khs'); showLanding(); }
 
-function subscribe(plan){
-  if(typeof LemonSqueezy!=='undefined') LemonSqueezy.Url.Open(LS_URLS[plan]);
-  else window.open(LS_URLS[plan],'_blank');
+function subscribe(url){
+  document.getElementById('emailCollectModal').style.display='flex';
+  document.getElementById('emailCollectModal').dataset.url = url;
+}
+
+function confirmSubscribe(){
+  const email = document.getElementById('subscriberEmail').value.trim();
+  const err = document.getElementById('emailCollectErr');
+  if(!email || !email.includes('@')){
+    err.style.display='block';
+    return;
+  }
+  err.style.display='none';
+  sessionStorage.setItem('subscriber_email', email);
+  const url = document.getElementById('emailCollectModal').dataset.url;
+  document.getElementById('emailCollectModal').style.display='none';
+  window.open(url,'_blank');
+  setTimeout(()=>{
+    document.getElementById('postPaymentHint').style.display='block';
+    document.getElementById('postPaymentHint').scrollIntoView({behavior:'smooth'});
+  }, 2000);
 }
 function scrollToPricing(){ document.getElementById('pricingSection')?.scrollIntoView({behavior:'smooth'}); }
 
@@ -1153,7 +1197,7 @@ function selectDonation(el,id,url){
   selectedDonationUrl=url;
 }
 function donate(){
-  window.open('https://ko-fi.com/alkhabarsahih','_blank');
+  window.open('https://ko-fi.com/alkhabarsahih/tip','_blank');
 }
 
 // ════════════════════════
@@ -1380,16 +1424,4 @@ async function trialAnalyze(){
   }
 }
 
-function scrollToPricing(){
-  document.getElementById('pricingSection')?.scrollIntoView({behavior:'smooth'});
-}
-
-
-function subscribe(url){
-  window.open(url,'_blank');
-}
-
-init();
-</script>
-</body>
-</html>
+functio
