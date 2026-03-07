@@ -664,20 +664,17 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
       <div style="font-size:22px;margin-bottom:8px">🚀</div>
       <div style="font-size:15px;font-weight:900;margin-bottom:6px"><span id="partnersCtaEl">اعرض علامتك التجارية أمام آلاف القراء العرب!</span></div>
       <p style="font-size:12px;color:var(--muted);line-height:1.9;margin-bottom:16px">
-        منصة الخبر الصحيح تستهدف الصحفيين والباحثين والمهتمين بالإعلام<br>
-        في السعودية والإمارات والخليج وسائر الدول العربية<br>
+        <span id="partnersDescEl">منصة الخبر الصحيح تستهدف الصحفيين والباحثين والمهتمين بالإعلام في السعودية والإمارات والخليج وسائر الدول العربية</span><br>
         <strong style="color:var(--green)" id="partnersHighlightEl">جمهور نوعي ومتفاعل — الفرصة محدودة!</strong>
       </p>
 
       <!-- أزرار التواصل -->
       <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-        <a href="#" onclick="document.getElementById('contactSection').scrollIntoView({behavior:'smooth'});return false;" style="background:linear-gradient(135deg,var(--accent),var(--purple));color:#fff;padding:11px 20px;border-radius:10px;font-size:12px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:.2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">📧 راسلنا بالبريد</a>
+        <a href="#" onclick="document.getElementById('contactSection').scrollIntoView({behavior:'smooth'});return false;" style="background:linear-gradient(135deg,var(--accent),var(--purple));color:#fff;padding:11px 20px;border-radius:10px;font-size:12px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:.2s" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">📧 <span id="partnersEmailBtnEl">راسلنا بالبريد</span></a>
         <a href="https://wa.me/212609018612?text=السلام عليكم، أريد الاستفسار عن الإعلان على منصة الخبر الصحيح"
            target="_blank"
            style="background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;padding:11px 20px;border-radius:10px;font-size:12px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:.2s"
-           onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
-          💬 واتساب مباشر
-        </a>
+           onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">💬 <span id="partnersWaBtnEl">واتساب مباشر</span></a>
       </div>
 
       <div style="font-size:10px;color:var(--muted);margin-top:12px">
@@ -692,14 +689,13 @@ footer{text-align:center;padding:20px;color:var(--muted);font-size:11px;border-t
     <div style="font-size:48px;margin-bottom:12px">🤲</div>
     <div style="font-size:20px;font-weight:900;margin-bottom:10px;background:linear-gradient(135deg,var(--green),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent"><span id="donateTitleEl">ادعم مهمتنا</span></div>
     <p style="font-size:13px;color:var(--muted);margin-bottom:8px;line-height:1.9">
-      منصة الخبر الصحيح رسالة قبل أن تكون منصة.<br>
-      تبرعك يساعدنا على الوصول لمن لا يستطيع الاشتراك.<br>
+      <span id="donateSubEl">منصة الخبر الصحيح رسالة قبل أن تكون منصة. تبرعك يساعدنا على الوصول لمن لا يستطيع الاشتراك.</span><br>
       <span id="donateImpactEl">كل مبلغ مهما صغر يصنع فرقاً حقيقياً. 💚</span>
     </p>
     <div style="display:flex;gap:12px;justify-content:center;margin:16px 0;flex-wrap:wrap">
-      <span style="background:#10d98a20;color:var(--green);padding:6px 14px;border-radius:99px;font-size:12px;font-weight:700">☕ $2 داعم</span>
-      <span style="background:#10d98a20;color:var(--green);padding:6px 14px;border-radius:99px;font-size:12px;font-weight:700">🌟 $5 شريك</span>
-      <span style="background:#10d98a20;color:var(--green);padding:6px 14px;border-radius:99px;font-size:12px;font-weight:700">🏆 $10 مؤسس</span>
+      <span style="background:#10d98a20;color:var(--green);padding:6px 14px;border-radius:99px;font-size:12px;font-weight:700" id="donateTier1El">☕ $2 <span id="donateTier1Txt">داعم</span></span>
+      <span style="background:#10d98a20;color:var(--green);padding:6px 14px;border-radius:99px;font-size:12px;font-weight:700" id="donateTier2El">🌟 $5 <span id="donateTier2Txt">شريك</span></span>
+      <span style="background:#10d98a20;color:var(--green);padding:6px 14px;border-radius:99px;font-size:12px;font-weight:700" id="donateTier3El">🏆 $10 <span id="donateTier3Txt">مؤسس</span></span>
     </div>
     <button class="donation-btn" onclick="donate()">🤲 <span id="donateBtnEl">تبرع الآن وادعم الحقيقة</span></button>
     <p style="font-size:10px;color:var(--muted);margin-top:10px">🔒 <span id="donateSafeEl">دفع آمن عبر Ko-fi — شكراً لدعمك 💚</span></p>
@@ -998,6 +994,10 @@ const T = {
     f2_1:'تحليلات غير محدودة',f2_2:'تحليل النصوص',f2_3:'تحليل الصور',f2_4:'تحليل الفيديوهات',f2_5:'تقارير PDF مفصّلة',f2_6:'API للمطورين',f2_7:'دعم أولوية',
     f3_1:'تحليلات غير محدودة',f3_2:'تحليل النصوص',f3_3:'تحليل الصور',f3_4:'تحليل الفيديوهات',f3_5:'تقارير PDF مفصّلة',f3_6:'API للمطورين',f3_7:'دعم على مدار الساعة',
     videoLocked:'تحليل الفيديو متاح في الخطة المميزة وما فوق',
+    articleH3:'🛡️ مهمتنا: حماية المجتمع بالمعرفة',
+    articleP3:'نؤمن بأن كل مواطن يستحق أن يملك أداة تساعده على التمييز بين الحقيقة والزيف. ليس فقط الصحفيون والباحثون — بل كل أم تتلقى خبراً على واتساب، وكل شاب يرى مقطعاً مثيراً على تيك توك، وكل صانع قرار يحتاج إلى معلومة موثوقة.',
+    partnersDescEn2:'True News Platform targets journalists, researchers and media professionals in Saudi Arabia, UAE, Gulf and the Arab world.',
+    donateSubEn:'True News Platform is a mission before a business. Your support helps us reach those who cannot afford a subscription.',
     trialBadge:'⚡ تحليل مجاني — جرّب الآن',
     trialTab0:'تحقق من خبر',trialTab1:'تحقق من صورة',trialTab2:'تحقق من فيديو',
     trialBtn:'🔍 تحليل مجاني الآن',
@@ -1188,137 +1188,169 @@ function init(){ applyLang(); session ? showDashboard() : showLanding(); }
 
 function applyLang(){
   const t=T[lang],isAr=lang==='ar';
-  document.documentElement.lang=lang; document.documentElement.dir=isAr?'rtl':'ltr';
+  document.documentElement.lang=lang;
+  document.documentElement.dir=isAr?'rtl':'ltr';
+
+  // Standard translated elements
   ['siteName','siteTagline','langBtn','st1','st2','st3','heroSub','heroCta','heroNote','heroActivate',
    'f1t','f1d','f2t','f2d','f3t','f3d','f4t','f4d','howTitle',
    's1t','s1d','s2t','s2d','s3t','s3d','s4t','s4d','pricingTitle',
    'pp1','pp2','pp3','pn1','pd1','pn2','pd2','pn3','pd3','pb1','pb2','pb3',
    'pps1','pps2','pps3','popBadge','footerName','footerCopy','remLabel',
    't0','t1','t2','textLabel','imgLabel','vidLabel','analyzeBtnText','loadingText',
-   'actTitle','actSub','actBtn','actDivider','actNoCode','actSubscribeBtn','actErrText',
+   'actTitle','actBtn','actDivider','actNoCode','actSubscribeBtn','actErrText',
    'welcomeText','logoutBtn',
    'f1_1','f1_2','f1_3','f1_4','f1_5','f1_6','f1_7',
    'f2_1','f2_2','f2_3','f2_4','f2_5','f2_6','f2_7',
    'f3_1','f3_2','f3_3','f3_4','f3_5','f3_6','f3_7'
-  ].forEach(id=>{const el=document.getElementById(id);if(el&&t[id]!==undefined)el.innerHTML=t[id]});
+  ].forEach(id=>{const el=document.getElementById(id);if(el&&t[id]!==undefined)el.innerHTML=t[id];});
+
+  // Hero title
   const ht=document.getElementById('heroTitle');
-  if(ht)ht.innerHTML=lang==='ar'?'اكشف الأخبار المزيفة<br>بالذكاء الاصطناعي':'Detect Fake News<br>with AI';
+  if(ht)ht.innerHTML=isAr?'اكشف الأخبار المزيفة<br>بالذكاء الاصطناعي':'Detect Fake News<br>with AI';
+
+  // Text placeholders
   const nt=document.getElementById('newsText');if(nt)nt.placeholder=t.textLabel;
 
+  // Footer links — language specific
+  const footerLinks=[
+    ['fl1t', isAr?'🎯 حول مهمتنا':'🎯 Our Mission'],
+    ['fl2t', isAr?'🔒 سياسة الخصوصية':'🔒 Privacy Policy'],
+    ['fl3t', isAr?'📜 الشروط والأحكام':'📜 Terms & Conditions'],
+    ['fl4t', isAr?'📬 اتصل بنا':'📬 Contact Us'],
+    ['fl5t', isAr?'🤲 تبرع':'🤲 Donate'],
+  ];
+  footerLinks.forEach(([id,txt])=>{const el=document.getElementById(id);if(el)el.textContent=txt;});
+
   // Trial section
-  const tb=document.getElementById('trialBadgeEl');if(tb)tb.textContent=t.trialBadge||'⚡ تحليل مجاني — جرّب الآن';
-  ['0','1','2'].forEach(i=>{const el=document.getElementById('trialTab'+i+'El');if(el)el.textContent=t['trialTab'+i]||el.textContent;});
-  const tBtn=document.getElementById('trialBtnEl');if(tBtn)tBtn.textContent=t.trialBtn||tBtn.textContent;
-  const tut=document.getElementById('trialUsedTitleEl');if(tut)tut.textContent=t.trialUsedTitle||tut.textContent;
-  const ti=document.getElementById('trialImgUrl');if(ti)ti.placeholder=t.trialImgUrl||ti.placeholder;
-  const tv=document.getElementById('trialVidUrl');if(tv)tv.placeholder=t.trialVidUrl||tv.placeholder;
-  const tvc=document.getElementById('trialVidContext');if(tvc)tvc.placeholder=t.trialVidCtx||tvc.placeholder;
-  const tt=document.getElementById('trialText');if(tt)tt.placeholder=t.trialPlaceholder||tt.placeholder;
+  const tb=document.getElementById('trialBadgeEl');
+  if(tb)tb.textContent=isAr?'⚡ تحليل مجاني — جرّب الآن':'⚡ Free Analysis — Try Now';
+  [['0','تحقق من خبر','Verify News'],['1','تحقق من صورة','Verify Image'],['2','تحقق من فيديو','Verify Video']]
+    .forEach(([i,ar,en])=>{const el=document.getElementById('trialTab'+i+'El');if(el)el.textContent=isAr?ar:en;});
+  const tBtn=document.getElementById('trialBtnEl');
+  if(tBtn)tBtn.textContent=isAr?'تحليل مجاني الآن':'Analyze Free Now';
+  const tut=document.getElementById('trialUsedTitleEl');
+  if(tut)tut.textContent=isAr?'استنفدت تحليلك المجاني!':'Free trial used!';
+  const ti=document.getElementById('trialImgUrl');
+  if(ti)ti.placeholder=isAr?'الصق رابط الصورة هنا...':'Paste image URL here...';
+  const tv=document.getElementById('trialVidUrl');
+  if(tv)tv.placeholder=isAr?'الصق رابط الفيديو (YouTube, Twitter...)':'Paste video link (YouTube, Twitter...)';
+  const tvc=document.getElementById('trialVidContext');
+  if(tvc)tvc.placeholder=isAr?'اكتب سياقاً إضافياً حول الفيديو...':'Add context about the video...';
+  const tt=document.getElementById('trialText');
+  if(tt)tt.placeholder=isAr?'الصق هنا النص أو الخبر المشكوك فيه... (حتى 5000 حرف)':'Paste any suspicious news here... (up to 5000 characters)';
 
-  // Partners section
-  const ptEl=document.getElementById('partnersTitleEl');if(ptEl)ptEl.textContent=t.partnersTitle||ptEl.textContent;
-  const pcEl=document.getElementById('partnersCtaEl');if(pcEl)pcEl.textContent=t.partnersCta||pcEl.textContent;
-  document.querySelectorAll('[id^="partnersSlot"]').forEach(el=>{el.textContent=t.partnersSlot||el.textContent;});
+  // Article section — full bilingual swap
+  const atEl=document.getElementById('articleTagEl');
+  if(atEl)atEl.textContent=isAr?'📰 مقالة تحريرية':'📰 Editorial';
+  const atiEl=document.getElementById('articleTitleEl');
+  if(atiEl)atiEl.innerHTML=isAr?'الأخبار المزيفة: وباء العصر الرقمي<br>ولماذا وُجدت منصة الخبر الصحيح؟':'Fake News: The Digital Age Epidemic<br>Why We Built True News Platform';
+  const as1=document.getElementById('articleStatL1El');
+  if(as1)as1.textContent=isAr?'من مستخدمي الإنترنت صادفوا خبراً مزيفاً':'of internet users encountered fake news this week';
+  const as2=document.getElementById('articleStatL2El');
+  if(as2)as2.textContent=isAr?'الأخبار الكاذبة تنتشر أسرع من الصحيحة':'fake news spreads faster than real news';
+  const as3=document.getElementById('articleStatL3El');
+  if(as3)as3.textContent=isAr?'خسائر اقتصادية سنوية بسبب المعلومات المضللة':'annual economic losses from misinformation';
 
-  // Donation section
-  const dtEl=document.getElementById('donateTitleEl');if(dtEl)dtEl.textContent=t.donateTitle||dtEl.textContent;
-  const dbEl=document.getElementById('donateBtnEl');if(dbEl)dbEl.textContent=t.donateBtn||dbEl.textContent;
-
-  // Modals
-  const emTitle=document.getElementById('emailModalTitleEl');if(emTitle)emTitle.textContent=t.emailModalTitle||emTitle.textContent;
-  const emBtn=document.getElementById('confirmSubBtn');if(emBtn)emBtn.textContent=t.emailModalBtn||emBtn.textContent;
-  const emCancel=document.getElementById('cancelSubBtn');if(emCancel)emCancel.textContent=t.emailModalCancel||emCancel.textContent;
-  const emErr=document.getElementById('emailCollectErr');if(emErr&&!emErr.textContent.includes('@'))emErr.textContent=t.emailModalErr||emErr.textContent;
-
-  // Ko-fi secure text
-  ['pps1','pps2','pps3'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=t[id]||el.textContent;});
-
-  // Footer links
-  const flMap = {fl1t:'fl1',fl2t:'fl2',fl3t:'fl3',fl4t:'fl4'};
-  if(t.fl1){document.getElementById('fl1t')&&(document.getElementById('fl1t').textContent='🎯 '+t.fl1.replace('🎯 ',''));}
-  if(t.fl2){document.getElementById('fl2t')&&(document.getElementById('fl2t').textContent='🔒 '+t.fl2.replace('🔒 ',''));}
-  if(t.fl3){document.getElementById('fl3t')&&(document.getElementById('fl3t').textContent='📜 '+t.fl3.replace('📜 ',''));}
-  if(t.fl4){document.getElementById('fl4t')&&(document.getElementById('fl4t').textContent='📬 '+t.fl4.replace('📬 ',''));}
-
-  // Article section
-  const atEl=document.getElementById('articleTagEl');if(atEl)atEl.textContent=t.articleTag||atEl.textContent;
-  const atiEl=document.getElementById('articleTitleEl');if(atiEl)atiEl.innerHTML=t.articleTitle||atiEl.innerHTML;
-  const as1=document.getElementById('articleStatL1El');if(as1)as1.textContent=t.articleStatL1||as1.textContent;
-  const as2=document.getElementById('articleStatL2El');if(as2)as2.textContent=t.articleStatL2||as2.textContent;
-  const as3=document.getElementById('articleStatL3El');if(as3)as3.textContent=t.articleStatL3||as3.textContent;
-
-  // Article body — swap full content
+  // Article body paragraphs
   const whySec=document.getElementById('whySection');
-  if(whySec && lang==='en'){
+  if(whySec){
     const h3s=whySec.querySelectorAll('h3');
     const ps=whySec.querySelectorAll('p');
     const hl=whySec.querySelector('.highlight');
-    if(h3s[0])h3s[0].textContent=t.articleH1||h3s[0].textContent;
-    if(ps[0])ps[0].textContent=t.articleP1||ps[0].textContent;
-    if(hl)hl.textContent=t.articleHighlight||hl.textContent;
-    if(h3s[1])h3s[1].textContent=t.articleH2||h3s[1].textContent;
-    if(ps[1])ps[1].textContent=t.articleP2||ps[1].textContent;
-    if(h3s[2])h3s[2].textContent=t.articleH3||h3s[2].textContent;
-    if(ps[2])ps[2].textContent=t.articleP3||ps[2].textContent;
+    const arH3=[
+      '🌍 أزمة المعلومات في زمن الأزمات',
+      '🎯 لماذا المنطقة العربية بالتحديد؟',
+      '🔍 كيف تعمل المنصة؟',
+      '🛡️ مهمتنا: حماية المجتمع بالمعرفة'
+    ];
+    const enH3=[
+      '🌍 The Information Crisis in Times of Crisis',
+      '🎯 Why the Arab Region Specifically?',
+      '🔍 How Does True News Platform Work?',
+      '🛡️ Our Mission: Protecting Society Through Knowledge'
+    ];
+    const arP=[
+      'في عالم يتسارع فيه تدفق المعلومات بشكل غير مسبوق، باتت الأخبار المزيفة تشكّل تهديداً حقيقياً للمجتمعات العربية. خلال أي أزمة أو حرب أو كارثة، يتضاعف انتشار المعلومات المضللة بشكل مخيف.',
+      'يعاني العالم العربي من فراغ حقيقي في أدوات التحقق من المعلومات. معظم منصات فاكت-تشيك العالمية مصمّمة للمحتوى الغربي ولا تفهم السياق الثقافي والسياسي الإقليمي.',
+      'باستخدام الذكاء الاصطناعي المتقدم، تحلّل المنصة أي نص أو صورة أو فيديو باللغة العربية أو الإنجليزية وتعيد تقريراً فورياً ومفصّلاً مع نسبة الثقة وأسباب الحكم.',
+      'نؤمن بأن كل مواطن يستحق أن يملك أداة تساعده على التمييز بين الحقيقة والزيف. ليس فقط الصحفيون والباحثون — بل كل أم تتلقى خبراً على واتساب، وكل شاب يرى مقطعاً مثيراً على تيك توك.'
+    ];
+    const enP=[
+      'In a world where information flows at unprecedented speed, fake news poses a real threat to Arab societies. During any crisis, war or disaster, misinformation spreads alarmingly — deepening divisions, fueling fear, and disrupting sound decision-making.',
+      'The Arab world suffers from a real gap in fact-checking tools. Most global fact-check platforms are designed for Western content and do not understand the regional cultural and political context.',
+      'Using advanced artificial intelligence, the platform analyzes any Arabic or English text, image, or video and returns an instant, detailed report with confidence level and reasons for the verdict.',
+      'We believe every citizen deserves a tool to distinguish truth from falsehood. Not just journalists and researchers — but every mother who receives news on WhatsApp, every young person who sees a provocative clip on TikTok, every decision-maker who needs reliable information.'
+    ];
+    h3s.forEach((el,i)=>{if(isAr&&arH3[i])el.textContent=arH3[i];else if(!isAr&&enH3[i])el.textContent=enH3[i];});
+    ps.forEach((el,i)=>{if(isAr&&arP[i])el.textContent=arP[i];else if(!isAr&&enP[i])el.textContent=enP[i];});
+    if(hl)hl.textContent=isAr
+      ?'"دراسة معهد ماساتشوستس للتكنولوجيا (MIT) أثبتت أن الأخبار المزيفة تنتشر بسرعة تفوق الأخبار الصحيحة بست مرات على منصات التواصل الاجتماعي."'
+      :'"An MIT study proved that fake news spreads six times faster than real news on social media platforms."';
   }
+
+  // Partners section
+  const ptEl=document.getElementById('partnersTitleEl');
+  if(ptEl)ptEl.textContent=isAr?'شركاؤنا الإعلاميون':'Our Media Partners';
+  const psEl=document.getElementById('partnersSubEl');
+  if(psEl)psEl.textContent=isAr?'نفخر بالتعاون مع أبرز المؤسسات الإعلامية الموثوقة في المنطقة العربية':'We are proud to collaborate with leading trusted media institutions in the Arab region.';
+  const pcEl=document.getElementById('partnersCtaEl');
+  if(pcEl)pcEl.textContent=isAr?'اعرض علامتك التجارية أمام آلاف القراء العرب!':'Showcase Your Brand to Thousands of Arab Readers!';
+  const pdEl=document.getElementById('partnersDescEl');
+  if(pdEl)pdEl.textContent=isAr?'منصة الخبر الصحيح تستهدف الصحفيين والباحثين والمهتمين بالإعلام في السعودية والإمارات والخليج وسائر الدول العربية':'True News Platform targets journalists, researchers and media professionals in Saudi Arabia, UAE, Gulf and the Arab world.';
+  const phEl=document.getElementById('partnersHighlightEl');
+  if(phEl)phEl.textContent=isAr?'جمهور نوعي ومتفاعل — الفرصة محدودة!':'Quality engaged audience — Limited spots available!';
+  const pstEl=document.getElementById('partnersStatsEl');
+  if(pstEl)pstEl.textContent=isAr?'إحصائيات المنصة متاحة عند الطلب':'Platform statistics available on request';
+  const peEl=document.getElementById('partnersEmailBtnEl');
+  if(peEl)peEl.textContent=isAr?'📧 راسلنا بالبريد':'📧 Email Us';
+  const pwEl=document.getElementById('partnersWaBtnEl');
+  if(pwEl)pwEl.textContent=isAr?'💬 واتساب مباشر':'💬 WhatsApp';
+  document.querySelectorAll('.partner-slot-label').forEach(el=>{el.textContent=isAr?'مكان إعلانك':'Your Ad Here';});
+
+  // Donation section
+  const dtEl=document.getElementById('donateTitleEl');
+  if(dtEl)dtEl.textContent=isAr?'ادعم مهمتنا':'Support Our Mission';
+  const dSubEl=document.getElementById('donateSubEl');
+  if(dSubEl)dSubEl.textContent=isAr?'منصة الخبر الصحيح رسالة قبل أن تكون منصة. تبرعك يساعدنا على الوصول لمن لا يستطيع الاشتراك.':'True News Platform is a mission before a business. Your support helps us reach those who cannot afford a subscription.';
+  const dImpEl=document.getElementById('donateImpactEl');
+  if(dImpEl)dImpEl.textContent=isAr?'كل مبلغ مهما صغر يصنع فرقاً حقيقياً. 💚':'Every contribution, however small, makes a real difference. 💚';
+  const dt1=document.getElementById('donateTier1Txt');if(dt1)dt1.textContent=isAr?'داعم':'Supporter';
+  const dt2=document.getElementById('donateTier2Txt');if(dt2)dt2.textContent=isAr?'شريك':'Partner';
+  const dt3=document.getElementById('donateTier3Txt');if(dt3)dt3.textContent=isAr?'مؤسس':'Founder';
+  const dbEl=document.getElementById('donateBtnEl');
+  if(dbEl)dbEl.textContent=isAr?'تبرع الآن وادعم الحقيقة':'Donate Now & Support the Truth';
+  const dsEl=document.getElementById('donateSafeEl');
+  if(dsEl)dsEl.textContent=isAr?'دفع آمن عبر Ko-fi — شكراً لدعمك 💚':'Secure payment via Ko-fi — Thank you for your support 💚';
 
   // Contact form
-  const ctEl=document.getElementById('contactTitleEl');if(ctEl)ctEl.textContent=t.contactTitle||ctEl.textContent;
-  const cnEl=document.getElementById('contactName');if(cnEl)cnEl.placeholder=t.contactNamePh||cnEl.placeholder;
-  const ceEl=document.getElementById('contactEmail');if(ceEl)ceEl.placeholder=t.contactEmailPh||ceEl.placeholder;
-  const cmEl=document.getElementById('contactMsg');if(cmEl)cmEl.placeholder=t.contactMsgPh||cmEl.placeholder;
-  const cbEl=document.getElementById('contactBtn');if(cbEl)cbEl.textContent=t.contactBtn||cbEl.textContent;
+  const ctEl=document.getElementById('contactTitleEl');
+  if(ctEl)ctEl.textContent=isAr?'اتصل بنا':'Contact Us';
+  const cnEl=document.getElementById('contactName');
+  if(cnEl)cnEl.placeholder=isAr?'الاسم الكامل':'Full Name';
+  const ceEl=document.getElementById('contactEmail');
+  if(ceEl)ceEl.placeholder=isAr?'البريد الإلكتروني':'Email Address';
+  const cmEl=document.getElementById('contactMsg');
+  if(cmEl)cmEl.placeholder=isAr?'اكتب رسالتك هنا...':'Write your message here...';
+  const cbtnEl=document.getElementById('contactBtnEl');
+  if(cbtnEl)cbtnEl.textContent=isAr?'إرسال الرسالة':'Send Message';
   const csEl=document.getElementById('contactSubject');
-  if(csEl && t.contactSubjectDefault){
-    csEl.options[0].text=t.contactSubjectDefault;
-    if(csEl.options[1])csEl.options[1].text=t.contactOpt1||csEl.options[1].text;
-    if(csEl.options[2])csEl.options[2].text=t.contactOpt2||csEl.options[2].text;
-    if(csEl.options[3])csEl.options[3].text=t.contactOpt3||csEl.options[3].text;
-    if(csEl.options[4])csEl.options[4].text=t.contactOpt4||csEl.options[4].text;
-    if(csEl.options[5])csEl.options[5].text=t.contactOpt5||csEl.options[5].text;
+  if(csEl){
+    const opts=isAr
+      ?['اختر موضوع الرسالة','🔧 دعم فني','💳 استفسار عن الاشتراك','📰 شراكة إعلامية','💡 اقتراح','🤝 إعلانات']
+      :['Choose subject','🔧 Technical Support','💳 Subscription Inquiry','📰 Media Partnership','💡 Suggestion','🤝 Advertising'];
+    opts.forEach((txt,i)=>{if(csEl.options[i])csEl.options[i].text=txt;});
   }
 
-  // Partners buttons
-  const peBtnEl=document.getElementById('partnersEmailBtnEl');if(peBtnEl)peBtnEl.textContent=t.partnersEmail||peBtnEl.textContent;
-  const pwBtnEl=document.getElementById('partnersWaBtnEl');if(pwBtnEl)pwBtnEl.textContent=t.partnersWa||pwBtnEl.textContent;
-  document.querySelectorAll('.partner-slot-label').forEach(el=>{el.textContent=t.partnersSlot||el.textContent;});
-
-  // Donation texts
-  const dSubEl=document.getElementById('donateSubEl');if(dSubEl)dSubEl.textContent=t.donateSubText||dSubEl.textContent;
-  const dImpEl=document.getElementById('donateImpactEl');if(dImpEl)dImpEl.textContent=t.donateImpactText||dImpEl.textContent;
-
-  // Tagline fix
-  const tgEl=document.getElementById('siteTagline');
-  if(tgEl)tgEl.textContent=t.tagline||tgEl.textContent;
-
-  // Article mission paragraph
-  const ah3El=document.getElementById('articleH3El');
-  if(ah3El)ah3El.textContent=(lang==='en'?t.articleH3En:t.articleH3)||ah3El.textContent;
-  const ap3El=document.getElementById('articleP3El');
-  if(ap3El)ap3El.textContent=(lang==='en'?t.articleP3En:t.articleP3)||ap3El.textContent;
-
-  // Partners remaining texts
-  const psEl=document.getElementById('partnersSubEl');
-  if(psEl)psEl.textContent=(lang==='en'?t.partnersSubEn:t.partnersSub)||psEl.textContent;
-  const phEl=document.getElementById('partnersHighlightEl');
-  if(phEl)phEl.textContent=(lang==='en'?t.partnersHighlightEn:t.partnersHighlight)||phEl.textContent;
-  const pstEl=document.getElementById('partnersStatsEl');
-  if(pstEl)pstEl.textContent=(lang==='en'?t.partnersStatsEn:t.partnersStats)||pstEl.textContent;
-
-  // Donate safe
-  const dsEl=document.getElementById('donateSafeEl');
-  if(dsEl)dsEl.textContent=(lang==='en'?t.donateSafeEn:t.donateSafe)||dsEl.textContent;
-
-  // Contact button & placeholder
-  const cbtnEl=document.getElementById('contactBtnEl');
-  if(cbtnEl)cbtnEl.textContent=(lang==='en'?t.contactBtnEn:t.contactBtn?.replace('📤 ',''))||cbtnEl.textContent;
-  const cmsgEl=document.getElementById('contactMsg');
-  if(cmsgEl)cmsgEl.placeholder=(lang==='en'?t.contactMsgPhEn:t.contactMsgPh)||cmsgEl.placeholder;
-
-  // Footer donate
-  const fl5tEl=document.getElementById('fl5t');
-  if(fl5tEl)fl5tEl.textContent=(lang==='en'?t.fl5En:'تبرع')||fl5tEl.textContent;
+  // Email modal
+  const emTitle=document.getElementById('emailModalTitleEl');
+  if(emTitle)emTitle.textContent=isAr?'أدخل بريدك الإلكتروني':'Enter Your Email Address';
+  const emBtn=document.getElementById('confirmSubBtn');
+  if(emBtn)emBtn.textContent=isAr?'🚀 متابعة إلى صفحة الدفع':'🚀 Proceed to Payment';
+  const emCancel=document.getElementById('cancelSubBtn');
+  if(emCancel)emCancel.textContent=isAr?'إلغاء':'Cancel';
 }
+
 function toggleLang(){ lang=lang==='ar'?'en':'ar'; applyLang(); if(session)showDashboard(); }
 
 function showLanding(){
