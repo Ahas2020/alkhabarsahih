@@ -147,7 +147,7 @@ exports.handler = async function(event, context) {
     if (payload.type === "Donation" || payload.type === "Subscription" || payload.kofi_transaction_id) {
       console.log("Ko-fi webhook detected");
 
-      customerEmail = payload.email || "";
+      customerEmail = payload.email || payload.kofi_email || "";
       customerName = payload.from_name || "عزيزي المشترك";
       const amount = payload.amount || "1";
       const tierName = payload.tier_name || "";
