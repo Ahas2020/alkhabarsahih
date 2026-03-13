@@ -1,15 +1,7 @@
 {
   "name": "alkhabarsahih",
   "version": "1.0.0",
-  "description": "منصة الخبر الصحيح - كشف الأخبار المزيفة بالذكاء الاصطناعي",
   "dependencies": {
     "resend": "^4.0.0"
   }
 }
-```
-
----
-
-## Commit message:
-```
-Add package.json with resend dependency
