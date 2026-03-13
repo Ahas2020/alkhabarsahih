@@ -112,7 +112,8 @@ exports.handler = async function(event, context) {
       return { statusCode: 401, headers, body: JSON.stringify({ error: "Unauthorized" }) };
     }
 
-    const payload = JSON.parse(event.body);
+    const rawData = decodeURIComponent(event.body.replace(/^data=/, ""));
+const payload = JSON.parse(rawData);
     console.log("Webhook event:", payload.meta?.event_name);
     console.log("Payload:", JSON.stringify(payload).substring(0, 300));
 
