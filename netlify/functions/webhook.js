@@ -12,11 +12,10 @@ function generateCode(plan) {
   return `${prefix}-${random.slice(0,4)}-${random.slice(4,8)}`;
 }
 
-function getPlan(productName) {
-  const name = (productName || "").toLowerCase();
-  if (name.includes("basic") || name.includes("أساسي")) return "basic";
-  if (name.includes("premium") || name.includes("مميز")) return "premium";
-  if (name.includes("institutional") || name.includes("مؤسسي")) return "institutional";
+function getPlan(amount) {
+  const n = parseFloat(amount || 0);
+  if (n >= 5) return "institutional";
+  if (n >= 3) return "premium";
   return "basic";
 }
 
@@ -101,45 +100,25 @@ exports.handler = async function(event, context) {
   }
 
   try {
-    const signature = event.headers["x-signature"] || event.headers["X-Signature"] || "";
-    const expectedSig = crypto
-      .createHmac("sha256", WEBHOOK_SECRET)
-      .update(event.body)
-      .digest("hex");
-
-    if (signature && signature !== expectedSig) {
-      console.log("Invalid signature!");
-      return { statusCode: 401, headers, body: JSON.stringify({ error: "Unauthorized" }) };
-    }
-
     const rawData = decodeURIComponent(event.body.replace(/^data=/, ""));
-const payload = JSON.parse(rawData);
-    console.log("Webhook event:", payload.meta?.event_name);
+    const payload = JSON.parse(rawData);
+
+    console.log("Webhook type:", payload.type);
     console.log("Payload:", JSON.stringify(payload).substring(0, 300));
 
-    const eventName = payload.meta?.event_name || "";
-
-    if (eventName !== "order_created" && eventName !== "subscription_created") {
-      return { statusCode: 200, headers, body: JSON.stringify({ message: "Event ignored" }) };
-    }
-
-    const data = payload.data?.attributes || {};
-    const customerEmail = data.user_email || data.email || "";
-    const customerName = data.user_name || data.first_name || "مشترك جديد";
-    const productName = data.first_order_item?.product_name ||
-                       data.product_name ||
-                       payload.data?.relationships?.order_items?.data?.[0]?.attributes?.product_name ||
-                       "basic";
+    const customerEmail = payload.email || "";
+    const customerName = payload.from_name || "مشترك جديد";
+    const amount = payload.amount || "1";
 
     console.log("Customer:", customerEmail, customerName);
-    console.log("Product:", productName);
+    console.log("Amount:", amount);
 
     if (!customerEmail) {
       console.log("No email found in payload");
       return { statusCode: 200, headers, body: JSON.stringify({ message: "No email found" }) };
     }
 
-    const plan = getPlan(productName);
+    const plan = getPlan(amount);
     const code = generateCode(plan);
 
     console.log(`Generated code: ${code} for plan: ${plan}`);
