@@ -31,10 +31,6 @@ exports.handler = async (event) => {
     return { statusCode: 400, body: 'Invalid JSON' };
   }
 
-  // Ko-fi webhook signature check
-  const secret = process.env.WEBHOOK_SECRET || 'khabar-sahih-webhook-2026';
-  if (payload.verification_token !== secret) {
-    return { statusCode: 401, body: 'Unauthorized' };
   }
 
   const data = payload.data || payload;
