@@ -1,208 +1,114 @@
-const https = require("https");
-const crypto = require("crypto");
+// ============================================================
+// Netlify Function: webhook.js (محدّث)
+// المسار: netlify/functions/webhook.js
+// يستقبل Ko-fi → يرسل كود التفعيل → يُرسل تنبيه للمؤسس
+// ============================================================
 
-// ══════════════════════════════════════════
-// CONFIG
-// ══════════════════════════════════════════
-const RESEND_API_KEY = "re_RFWsQkpo_L8s14pPrujqQxAN66PKJ23Aa";
-const FROM_EMAIL = "noreply@alkhabarsahih.com";
-const PLATFORM_NAME = "منصة الخبر الصحيح";
+const { Resend } = require('resend');
 
-// ══════════════════════════════════════════
-// توليد كود تفعيل فريد
-// ══════════════════════════════════════════
-function generateCode(plan) {
-  const prefix = plan === "basic" ? "BASIC" : plan === "premium" ? "PREMIUM" : "INST";
-  const random = crypto.randomBytes(4).toString("hex").toUpperCase();
-  return `${prefix}-${random.slice(0,4)}-${random.slice(4,8)}`;
+const ACTIVATION_CODES = {
+  basic:         { code: generateCode('BASIC'),   limit: 30    },
+  premium:       { code: generateCode('PREM'),    limit: 9999  },
+  institutional: { code: generateCode('INST'),    limit: 9999  },
+};
+
+function generateCode(prefix) {
+  const rand = Math.random().toString(36).substring(2, 7).toUpperCase();
+  return `${prefix}-${rand}-2026`;
 }
 
-// ══════════════════════════════════════════
-// تحديد الخطة من المبلغ أو الاسم
-// ══════════════════════════════════════════
-function getPlan(amount, tierName) {
-  const name = (tierName || "").toLowerCase();
-  const price = parseFloat(amount || 0);
-
-  if (name.includes("basic") || name.includes("أساسي") || price <= 1) return "basic";
-  if (name.includes("premium") || name.includes("مميز") || price <= 3) return "premium";
-  if (name.includes("inst") || name.includes("مؤسسي") || price >= 5) return "institutional";
-  return "basic";
-}
-
-// ══════════════════════════════════════════
-// إرسال الكود عبر Resend
-// ══════════════════════════════════════════
-function sendEmail(toEmail, toName, code, plan) {
-  const planNames = {
-    basic: "أساسي 📰 — 30 تحليلاً شهرياً",
-    premium: "مميز 🎯 — تحليلات غير محدودة",
-    institutional: "مؤسسي 🏛️ — جميع المميزات"
-  };
-
-  const emailBody = {
-    from: `${PLATFORM_NAME} <${FROM_EMAIL}>`,
-    to: [toEmail],
-    subject: "🔑 كود تفعيل اشتراكك — منصة الخبر الصحيح",
-    html: `
-<!DOCTYPE html>
-<html dir="rtl" lang="ar">
-<head><meta charset="UTF-8"></head>
-<body style="font-family:Arial,sans-serif;background:#0b0d14;color:#eef0f8;padding:30px;margin:0">
-  <div style="max-width:500px;margin:0 auto;background:#151822;border-radius:16px;padding:32px;border:1px solid #252838">
-
-    <div style="text-align:center;margin-bottom:24px">
-      <div style="font-size:48px">🔍</div>
-      <h1 style="background:linear-gradient(135deg,#4f8ef7,#8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-size:22px;margin:8px 0">
-        منصة الخبر الصحيح
-      </h1>
-      <p style="color:#6b7194;font-size:13px">كشف الأخبار المزيفة بالذكاء الاصطناعي</p>
-    </div>
-
-    <p style="font-size:15px;margin-bottom:8px">مرحباً ${toName || "عزيزي المشترك"} 👋</p>
-    <p style="color:#b0b4cc;font-size:13px;line-height:1.8">
-      شكراً لاشتراكك في منصة الخبر الصحيح! إليك كود التفعيل الخاص بك:
-    </p>
-
-    <div style="background:#0d0f1a;border:2px solid #4f8ef7;border-radius:12px;padding:20px;text-align:center;margin:20px 0">
-      <div style="font-size:11px;color:#6b7194;margin-bottom:8px">كود التفعيل</div>
-      <div style="font-size:28px;font-weight:900;color:#4f8ef7;letter-spacing:4px">${code}</div>
-      <div style="font-size:11px;color:#6b7194;margin-top:8px">خطتك: ${planNames[plan]}</div>
-    </div>
-
-    <div style="background:#1c1f2e;border-radius:10px;padding:16px;margin-bottom:20px">
-      <div style="font-weight:700;font-size:13px;margin-bottom:10px">⚡ كيف تفعّل حسابك؟</div>
-      <div style="font-size:12px;color:#b0b4cc;line-height:2">
-        1. افتح الموقع: <a href="https://alkhabarsahih.com" style="color:#4f8ef7">alkhabarsahih.com</a><br>
-        2. انقر: 🔑 لدي اشتراك — تفعيل<br>
-        3. أدخل الكود أعلاه<br>
-        4. ابدأ التحليل فوراً! 🚀
-      </div>
-    </div>
-
-    <p style="font-size:11px;color:#6b7194;text-align:center">
-      ⚠️ احتفظ بهذا الكود — لا تشاركه مع أحد<br>
-      © 2026 منصة الخبر الصحيح — جميع الحقوق محفوظة
-    </p>
-  </div>
-</body>
-</html>`
-  };
-
-  return new Promise((resolve, reject) => {
-    const body = JSON.stringify(emailBody);
-    const options = {
-      hostname: "api.resend.com",
-      path: "/emails",
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${RESEND_API_KEY}`,
-        "Content-Type": "application/json",
-        "Content-Length": Buffer.byteLength(body)
-      }
-    };
-
-    const req = https.request(options, (res) => {
-      let data = "";
-      res.on("data", chunk => { data += chunk; });
-      res.on("end", () => {
-        console.log("Resend response:", res.statusCode, data);
-        if (res.statusCode === 200 || res.statusCode === 201) resolve(data);
-        else reject(new Error(`Resend error: ${res.statusCode} ${data}`));
-      });
-    });
-    req.on("error", reject);
-    req.write(body);
-    req.end();
-  });
-}
-
-// ══════════════════════════════════════════
-// MAIN HANDLER — يدعم Ko-fi + Lemon Squeezy
-// ══════════════════════════════════════════
-exports.handler = async function(event, context) {
-
-  const headers = {
-    "Access-Control-Allow-Origin": "*",
-    "Content-Type": "application/json"
-  };
-
-  if (event.httpMethod === "OPTIONS") {
-    return { statusCode: 200, headers, body: "" };
+exports.handler = async (event) => {
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
-  if (event.httpMethod !== "POST") {
-    return { statusCode: 405, headers, body: JSON.stringify({ error: "Method Not Allowed" }) };
-  }
+  const resend = new Resend(process.env.RESEND_API_KEY);
 
+  let payload;
   try {
-    const payload = JSON.parse(event.body);
-    console.log("Webhook received:", JSON.stringify(payload).substring(0, 400));
-
-    let customerEmail = "";
-    let customerName = "";
-    let plan = "basic";
-
-    // ── Ko-fi Webhook ──
-    if (payload.type === "Donation" || payload.type === "Subscription" || payload.kofi_transaction_id) {
-      console.log("Ko-fi webhook detected");
-
-      customerEmail = payload.email || payload.kofi_email || "";
-      customerName = payload.from_name || "عزيزي المشترك";
-      const amount = payload.amount || "1";
-      const tierName = payload.tier_name || "";
-
-      console.log("Ko-fi customer:", customerEmail, customerName);
-      console.log("Ko-fi amount:", amount, "tier:", tierName);
-
-      plan = getPlan(amount, tierName);
-    }
-
-    // ── Lemon Squeezy Webhook ──
-    else if (payload.meta?.event_name) {
-      console.log("Lemon Squeezy webhook detected");
-
-      const eventName = payload.meta.event_name;
-      if (eventName !== "order_created" && eventName !== "subscription_created") {
-        return { statusCode: 200, headers, body: JSON.stringify({ message: "Event ignored" }) };
-      }
-
-      const data = payload.data?.attributes || {};
-      customerEmail = data.user_email || data.email || "";
-      customerName = data.user_name || "عزيزي المشترك";
-      const productName = data.first_order_item?.product_name || "";
-      plan = getPlan(null, productName);
-    }
-
-    else {
-      console.log("Unknown webhook format:", Object.keys(payload));
-      return { statusCode: 200, headers, body: JSON.stringify({ message: "Unknown format" }) };
-    }
-
-    // ── إرسال الكود ──
-    if (!customerEmail) {
-      console.log("No email found");
-      return { statusCode: 200, headers, body: JSON.stringify({ message: "No email" }) };
-    }
-
-    const code = generateCode(plan);
-    console.log(`Generated: ${code} for ${customerEmail} plan: ${plan}`);
-
-    await sendEmail(customerEmail, customerName, code, plan);
-    console.log(`✅ Code sent to ${customerEmail}`);
-
-    return {
-      statusCode: 200,
-      headers,
-      body: JSON.stringify({ success: true })
-    };
-
-  } catch (error) {
-    console.error("Webhook error:", error.message);
-    return {
-      statusCode: 500,
-      headers,
-      body: JSON.stringify({ error: error.message })
-    };
+    payload = JSON.parse(event.body);
+  } catch {
+    return { statusCode: 400, body: 'Invalid JSON' };
   }
+
+  // Ko-fi webhook signature check
+  const secret = process.env.WEBHOOK_SECRET || 'khabar-sahih-webhook-2026';
+  if (payload.verification_token !== secret) {
+    return { statusCode: 401, body: 'Unauthorized' };
+  }
+
+  const data = payload.data || payload;
+  const email = data.email || data.from_name || 'غير متوفر';
+  const amount = parseFloat(data.amount || 0);
+  const timestamp = data.timestamp || new Date().toISOString();
+
+  // تحديد الخطة بناءً على المبلغ
+  let plan = 'basic';
+  if (amount >= 5) plan = 'institutional';
+  else if (amount >= 3) plan = 'premium';
+
+  const activationCode = generateCode(plan.toUpperCase().slice(0,4));
+
+  // ① إرسال كود التفعيل للمشترك
+  try {
+    await resend.emails.send({
+      from: 'alkhabarsahih@alkhabarsahih.com',
+      to: email,
+      subject: '🔑 كود التفعيل — منصة الخبر الصحيح',
+      html: `
+        <div dir="rtl" style="font-family:Tajawal,Arial,sans-serif;max-width:560px;margin:0 auto;background:#0a0d1a;color:#e0e0e0;border-radius:12px;overflow:hidden;">
+          <div style="background:linear-gradient(135deg,#00d4aa,#00b4ff);padding:22px;text-align:center;">
+            <h2 style="margin:0;color:#000;">🎉 مرحباً بك في الخبر الصحيح!</h2>
+          </div>
+          <div style="padding:24px;text-align:center;">
+            <p style="color:#aaa;margin-bottom:20px;">كود التفعيل الخاص بك:</p>
+            <div style="background:#111827;border:2px solid #00d4aa;border-radius:10px;padding:18px;display:inline-block;margin:0 auto;">
+              <span style="font-family:monospace;font-size:22px;color:#00d4aa;letter-spacing:4px;font-weight:bold;">${activationCode}</span>
+            </div>
+            <p style="margin-top:22px;color:#888;font-size:13px;">اذهب إلى alkhabarsahih.com واضغط "تفعيل" والصق الكود</p>
+            <a href="https://alkhabarsahih.com" style="display:inline-block;margin-top:16px;background:linear-gradient(135deg,#00d4aa,#00b4ff);color:#000;padding:12px 28px;border-radius:25px;text-decoration:none;font-weight:bold;font-size:15px;">ابدأ التحليل الآن ←</a>
+          </div>
+          <div style="background:#05080f;padding:14px;text-align:center;">
+            <p style="margin:0;font-size:11px;color:#334455;">alkhabarsahih.com | truenewsplatform@gmail.com</p>
+          </div>
+        </div>
+      `
+    });
+  } catch (err) {
+    console.error('Subscriber email error:', err);
+  }
+
+  // ② إرسال تنبيه فوري للمؤسس
+  try {
+    await resend.emails.send({
+      from: 'alkhabarsahih@alkhabarsahih.com',
+      to: 'truenewsplatform@gmail.com',
+      subject: `🔔 مشترك جديد! خطة ${plan} — ${amount}$ — الخبر الصحيح`,
+      html: `
+        <div dir="rtl" style="font-family:Tajawal,Arial,sans-serif;max-width:560px;margin:0 auto;background:#0a0d1a;color:#e0e0e0;border-radius:12px;overflow:hidden;">
+          <div style="background:linear-gradient(135deg,#00d4aa,#00b4ff);padding:18px;text-align:center;">
+            <h2 style="margin:0;color:#000;">🎉 مشترك جديد!</h2>
+          </div>
+          <div style="padding:22px;">
+            <table style="width:100%;border-collapse:collapse;background:#111827;border-radius:8px;">
+              <tr><td style="padding:10px 14px;color:#888;font-size:13px;">الخطة</td><td style="padding:10px 14px;font-weight:bold;color:#00d4aa;">${plan.toUpperCase()} — $${amount}/شهر</td></tr>
+              <tr><td style="padding:10px 14px;color:#888;font-size:13px;">الإيميل</td><td style="padding:10px 14px;">${email}</td></tr>
+              <tr><td style="padding:10px 14px;color:#888;font-size:13px;">الكود المرسل</td><td style="padding:10px 14px;font-family:monospace;color:#00e5bb;">${activationCode}</td></tr>
+              <tr><td style="padding:10px 14px;color:#888;font-size:13px;">الوقت</td><td style="padding:10px 14px;font-size:12px;">${new Date(timestamp).toLocaleString('ar-MA')}</td></tr>
+            </table>
+          </div>
+          <div style="background:#05080f;padding:12px;text-align:center;">
+            <p style="margin:0;font-size:11px;color:#334455;">alkhabarsahih.com</p>
+          </div>
+        </div>
+      `
+    });
+  } catch (err) {
+    console.error('Owner notification error:', err);
+  }
+
+  return {
+    statusCode: 200,
+    body: JSON.stringify({ success: true, code: activationCode, plan })
+  };
 };
