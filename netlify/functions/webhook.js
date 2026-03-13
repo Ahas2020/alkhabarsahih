@@ -28,7 +28,7 @@ exports.handler = async (event) => {
 
   try {
     await resend.emails.send({
-      from: 'onboarding@resend.dev',
+      from: 'alkhabarsahih@alkhabarsahih.com',
       to: 'truenewsplatform@gmail.com',
       subject: `🔔 مشترك جديد! خطة ${plan} — ${amount}$`,
       html: `
