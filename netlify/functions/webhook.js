@@ -1,49 +1,164 @@
-const { Resend } = require('resend');
+const https = require("https");
+const crypto = require("crypto");
 
-exports.handler = async (event) => {
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' };
-  }
+const WEBHOOK_SECRET = "khabar-sahih-webhook-2026";
+const EMAILJS_SERVICE_ID = "service_ahhfkjd";
+const EMAILJS_TEMPLATE_ID = "template_d2z1tid";
+const EMAILJS_PUBLIC_KEY = "PT78eEYyef3oDhl2E";
 
-  const resend = new Resend(process.env.RESEND_API_KEY);
+function generateCode(plan) {
+  const prefix = plan === "basic" ? "BASIC" : plan === "premium" ? "PREMIUM" : "INST";
+  const random = crypto.randomBytes(4).toString("hex").toUpperCase();
+  return `${prefix}-${random.slice(0,4)}-${random.slice(4,8)}`;
+}
 
-  let payload;
-  try {
-    payload = JSON.parse(event.body);
-  } catch (e) {
-    return { statusCode: 400, body: 'Invalid JSON' };
-  }
+function getPlan(productName) {
+  const name = (productName || "").toLowerCase();
+  if (name.includes("basic") || name.includes("أساسي")) return "basic";
+  if (name.includes("premium") || name.includes("مميز")) return "premium";
+  if (name.includes("institutional") || name.includes("مؤسسي")) return "institutional";
+  return "basic";
+}
 
-  const data = payload.data || payload;
-  const email = data.email || data.from_name || null;
-  const amount = parseFloat(data.amount || 0);
+function sendEmail(toEmail, toName, code, plan) {
+  const planNames = {
+    basic: "أساسي 📰 — 30 تحليلاً شهرياً",
+    premium: "مميز 🎯 — تحليلات غير محدودة",
+    institutional: "مؤسسي 🏛️ — جميع المميزات"
+  };
 
-  let plan = 'basic';
-  if (amount >= 5) plan = 'institutional';
-  else if (amount >= 3) plan = 'premium';
+  const templateParams = {
+    from_name: "منصة الخبر الصحيح",
+    from_email: "noreply@alkhabarsahih.com",
+    to_name: toName || "عزيزي المشترك",
+    to_email: toEmail,
+    subject: "كود تفعيل اشتراكك — منصة الخبر الصحيح",
+    message: `مرحباً ${toName || ""},
 
-  const code = plan.slice(0,4).toUpperCase() + '-' + Math.random().toString(36).substring(2,7).toUpperCase() + '-2026';
+شكراً لاشتراكك في منصة الخبر الصحيح! 🎉
 
-  if (email) {
-    await resend.emails.send({
-      from: 'alkhabarsahih@alkhabarsahih.com',
-      to: email,
-      subject: 'رمز التفعيل — منصة الخبر الصحيح',
-      html: `
-        <div dir="rtl" style="font-family:Arial,sans-serif;max-width:500px;margin:0 auto;padding:30px;background:#0a0d1a;color:#ffffff;border-radius:12px;">
-          <h2 style="color:#00d4aa;text-align:center;">🎉 مرحباً بك في الخبر الصحيح!</h2>
-          <p style="text-align:center;color:#aaaaaa;">رمز التفعيل الخاص بك:</p>
-          <div style="background:#111827;border:2px solid #00d4aa;border-radius:10px;padding:20px;text-align:center;margin:20px 0;">
-            <span style="font-family:monospace;font-size:24px;color:#00d4aa;letter-spacing:4px;font-weight:bold;">${code}</span>
-          </div>
-          <p style="text-align:center;color:#888888;font-size:13px;">اذهب إلى الموقع واضغط تفعيل والصق الرمز</p>
-          <div style="text-align:center;margin-top:20px;">
-            <a href="https://alkhabarsahih.com" style="background:linear-gradient(135deg,#00d4aa,#00b4ff);color:#000000;padding:12px 30px;border-radius:25px;text-decoration:none;font-weight:bold;">ابدأ التحليل الآن ←</a>
-          </div>
-        </div>
-      `
+━━━━━━━━━━━━━━━━━━━━━
+كود التفعيل الخاص بك:
+${code}
+━━━━━━━━━━━━━━━━━━━━━
+
+خطتك: ${planNames[plan]}
+
+كيف تفعّل حسابك؟
+1. افتح الموقع: https://alkhabarsahih.com
+2. انقر: 🔑 لدي اشتراك — تفعيل
+3. أدخل الكود أعلاه
+4. ابدأ التحليل فوراً!
+
+⚠️ احتفظ بهذا الكود — لا تشاركه مع أحد.
+
+مع تحيات فريق الخبر الصحيح 🛡️`
+  };
+
+  return new Promise((resolve, reject) => {
+    const body = JSON.stringify({
+      service_id: EMAILJS_SERVICE_ID,
+      template_id: EMAILJS_TEMPLATE_ID,
+      user_id: EMAILJS_PUBLIC_KEY,
+      template_params: templateParams
     });
+
+    const options = {
+      hostname: "api.emailjs.com",
+      path: "/api/v1.0/email/send",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Content-Length": Buffer.byteLength(body)
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      let data = "";
+      res.on("data", chunk => { data += chunk; });
+      res.on("end", () => {
+        console.log("EmailJS response:", res.statusCode, data);
+        if (res.statusCode === 200) resolve(data);
+        else reject(new Error(`EmailJS error: ${res.statusCode} ${data}`));
+      });
+    });
+
+    req.on("error", reject);
+    req.write(body);
+    req.end();
+  });
+}
+
+exports.handler = async function(event, context) {
+
+  const headers = {
+    "Access-Control-Allow-Origin": "*",
+    "Content-Type": "application/json"
+  };
+
+  if (event.httpMethod !== "POST") {
+    return { statusCode: 405, headers, body: JSON.stringify({ error: "Method Not Allowed" }) };
   }
 
-  return { statusCode: 200, body: JSON.stringify({ success: true, code: code }) };
+  try {
+    const signature = event.headers["x-signature"] || event.headers["X-Signature"] || "";
+    const expectedSig = crypto
+      .createHmac("sha256", WEBHOOK_SECRET)
+      .update(event.body)
+      .digest("hex");
+
+    if (signature && signature !== expectedSig) {
+      console.log("Invalid signature!");
+      return { statusCode: 401, headers, body: JSON.stringify({ error: "Unauthorized" }) };
+    }
+
+    const payload = JSON.parse(event.body);
+    console.log("Webhook event:", payload.meta?.event_name);
+    console.log("Payload:", JSON.stringify(payload).substring(0, 300));
+
+    const eventName = payload.meta?.event_name || "";
+
+    if (eventName !== "order_created" && eventName !== "subscription_created") {
+      return { statusCode: 200, headers, body: JSON.stringify({ message: "Event ignored" }) };
+    }
+
+    const data = payload.data?.attributes || {};
+    const customerEmail = data.user_email || data.email || "";
+    const customerName = data.user_name || data.first_name || "مشترك جديد";
+    const productName = data.first_order_item?.product_name ||
+                       data.product_name ||
+                       payload.data?.relationships?.order_items?.data?.[0]?.attributes?.product_name ||
+                       "basic";
+
+    console.log("Customer:", customerEmail, customerName);
+    console.log("Product:", productName);
+
+    if (!customerEmail) {
+      console.log("No email found in payload");
+      return { statusCode: 200, headers, body: JSON.stringify({ message: "No email found" }) };
+    }
+
+    const plan = getPlan(productName);
+    const code = generateCode(plan);
+
+    console.log(`Generated code: ${code} for plan: ${plan}`);
+
+    await sendEmail(customerEmail, customerName, code, plan);
+
+    console.log(`✅ Code sent to ${customerEmail}`);
+
+    return {
+      statusCode: 200,
+      headers,
+      body: JSON.stringify({ success: true, message: "Code sent successfully" })
+    };
+
+  } catch (error) {
+    console.error("Webhook error:", error.message);
+    return {
+      statusCode: 500,
+      headers,
+      body: JSON.stringify({ error: "Server error: " + error.message })
+    };
+  }
 };
