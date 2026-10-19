@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="أداة التحقق من الأخبار — منصة الخبر الصحيح">
+<meta name="theme-color" content="#060A14">
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" href="/assets/icon-192.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700&family=Inter:wght@400;500;600;700&display=swap">
+<title>أداة التحقق — الخبر الصحيح</title>
+<style>
+:root {
+  --ink:       #060A14;
+  --ink-2:     #0A1022;
+  --ink-3:     #0F1830;
+  --glass:     rgba(15,24,48,.6);
+  --glass-2:   rgba(20,32,62,.45);
+  --rim:       rgba(80,110,180,.22);
+  --rim-2:     rgba(120,160,220,.35);
+  --text:      #E8EEFF;
+  --text-2:    #8FA8D4;
+  --text-3:    #4A6090;
+  --gold:      #F0B429;
+  --gold-2:    #FFD97D;
+  --gold-glow: rgba(240,180,41,.28);
+  --teal:      #00D4AA;
+  --teal-2:    #5EECD2;
+  --teal-glow: rgba(0,212,170,.22);
+  --danger:    #FF4D6A;
+  --warn:      #FF9A3C;
+  --success:   #22C55E;
+  color-scheme: dark;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--ink);color:var(--text);
+  font-family:'Tajawal','Cairo',Arial,sans-serif;
+  font-size:1rem;line-height:1.65;overflow-x:hidden;
+  min-height:100svh;display:flex;flex-direction:column;
+}
+a{color:inherit;}
+
+/* ── AURORA BACKGROUND ── */
+.aurora{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
+.aurora-orb{position:absolute;border-radius:50%;filter:blur(80px);animation:auroraFloat 18s ease-in-out infinite alternate;}
+.aurora-orb:nth-child(1){width:60vw;height:60vw;top:-20%;right:-15%;background:radial-gradient(circle,rgba(0,180,140,.15) 0%,transparent 70%);animation-delay:0s;}
+.aurora-orb:nth-child(2){width:50vw;height:50vw;bottom:-15%;left:-20%;background:radial-gradient(circle,rgba(120,60,220,.12) 0%,transparent 70%);animation-delay:-6s;}
+.aurora-orb:nth-child(3){width:40vw;height:40vw;top:50%;left:35%;background:radial-gradient(circle,rgba(240,180,41,.08) 0%,transparent 70%);animation-delay:-12s;}
+@keyframes auroraFloat{0%{transform:translate(0,0) scale(1);}100%{transform:translate(5%,8%) scale(1.12);}}
+.aurora-grid{
+  position:absolute;inset:0;
+  background-image:linear-gradient(rgba(80,110,180,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(80,110,180,.04) 1px,transparent 1px);
+  background-size:60px 60px;
+}
+
+/* ── NAV ── */
+.nav{
+  background:rgba(6,10,20,.88);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--rim);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.8rem max(20px,env(safe-area-inset-right,0px)) .8rem max(20px,env(safe-area-inset-left,0px));
+  position:sticky;top:0;z-index:200;
+}
+.nav-logo{display:flex;align-items:center;gap:.6rem;text-decoration:none;color:var(--text);}
+.logo-svg-wrap{
+  width:36px;height:36px;flex-shrink:0;position:relative;
+  filter:drop-shadow(0 0 10px rgba(0,212,170,.35)) drop-shadow(0 0 18px rgba(240,180,41,.2));
+  transition:filter .3s;
+}
+.nav-logo:hover .logo-svg-wrap{filter:drop-shadow(0 0 14px rgba(0,212,170,.55)) drop-shadow(0 0 24px rgba(240,180,41,.3));}
+.logo-type{font-family:'Cairo',sans-serif;font-weight:900;line-height:1.1;}
+.logo-type strong{font-size:.95rem;display:block;}
+.logo-type em{font-style:normal;font-size:.55rem;font-weight:500;color:var(--text-3);letter-spacing:.05em;display:block;}
+.nav-actions{display:flex;align-items:center;gap:.5rem;}
+
+/* Language toggle */
+.lang-toggle{display:flex;background:var(--glass);border:1px solid var(--rim);border-radius:8px;overflow:hidden;}
+.lang-btn{padding:.28rem .6rem;font-size:.7rem;font-weight:700;cursor:pointer;border:none;background:transparent;color:var(--text-3);transition:all .2s;letter-spacing:.03em;}
+.lang-btn.on{background:var(--teal);color:#06111F;}
+
+/* ── BUTTONS ── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.4rem;
+  padding:.5rem 1.1rem;border-radius:9px;font-family:'Cairo',sans-serif;
+  font-size:.85rem;font-weight:700;text-decoration:none;cursor:pointer;
+  border:none;transition:all .2s;white-space:nowrap;
+}
+.btn-ghost{background:transparent;color:var(--text-2);border:1px solid var(--rim);}
+.btn-ghost:hover{color:var(--text);border-color:var(--rim-2);background:var(--glass);}
+.btn-primary{background:linear-gradient(135deg,var(--gold),#E8A800);color:#08111F;}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px var(--gold-glow);}
+.btn-teal{background:linear-gradient(135deg,var(--teal),#00A882);color:#fff;}
+.btn-teal:hover{transform:translateY(-1px);box-shadow:0 6px 20px var(--teal-glow);}
+.btn-danger{background:linear-gradient(135deg,var(--danger),#CC2244);color:#fff;}
+.btn-sm{padding:.3rem .75rem;font-size:.78rem;border-radius:7px;}
+
+/* ── LAYOUT ── */
+main{
+  flex:1;position:relative;z-index:1;
+  padding:2rem max(20px,env(safe-area-inset-right,0px)) 3rem max(20px,env(safe-area-inset-left,0px));
+}
+.wrap{max-width:900px;margin-inline:auto;}
+
+/* PAGE EYEBROW */
+.page-eyebrow{
+  display:flex;align-items:center;gap:.5rem;margin-bottom:1.5rem;
+  font-size:.78rem;font-weight:600;letter-spacing:.06em;color:var(--teal);
+  text-transform:uppercase;
+}
+.eyebrow-line{width:32px;height:1px;background:var(--teal);opacity:.5;}
+
+/* ── SUBSCRIPTION GATE ── */
+.gate{
+  background:var(--glass);backdrop-filter:blur(18px);
+  border:1px solid var(--rim);border-radius:20px;
+  padding:2rem;text-align:center;max-width:480px;margin:1.5rem auto;
+  box-shadow:0 8px 32px rgba(0,0,0,.4);
+}
+.gate-ico{font-size:3rem;margin-bottom:1rem;}
+.gate-h{font-family:'Cairo',sans-serif;font-weight:900;font-size:1.3rem;margin-bottom:.6rem;}
+.gate-p{font-size:.88rem;color:var(--text-2);margin-bottom:1.5rem;line-height:1.7;}
+.gate-divider{display:flex;align-items:center;gap:.75rem;margin:1.25rem 0;color:var(--text-3);font-size:.8rem;}
+.gate-divider::before,.gate-divider::after{content:"";flex:1;height:1px;background:var(--rim);}
+
+/* CODE INPUT */
+.code-row{display:flex;gap:.5rem;}
+.code-input{
+  flex:1;background:var(--ink-2);border:1px solid var(--rim);border-radius:9px;
+  padding:.6rem 1rem;font-family:'Cairo',sans-serif;font-size:.88rem;
+  color:var(--text);outline:none;direction:ltr;text-align:center;letter-spacing:.1em;
+  font-weight:700;transition:border-color .2s;
+}
+.code-input:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-glow);}
+.code-input::placeholder{letter-spacing:0;font-weight:400;}
+
+/* ── STATUS BARS ── */
+.trial-bar{
+  background:rgba(0,212,170,.08);
+  border:1px solid rgba(0,212,170,.22);
+  border-radius:14px;padding:.75rem 1rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  flex-wrap:wrap;margin-bottom:1.25rem;
+  backdrop-filter:blur(12px);
+}
+.trial-left{display:flex;align-items:center;gap:.6rem;font-size:.85rem;}
+.trial-count{font-family:'Cairo',sans-serif;font-weight:900;font-size:1.1rem;color:var(--teal);font-variant-numeric:tabular-nums;}
+.trial-warn{color:var(--warn);}
+.plan-bar{
+  background:rgba(240,180,41,.08);
+  border:1px solid rgba(240,180,41,.22);
+  border-radius:14px;padding:.65rem 1rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  flex-wrap:wrap;margin-bottom:1.25rem;font-size:.85rem;
+  backdrop-filter:blur(12px);
+}
+.plan-name-tag{font-family:'Cairo',sans-serif;font-weight:700;color:var(--gold);}
+
+/* ── TOOL CARD ── */
+.tool-card{
+  background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border:1px solid var(--rim);border-radius:20px;overflow:hidden;
+  box-shadow:0 8px 32px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.05);
+}
+.tool-header{
+  padding:1.25rem 1.5rem .75rem;border-bottom:1px solid var(--rim);
+  background:rgba(10,16,34,.4);
+}
+.tool-title{font-family:'Cairo',sans-serif;font-weight:900;font-size:1.05rem;margin-bottom:.15rem;}
+.tool-subtitle{font-size:.78rem;color:var(--text-3);}
+.tool-tabs-bar{
+  display:flex;background:rgba(6,10,20,.4);border-bottom:1px solid var(--rim);
+  padding:.5rem .75rem;gap:.25rem;
+}
+.tab{
+  padding:.4rem .9rem;border-radius:8px;font-size:.82rem;font-weight:700;
+  cursor:pointer;border:1px solid transparent;color:var(--text-3);transition:all .2s;
+  font-family:'Cairo',sans-serif;background:transparent;
+}
+.tab.active{background:rgba(0,212,170,.15);color:var(--teal);border-color:rgba(0,212,170,.28);}
+.tab:hover:not(.active){color:var(--text-2);background:var(--glass);}
+.tool-body{padding:1.35rem;}
+.panel{display:none;}
+.panel.show{display:block;}
+
+/* ── INPUTS ── */
+.field-lbl{font-size:.75rem;color:var(--text-3);font-weight:600;letter-spacing:.04em;margin-bottom:.4rem;}
+.textarea{
+  width:100%;background:rgba(6,10,20,.7);border:1px solid var(--rim);border-radius:12px;
+  padding:1rem;font-family:'Tajawal',sans-serif;font-size:.9rem;color:var(--text);
+  line-height:1.7;resize:vertical;min-height:140px;outline:none;display:block;
+  transition:border-color .2s,box-shadow .2s;
+}
+.textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-glow);}
+.textarea::placeholder{color:var(--text-3);}
+.url-input{
+  width:100%;background:rgba(6,10,20,.7);border:1px solid var(--rim);border-radius:12px;
+  padding:.75rem 1rem;font-family:'Tajawal',sans-serif;font-size:.9rem;color:var(--text);
+  outline:none;display:block;transition:border-color .2s,box-shadow .2s;direction:ltr;
+}
+.url-input:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-glow);}
+.url-input::placeholder{color:var(--text-3);direction:rtl;}
+.tool-footer{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-top:1rem;}
+.char-count{font-size:.75rem;color:var(--text-3);}
+.analyze-btn{min-width:160px;position:relative;overflow:hidden;}
+.analyze-btn::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.12),transparent);
+  transform:translateX(-100%);transition:transform .5s;
+}
+.analyze-btn:hover::after{transform:translateX(100%);}
+
+/* DROP ZONE */
+.drop-zone{
+  border:2px dashed var(--rim-2);border-radius:14px;padding:2.5rem;text-align:center;
+  cursor:pointer;transition:all .2s;background:rgba(0,212,170,.04);
+}
+.drop-zone:hover,.drop-zone.drag{border-color:var(--teal);background:rgba(0,212,170,.08);}
+
+/* ── LOADING ── */
+.loading{
+  display:none;align-items:center;gap:.75rem;padding:1.5rem;
+  background:var(--glass);border:1px solid var(--rim);border-radius:14px;
+  margin-top:1.25rem;backdrop-filter:blur(12px);
+}
+.loading.show{display:flex;}
+.spinner{
+  width:24px;height:24px;border:2px solid var(--rim);
+  border-top-color:var(--teal);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-text{font-size:.88rem;color:var(--text-2);}
+
+/* ── ERROR ── */
+.error-box{
+  display:none;padding:1rem 1.25rem;
+  background:rgba(255,77,106,.1);
+  border:1px solid rgba(255,77,106,.28);
+  border-radius:12px;margin-top:1.25rem;font-size:.88rem;color:var(--text-2);
+  backdrop-filter:blur(12px);
+}
+.error-box.show{display:block;}
+.error-box strong{color:var(--danger);}
+
+/* ── RESULT ── */
+.result-box{display:none;margin-top:1.25rem;}
+.result-box.show{display:flex;flex-direction:column;gap:1rem;}
+
+/* VERDICT CARD */
+.verdict-card{
+  border-radius:18px;padding:1.5rem;border:1px solid;
+  display:flex;align-items:flex-start;gap:1.1rem;
+  backdrop-filter:blur(16px);
+}
+.verdict-card.fake{background:rgba(255,77,106,.1);border-color:rgba(255,77,106,.28);}
+.verdict-card.true{background:rgba(0,212,170,.1);border-color:rgba(0,212,170,.28);}
+.verdict-card.doubt{background:rgba(255,154,60,.1);border-color:rgba(255,154,60,.28);}
+.v-ico{font-size:2.8rem;flex-shrink:0;line-height:1;}
+.v-main{flex:1;}
+.v-verdict{font-family:'Cairo',sans-serif;font-weight:900;font-size:1.35rem;margin-bottom:.3rem;}
+.verdict-card.fake .v-verdict{color:var(--danger);}
+.verdict-card.true .v-verdict{color:var(--teal);}
+.verdict-card.doubt .v-verdict{color:var(--warn);}
+.v-conf{font-size:.82rem;color:var(--text-3);}
+
+/* CONFIDENCE METER */
+.conf-card{
+  background:var(--glass);border:1px solid var(--rim);border-radius:14px;padding:1.1rem 1.25rem;
+  backdrop-filter:blur(12px);
+}
+.conf-hd{display:flex;justify-content:space-between;font-size:.8rem;color:var(--text-3);margin-bottom:.6rem;}
+.conf-track{height:8px;background:rgba(0,0,0,.4);border-radius:4px;overflow:hidden;}
+.conf-fill{height:100%;border-radius:4px;transition:width 1s ease;width:0;}
+.conf-fill.fake{background:linear-gradient(90deg,var(--danger),#FF8A6A);}
+.conf-fill.true{background:linear-gradient(90deg,var(--teal),#00F0C0);}
+.conf-fill.doubt{background:linear-gradient(90deg,var(--warn),#FFD080);}
+
+/* ANALYSIS CARD */
+.analysis-card{
+  background:var(--glass);border:1px solid var(--rim);border-radius:14px;padding:1.25rem;
+  backdrop-filter:blur(12px);
+}
+.a-title{font-family:'Cairo',sans-serif;font-weight:700;font-size:.92rem;margin-bottom:.6rem;color:var(--text);}
+.a-body{font-size:.86rem;color:var(--text-2);line-height:1.85;}
+
+/* INDICATORS */
+.indicators{display:flex;flex-wrap:wrap;gap:.4rem;}
+.chip{font-size:.72rem;padding:.22rem .65rem;border-radius:6px;border:1px solid var(--rim);background:rgba(0,0,0,.2);color:var(--text-3);}
+.chip.red{background:rgba(255,77,106,.12);border-color:rgba(255,77,106,.28);color:var(--danger);}
+.chip.green{background:rgba(0,212,170,.12);border-color:rgba(0,212,170,.28);color:var(--teal);}
+.chip.yellow{background:rgba(255,154,60,.12);border-color:rgba(255,154,60,.28);color:var(--warn);}
+
+/* SOURCES */
+.sources-card{background:var(--glass);border:1px solid var(--rim);border-radius:14px;padding:1.25rem;backdrop-filter:blur(12px);}
+.src-list{list-style:none;display:flex;flex-direction:column;gap:.5rem;margin-top:.6rem;}
+.src-item{font-size:.82rem;color:var(--teal);display:flex;align-items:flex-start;gap:.5rem;}
+.src-item::before{content:"🔗";flex-shrink:0;}
+
+/* UPSELL */
+.upsell{
+  background:linear-gradient(135deg,rgba(240,180,41,.1),rgba(0,212,170,.06));
+  border:1px solid rgba(240,180,41,.25);
+  border-radius:14px;padding:1.5rem;text-align:center;backdrop-filter:blur(12px);
+}
+.upsell-h{font-family:'Cairo',sans-serif;font-weight:700;margin-bottom:.35rem;}
+.upsell-p{font-size:.82rem;color:var(--text-2);margin-bottom:1rem;}
+
+/* ── HISTORY ── */
+.history-sec{margin-top:2rem;}
+.history-h{font-family:'Cairo',sans-serif;font-weight:700;font-size:.95rem;margin-bottom:.75rem;color:var(--text-2);}
+.history-list{display:flex;flex-direction:column;gap:.5rem;}
+.history-item{
+  background:var(--glass);border:1px solid var(--rim);border-radius:12px;
+  padding:.75rem 1rem;display:flex;align-items:center;gap:.75rem;cursor:pointer;
+  transition:all .2s;backdrop-filter:blur(10px);
+}
+.history-item:hover{border-color:var(--rim-2);background:var(--glass-2);}
+.h-verdict{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.h-verdict.fake{background:var(--danger);}
+.h-verdict.true{background:var(--teal);}
+.h-verdict.doubt{background:var(--warn);}
+.h-text{flex:1;font-size:.83rem;color:var(--text-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.h-time{font-size:.72rem;color:var(--text-3);flex-shrink:0;}
+
+/* ── FOOTER ── */
+footer{
+  position:relative;z-index:1;
+  background:rgba(6,10,20,.85);border-top:1px solid var(--rim);
+  padding:1.25rem max(20px,env(safe-area-inset-right,0px));
+  text-align:center;font-size:.78rem;color:var(--text-3);
+}
+footer a{color:var(--text-3);text-decoration:none;transition:color .2s;}
+footer a:hover{color:var(--teal);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:480px){
+  .nav-logo .logo-type em{display:none;}
+  .gate{padding:1.5rem 1.1rem;}
+  .tool-body{padding:1rem;}
+  .tool-header{padding:1rem 1rem .75rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- AURORA -->
+<div class="aurora" aria-hidden="true">
+  <div class="aurora-orb"></div>
+  <div class="aurora-orb"></div>
+  <div class="aurora-orb"></div>
+  <div class="aurora-grid"></div>
+</div>
+
+<!-- NAV -->
+<header class="nav">
+  <a href="index.html" class="nav-logo">
+    <div class="logo-svg-wrap">
+      <svg viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="lgS2" x1="0" y1="0" x2="42" y2="42" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#00D4AA"/>
+            <stop offset="100%" stop-color="#F0B429"/>
+          </linearGradient>
+          <linearGradient id="lgC2" x1="10" y1="21" x2="32" y2="21" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#5EECD2"/>
+            <stop offset="100%" stop-color="#FFD97D"/>
+          </linearGradient>
+          <filter id="glow2">
+            <feGaussianBlur stdDeviation="1.5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <rect width="42" height="42" rx="12" fill="#0A1022"/>
+        <path d="M21 5L35 11V21C35 29 28 35 21 38C14 35 7 29 7 21V11L21 5Z" fill="url(#lgS2)" opacity=".15"/>
+        <path d="M21 5L35 11V21C35 29 28 35 21 38C14 35 7 29 7 21V11L21 5Z" stroke="url(#lgS2)" stroke-width="1.5" fill="none" filter="url(#glow2)"/>
+        <path d="M13 21L19 27L29 15" stroke="url(#lgC2)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow2)"/>
+        <circle cx="21" cy="36" r="1.5" fill="#F0B429" opacity=".8"/>
+      </svg>
+    </div>
+    <div class="logo-type">
+      <strong data-ar="الخبر الصحيح" data-en="Al-Khabar Al-Sahih">الخبر الصحيح</strong>
+      <em data-ar="كشف الأخبار المزيفة" data-en="Fake News Detection">كشف الأخبار المزيفة</em>
+    </div>
+  </a>
+  <div class="nav-actions">
+    <div class="lang-toggle">
+      <button class="lang-btn on" id="btnAr" onclick="setLang('ar')">ع</button>
+      <button class="lang-btn" id="btnEn" onclick="setLang('en')">EN</button>
+    </div>
+    <a href="pricing.html" class="btn btn-primary btn-sm" data-ar="⭐ اشترك" data-en="⭐ Subscribe">⭐ اشترك</a>
+    <a href="index.html" class="btn btn-ghost btn-sm" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+
+  <div class="page-eyebrow">
+    <span class="eyebrow-line"></span>
+    <span data-ar="أداة التحليل الذكي" data-en="AI Analysis Tool">أداة التحليل الذكي</span>
+    <span class="eyebrow-line"></span>
+  </div>
+
+  <!-- SUBSCRIPTION GATE -->
+  <div id="gate" class="gate" style="display:none;">
+    <div class="gate-ico">🔐</div>
+    <h2 class="gate-h" data-ar="أدخل كود الاشتراك" data-en="Enter Subscription Code">أدخل كود الاشتراك</h2>
+    <p class="gate-p" data-ar="لديك كود اشتراك؟ أدخله هنا للوصول الكامل. أو جرّب 3 تحليلات مجانية." data-en="Have a subscription code? Enter it here for full access. Or try 3 free analyses.">لديك كود اشتراك؟ أدخله هنا للوصول الكامل. أو جرّب 3 تحليلات مجانية.</p>
+    <div class="code-row">
+      <input type="text" class="code-input" id="codeInput" placeholder="XXXX-XXXX-XXXX" maxlength="30" autocomplete="off" spellcheck="false">
+      <button class="btn btn-teal" onclick="activateCode()" data-ar="تفعيل" data-en="Activate">تفعيل</button>
+    </div>
+    <div id="codeMsg" style="margin-top:.6rem;font-size:.82rem;min-height:1.2rem;"></div>
+    <div class="gate-divider" data-ar="أو" data-en="or">أو</div>
+    <button class="btn btn-ghost" style="width:100%;" onclick="useTrial()" data-ar="جرّب 3 تحليلات مجانية" data-en="Try 3 Free Analyses">جرّب 3 تحليلات مجانية</button>
+    <div style="margin-top:1.1rem;">
+      <a href="pricing.html" class="btn btn-primary" style="width:100%;justify-content:center;" data-ar="🌟 اشترك الآن بـ $3/شهر" data-en="🌟 Subscribe Now — $3/month">🌟 اشترك الآن بـ $3/شهر</a>
+    </div>
+  </div>
+
+  <!-- TRIAL BAR -->
+  <div id="trialBar" class="trial-bar" style="display:none;">
+    <div class="trial-left">
+      <span data-ar="🎯 النسخة التجريبية" data-en="🎯 Trial Version">🎯 النسخة التجريبية</span>
+      <span id="trialCount" class="trial-count">3</span>
+      <span data-ar="تحليلات متبقية" data-en="analyses remaining">تحليلات متبقية</span>
+    </div>
+    <a href="pricing.html" class="btn btn-primary btn-sm" data-ar="اشترك للوصول الكامل ←" data-en="Subscribe for Full Access ←">اشترك للوصول الكامل ←</a>
+  </div>
+
+  <!-- PLAN BAR -->
+  <div id="planBar" class="plan-bar" style="display:none;">
+    <div style="display:flex;align-items:center;gap:.6rem;">
+      <span data-ar="✅ مشترك" data-en="✅ Subscribed">✅ مشترك</span>
+      <span id="planNameTag" class="plan-name-tag">الخطة الأساسية</span>
+      <span id="planLimit" style="color:var(--text-3);font-size:.8rem;"></span>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="logout()" data-ar="تسجيل خروج" data-en="Sign Out">تسجيل خروج</button>
+  </div>
+
+  <!-- TOOL CARD -->
+  <div class="tool-card" id="toolCard">
+    <div class="tool-header">
+      <div class="tool-title" data-ar="🔍 تحليل الأخبار بالذكاء الاصطناعي" data-en="🔍 AI-Powered News Analysis">🔍 تحليل الأخبار بالذكاء الاصطناعي</div>
+      <div class="tool-subtitle" data-ar="أدخل نصاً أو رابطاً أو صورة للتحقق الفوري" data-en="Enter text, URL or image for instant verification">أدخل نصاً أو رابطاً أو صورة للتحقق الفوري</div>
+    </div>
+    <div class="tool-tabs-bar">
+      <button class="tab active" onclick="switchTab('text',this)" data-ar="📝 نص" data-en="📝 Text">📝 نص</button>
+      <button class="tab" onclick="switchTab('url',this)" data-ar="🔗 رابط" data-en="🔗 URL">🔗 رابط</button>
+      <button class="tab" onclick="switchTab('image',this)" data-ar="🖼️ صورة" data-en="🖼️ Image">🖼️ صورة</button>
+    </div>
+    <div class="tool-body">
+
+      <!-- TEXT PANEL -->
+      <div id="panel-text" class="panel show">
+        <div class="field-lbl" data-ar="أدخل النص أو الخبر للتحليل" data-en="Enter text or news to analyze">أدخل النص أو الخبر للتحليل</div>
+        <textarea class="textarea" id="txtInput"
+          data-ar="الصق هنا أي خبر، منشور، ادعاء، أو نص تريد التحقق منه..."
+          data-en="Paste any news, post, claim, or text you want to verify..."
+          placeholder="الصق هنا أي خبر، منشور، ادعاء، أو نص تريد التحقق منه..." rows="6" maxlength="5000" oninput="updateCount()"></textarea>
+        <div class="tool-footer">
+          <span class="char-count"><span id="charCount">0</span> / 5000</span>
+          <button class="btn btn-teal analyze-btn" id="analyzeBtn" onclick="analyze()" data-ar="🔍 حلّل الآن" data-en="🔍 Analyze Now">🔍 حلّل الآن</button>
+        </div>
+      </div>
+
+      <!-- URL PANEL -->
+      <div id="panel-url" class="panel">
+        <div class="field-lbl" data-ar="رابط المقالة أو الخبر" data-en="Article or news URL">رابط المقالة أو الخبر</div>
+        <input type="url" class="url-input" id="urlInput"
+          data-ar="https://example.com/article..."
+          data-en="https://example.com/article..."
+          placeholder="https://example.com/article...">
+        <div class="tool-footer">
+          <span class="char-count" style="color:var(--warn);" data-ar="⚠️ سيتم تحليل عنوان الرابط" data-en="⚠️ URL headline will be analyzed">⚠️ سيتم تحليل عنوان الرابط</span>
+          <button class="btn btn-teal analyze-btn" onclick="analyzeUrl()" data-ar="🔍 حلّل الرابط" data-en="🔍 Analyze URL">🔍 حلّل الرابط</button>
+        </div>
+      </div>
+
+      <!-- IMAGE PANEL -->
+      <div id="panel-image" class="panel">
+        <div class="drop-zone" onclick="document.getElementById('imgFile').click()" id="imgDrop"
+          ondragover="event.preventDefault();this.classList.add('drag')"
+          ondragleave="this.classList.remove('drag')"
+          ondrop="dropImg(event)">
+          <div style="font-size:2.5rem;margin-bottom:.75rem;">🖼️</div>
+          <div style="font-family:'Cairo',sans-serif;font-weight:700;margin-bottom:.3rem;" data-ar="اسحب صورة هنا أو اضغط للتحميل" data-en="Drag an image here or click to upload">اسحب صورة هنا أو اضغط للتحميل</div>
+          <div style="font-size:.78rem;color:var(--text-3);" data-ar="PNG, JPG, WebP — حتى 5MB" data-en="PNG, JPG, WebP — up to 5MB">PNG, JPG, WebP — حتى 5MB</div>
+          <input type="file" id="imgFile" accept="image/*" style="display:none;" onchange="handleImg(this)">
+        </div>
+        <div id="imgPreview" style="display:none;margin-top:1rem;"></div>
+        <div class="tool-footer" style="margin-top:.75rem;">
+          <span></span>
+          <button class="btn btn-teal analyze-btn" onclick="analyzeImage()" data-ar="🔍 حلّل الصورة" data-en="🔍 Analyze Image">🔍 حلّل الصورة</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- LOADING -->
+  <div class="loading" id="loadingBox">
+    <div class="spinner"></div>
+    <div>
+      <div class="loading-text" id="loadingTxt" data-ar="⏳ يحلل الذكاء الاصطناعي المحتوى..." data-en="⏳ AI is analyzing the content...">⏳ يحلل الذكاء الاصطناعي المحتوى...</div>
+      <div style="font-size:.75rem;color:var(--text-3);margin-top:.2rem;" data-ar="عادةً أقل من 10 ثوانٍ" data-en="Usually less than 10 seconds">عادةً أقل من 10 ثوانٍ</div>
+    </div>
+  </div>
+
+  <!-- ERROR -->
+  <div class="error-box" id="errorBox"></div>
+
+  <!-- RESULT -->
+  <div class="result-box" id="resultBox"></div>
+
+  <!-- HISTORY -->
+  <div class="history-sec" id="historySec" style="display:none;">
+    <div class="history-h" data-ar="📋 آخر التحليلات" data-en="📋 Recent Analyses">📋 آخر التحليلات</div>
+    <div class="history-list" id="historyList"></div>
+  </div>
+
+</div>
+</main>
+
+<footer>
+  <a href="index.html" data-ar="الخبر الصحيح" data-en="Al-Khabar Al-Sahih">الخبر الصحيح</a> ·
+  <a href="pricing.html" data-ar="الاشتراكات" data-en="Pricing">الاشتراكات</a> ·
+  <a href="about.html" data-ar="من نحن" data-en="About">من نحن</a> ·
+  <a href="mailto:truenewsplatform@gmail.com" data-ar="تواصل معنا" data-en="Contact Us">تواصل معنا</a>
+  <br>
+  <span style="margin-top:.35rem;display:block;" data-ar="مدعوم بـ Claude AI من Anthropic · © 2026" data-en="Powered by Claude AI by Anthropic · © 2026">مدعوم بـ Claude AI من Anthropic · © 2026</span>
+</footer>
+
+<script>
+/* ══════════════════════════════════════════
+   BILINGUAL SYSTEM
+══════════════════════════════════════════ */
+const htmlEl = document.documentElement;
+function setLang(lang) {
+  htmlEl.setAttribute('data-lang', lang);
+  htmlEl.setAttribute('lang', lang === 'ar' ? 'ar' : 'en');
+  htmlEl.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  document.getElementById('btnAr').classList.toggle('on', lang === 'ar');
+  document.getElementById('btnEn').classList.toggle('on', lang === 'en');
+  document.querySelectorAll('[data-ar],[data-en]').forEach(el => {
+    const val = el.getAttribute('data-' + lang);
+    if (val === null) return;
+    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') { el.placeholder = val; return; }
+    el.innerHTML = val;
+  });
+  document.title = lang === 'ar'
+    ? 'أداة التحقق — الخبر الصحيح'
+    : 'Analyze — Al-Khabar Al-Sahih';
+  document.body.style.fontFamily = lang === 'ar'
+    ? "'Tajawal','Cairo',system-ui,sans-serif"
+    : "'Inter',system-ui,sans-serif";
+  try { localStorage.setItem('khabar_lang', lang); } catch(e) {}
+}
+(function() {
+  try {
+    const saved = localStorage.getItem('khabar_lang');
+    if (saved && saved !== 'ar') setLang(saved);
+  } catch(e) {}
+})();
+
+/* ══════════════════════════════════════════
+   SUBSCRIPTION CODES
+══════════════════════════════════════════ */
+const VALID_CODES = {
+  'BASIC-TEST-2026':         { plan: 'basic',         limit: 30,     label: 'الخطة الأساسية'   },
+  'PREMIUM-TEST-2026':       { plan: 'premium',       limit: 9999,   label: 'الخطة الاحترافية' },
+  'INSTITUTIONAL-TEST-2026': { plan: 'institutional', limit: 9999,   label: 'الخطة المؤسسية'   },
+  'SUPERADMIN-KHABAR-2026':  { plan: 'institutional', limit: 999999, label: 'SuperAdmin'        },
+};
+
+/* ══════════════════════════════════════════
+   STATE
+══════════════════════════════════════════ */
+let STATE = { mode: 'gate', plan: null, limit: 0, used: 0, history: [] };
+
+/* ══════════════════════════════════════════
+   INIT
+══════════════════════════════════════════ */
+function init() {
+  try {
+    const saved = JSON.parse(localStorage.getItem('khabar_state') || '{}');
+    if (saved.mode === 'subscribed' && saved.plan) {
+      STATE = { ...STATE, ...saved };
+      showSubscribed();
+      return;
+    }
+    if (saved.mode === 'trial') {
+      STATE.mode = 'trial';
+      STATE.used = saved.used || 0;
+      STATE.history = saved.history || [];
+      showTrial();
+      return;
+    }
+  } catch(e) {}
+  showGate();
+}
+
+function showGate() {
+  document.getElementById('gate').style.display = '';
+  document.getElementById('trialBar').style.display = 'none';
+  document.getElementById('planBar').style.display = 'none';
+  STATE.mode = 'gate';
+}
+
+function showTrial() {
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('trialBar').style.display = 'flex';
+  document.getElementById('planBar').style.display = 'none';
+  const left = 3 - STATE.used;
+  const el = document.getElementById('trialCount');
+  if (el) el.textContent = Math.max(0, left);
+  if (left <= 1) el && el.classList.add('trial-warn');
+  renderHistory();
+}
+
+function showSubscribed() {
+  document.getElementById('gate').style.display = 'none';
+  document.getElementById('trialBar').style.display = 'none';
+  const pb = document.getElementById('planBar');
+  pb.style.display = 'flex';
+  const inf = VALID_CODES[STATE.planCode] || {};
+  document.getElementById('planNameTag').textContent = inf.label || STATE.plan || 'مشترك';
+  const usedEl = document.getElementById('planLimit');
+  if (usedEl) usedEl.textContent = inf.limit < 9999 ? `(${STATE.used}/${inf.limit})` : '(غير محدود)';
+  renderHistory();
+}
+
+function useTrial() {
+  STATE.mode = 'trial'; STATE.used = 0; saveState(); showTrial();
+}
+
+function activateCode() {
+  const raw = document.getElementById('codeInput').value.trim().toUpperCase();
+  const msg = document.getElementById('codeMsg');
+  if (!raw) { msg.textContent = '⚠️ أدخل الكود'; msg.style.color = 'var(--warn)'; return; }
+  const info = VALID_CODES[raw];
+  if (!info) { msg.textContent = '✗ الكود غير صحيح'; msg.style.color = 'var(--danger)'; return; }
+  STATE.mode = 'subscribed'; STATE.plan = info.plan;
+  STATE.planCode = raw; STATE.limit = info.limit; STATE.used = 0;
+  saveState();
+  msg.textContent = '✓ تم التفعيل بنجاح!'; msg.style.color = 'var(--teal)';
+  setTimeout(showSubscribed, 600);
+}
+
+function logout() {
+  localStorage.removeItem('khabar_state');
+  STATE = { mode: 'gate', plan: null, limit: 0, used: 0, history: [] };
+  showGate();
+}
+
+function saveState() {
+  try { localStorage.setItem('khabar_state', JSON.stringify(STATE)); } catch(e) {}
+}
+
+/* ══════════════════════════════════════════
+   TABS
+══════════════════════════════════════════ */
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('show'));
+  document.getElementById('panel-' + name).classList.add('show');
+  clearResults();
+}
+
+function updateCount() {
+  document.getElementById('charCount').textContent = document.getElementById('txtInput').value.length;
+}
+
+/* ══════════════════════════════════════════
+   ACCESS CHECK
+══════════════════════════════════════════ */
+function checkAccess() {
+  if (STATE.mode === 'gate') {
+    showError('🔑 هذه الخدمة للمشتركين — <a href="pricing.html" style="color:var(--gold);">اشترك الآن ←</a>');
+    return false;
+  }
+  if (STATE.mode === 'trial' && (3 - STATE.used) <= 0) {
+    showError('🔑 انتهت التجربة المجانية — <a href="pricing.html" style="color:var(--gold);">اشترك الآن بـ $3/شهر ←</a>');
+    return false;
+  }
+  if (STATE.mode === 'subscribed') {
+    const info = VALID_CODES[STATE.planCode];
+    if (info && STATE.used >= info.limit) {
+      showError('⚠️ وصلت لحد الاشتراك الشهري. <a href="pricing.html" style="color:var(--gold);">ترقية الخطة ←</a>');
+      return false;
+    }
+  }
+  return true;
+}
+
+/* ══════════════════════════════════════════
+   ANALYZE
+══════════════════════════════════════════ */
+async function analyze() {
+  if (!checkAccess()) return;
+  const text = document.getElementById('txtInput').value.trim();
+  if (!text || text.length < 10) { showError('⚠️ أدخل نصاً لا يقل عن 10 أحرف.'); return; }
+  await runAnalysis(text, 'text');
+}
+
+async function analyzeUrl() {
+  if (!checkAccess()) return;
+  const url = document.getElementById('urlInput').value.trim();
+  if (!url) { showError('⚠️ أدخل رابطاً صحيحاً.'); return; }
+  await runAnalysis(`تحقق من مصداقية هذا الرابط ومحتواه: ${url}`, 'url');
+}
+
+async function analyzeImage() {
+  if (!checkAccess()) return;
+  showError('🖼️ تحليل الصور يتطلب خطة احترافية. <a href="pricing.html" style="color:var(--gold);">ترقية الخطة ←</a>');
+}
+
+async function runAnalysis(content, type) {
+  clearResults(); showLoading(true); setBtn(false);
+  try {
+    const controller = new AbortController();
+    const tid = setTimeout(() => controller.abort(), 28000);
+    const res = await fetch('/.netlify/functions/analyze', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ text: content, type }),
+      signal: controller.signal,
+    });
+    clearTimeout(tid);
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.error || `خطأ في الخادم (${res.status})`);
+    }
+    const data = await res.json();
+    const parsed = data._parsed || data;
+    STATE.used++;
+    if (STATE.mode === 'trial') {
+      const el = document.getElementById('trialCount');
+      if (el) el.textContent = Math.max(0, 3 - STATE.used);
+    }
+    addHistory(content, parsed);
+    saveState();
+    showResult(parsed);
+  } catch(e) {
+    if (e.name === 'AbortError') {
+      showError('⏱️ انتهت مهلة الاتصال. يرجى المحاولة مرة أخرى.');
+    } else {
+      showError('❌ ' + (e.message || 'حدث خطأ غير متوقع. يرجى المحاولة لاحقاً.'));
+    }
+  } finally {
+    showLoading(false); setBtn(true);
+  }
+}
+
+/* ══════════════════════════════════════════
+   RENDER RESULT
+══════════════════════════════════════════ */
+function showResult(d) {
+  const box = document.getElementById('resultBox');
+  const vMap = { 'مزيف':'fake','fake':'fake','false':'fake','misleading':'doubt','مضلل':'doubt','صحيح':'true','true':'true','satire':'doubt' };
+  const vLower = (d.verdict || '').toLowerCase();
+  let cls = vMap[vLower] || 'doubt';
+  let icon = cls === 'fake' ? '✗' : cls === 'true' ? '✓' : '⚠️';
+  let vLabel = cls === 'fake' ? 'خبر مزيف' : cls === 'true' ? 'خبر صحيح' : 'مشكوك فيه';
+  const conf = parseInt(d.confidence_score || d.confidence || 70);
+  const analysis = d.analysis || d.explanation || 'لا يوجد تحليل.';
+  const indicators = d.misleading_indicators || d.indicators || [];
+  const sources = d.suggested_sources || d.sources || [];
+  const isPremium = STATE.mode === 'subscribed' && (STATE.plan === 'premium' || STATE.plan === 'institutional');
+
+  let html = `
+    <div class="verdict-card ${cls}">
+      <div class="v-ico">${icon}</div>
+      <div class="v-main">
+        <div class="v-verdict">${vLabel}</div>
+        <div class="v-conf">نسبة الثقة: ${conf}% · تحليل بالذكاء الاصطناعي Claude</div>
+      </div>
+    </div>
+    <div class="conf-card">
+      <div class="conf-hd"><span>مستوى التضليل المحتمل</span><span>${conf}%</span></div>
+      <div class="conf-track"><div class="conf-fill ${cls}" id="confFill"></div></div>
+    </div>
+    <div class="analysis-card">
+      <div class="a-title">🧠 تحليل الذكاء الاصطناعي</div>
+      <div class="a-body">${escHtml(analysis)}</div>
+    </div>`;
+
+  if (indicators && indicators.length) {
+    html += `<div class="analysis-card">
+      <div class="a-title">🚨 مؤشرات التضليل</div>
+      <div class="indicators">
+        ${indicators.map(i => `<span class="chip ${cls==='fake'?'red':cls==='true'?'green':'yellow'}">${escHtml(i)}</span>`).join('')}
+      </div>
+    </div>`;
+  }
+
+  if (sources && sources.length && isPremium) {
+    html += `<div class="sources-card">
+      <div class="a-title">📚 مصادر للتحقق</div>
+      <ul class="src-list">${sources.map(s => `<li class="src-item">${escHtml(s)}</li>`).join('')}</ul>
+    </div>`;
+  }
+
+  if (!isPremium) {
+    html += `<div class="upsell">
+      <div class="upsell-h">🔓 احصل على تقرير أكثر تفصيلاً</div>
+      <div class="upsell-p">المصادر الموثقة، التحليل المعمّق، والأرشيف الشهري — متاحة في الخطة الاحترافية.</div>
+      <a href="pricing.html" class="btn btn-primary">⭐ ترقية للاحترافي — $7/شهر</a>
+    </div>`;
+  }
+
+  box.innerHTML = html;
+  box.classList.add('show');
+  setTimeout(() => { const f = document.getElementById('confFill'); if (f) f.style.width = conf + '%'; }, 100);
+}
+
+/* ══════════════════════════════════════════
+   HISTORY
+══════════════════════════════════════════ */
+function addHistory(text, parsed) {
+  STATE.history.unshift({
+    text: text.substring(0, 80),
+    verdict: parsed.verdict || 'unknown',
+    time: new Date().toLocaleTimeString('ar', { hour: '2-digit', minute: '2-digit' }),
+  });
+  if (STATE.history.length > 10) STATE.history.pop();
+  renderHistory();
+}
+
+function renderHistory() {
+  const list = STATE.history;
+  const sec = document.getElementById('historySec');
+  const el = document.getElementById('historyList');
+  if (!list || !list.length) { sec.style.display = 'none'; return; }
+  sec.style.display = '';
+  const vMap = { 'مزيف':'fake','fake':'fake','false':'fake','صحيح':'true','true':'true' };
+  el.innerHTML = list.map(h => {
+    const cls = vMap[(h.verdict||'').toLowerCase()] || 'doubt';
+    return `<div class="history-item"><div class="h-verdict ${cls}"></div><div class="h-text">${escHtml(h.text)}</div><div class="h-time">${h.time}</div></div>`;
+  }).join('');
+}
+
+/* ══════════════════════════════════════════
+   IMAGE
+══════════════════════════════════════════ */
+function handleImg(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const prev = document.getElementById('imgPreview');
+  const reader = new FileReader();
+  reader.onload = e => {
+    prev.innerHTML = `<img src="${e.target.result}" style="max-height:200px;border-radius:12px;border:1px solid var(--rim);">`;
+    prev.style.display = '';
+  };
+  reader.readAsDataURL(file);
+}
+
+function dropImg(e) {
+  e.preventDefault();
+  document.getElementById('imgDrop').classList.remove('drag');
+  const file = e.dataTransfer.files[0];
+  if (file) { document.getElementById('imgFile').files = e.dataTransfer.files; handleImg(document.getElementById('imgFile')); }
+}
+
+/* ══════════════════════════════════════════
+   UI HELPERS
+══════════════════════════════════════════ */
+function showLoading(on) { document.getElementById('loadingBox').classList.toggle('show', on); }
+function setBtn(on) {
+  const b = document.getElementById('analyzeBtn');
+  if (!b) return;
+  b.disabled = !on;
+  const lang = htmlEl.getAttribute('data-lang') || 'ar';
+  b.textContent = on ? (lang === 'ar' ? '🔍 حلّل الآن' : '🔍 Analyze Now') : (lang === 'ar' ? '⏳ جارٍ التحليل...' : '⏳ Analyzing...');
+  b.style.opacity = on ? '' : '.7';
+}
+function showError(msg) { const el = document.getElementById('errorBox'); el.innerHTML = msg; el.classList.add('show'); }
+function clearResults() {
+  document.getElementById('errorBox').classList.remove('show');
+  document.getElementById('resultBox').classList.remove('show');
+  document.getElementById('resultBox').innerHTML = '';
+}
+function escHtml(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* BOOT */
+init();
+</script>
+</body>
+</html>

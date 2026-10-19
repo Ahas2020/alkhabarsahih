@@ -1,0 +1,45 @@
+{
+  "name": "الخبر الصحيح — كشف الأخبار المزيفة",
+  "short_name": "الخبر الصحيح",
+  "description": "أول منصة عربية للتحقق من الأخبار بالذكاء الاصطناعي",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080C18",
+  "theme_color": "#080C18",
+  "orientation": "portrait-primary",
+  "lang": "ar",
+  "dir": "rtl",
+  "categories": ["news", "productivity", "utilities"],
+  "icons": [
+    {
+      "src": "/assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "أداة التحليل",
+      "short_name": "تحليل",
+      "description": "افتح أداة التحقق من الأخبار",
+      "url": "/analyze.html",
+      "icons": [{ "src": "/assets/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "الاشتراكات",
+      "short_name": "اشترك",
+      "description": "عرض خطط الاشتراك",
+      "url": "/pricing.html",
+      "icons": [{ "src": "/assets/icon-192.png", "sizes": "192x192" }]
+    }
+  ],
+  "screenshots": [],
+  "prefer_related_applications": false
+}

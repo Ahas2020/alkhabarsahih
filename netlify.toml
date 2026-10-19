@@ -1,0 +1,55 @@
+# ═══════════════════════════════════════════
+#  Netlify Configuration — alkhabarsahih.com
+#  منصة الخبر الصحيح v2.0
+# ═══════════════════════════════════════════
+
+[build]
+  publish = "."
+  command = "echo 'Static site — no build step needed'"
+
+[functions]
+  directory = "netlify/functions"
+  # Extend timeout to 26s (max for Netlify free = 10s, paid = 26s)
+  # Set FUNCTIONS_DEFAULT_TIMEOUT in Netlify dashboard if needed
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/api/analyze"
+  to   = "/.netlify/functions/analyze"
+  status = 200
+
+[[redirects]]
+  from = "/app"
+  to   = "/analyze.html"
+  status = 302
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options       = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy       = "strict-origin-when-cross-origin"
+    Permissions-Policy    = "geolocation=(), microphone=(), camera=()"
+
+[[headers]]
+  for = "/.netlify/functions/*"
+  [headers.values]
+    Access-Control-Allow-Origin  = "*"
+    Access-Control-Allow-Methods = "POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+
+# Cache static assets
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/manifest.json"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
