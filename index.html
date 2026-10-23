@@ -2,7 +2,8 @@
 <html lang="ar" dir="rtl" data-lang="ar">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="claude:viewport-fit-sides" content="cover">
 <meta name="description" content="أول منصة عربية لكشف الأخبار المزيفة بالذكاء الاصطناعي">
 <meta name="theme-color" content="#030710">
 <link rel="manifest" href="/manifest.json">
@@ -45,7 +46,7 @@ html{scroll-behavior:smooth;-webkit-font-smoothing:antialiased;}
 body{
   background:var(--void);color:var(--text);
   font-family:'Cairo',system-ui,sans-serif;
-  overflow-x:hidden;min-height:100vh;
+  overflow-x:hidden;min-height:100svh;
 }
 a{color:inherit;text-decoration:none;}
 img{max-width:100%;display:block;}
@@ -101,7 +102,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;}
 .nav{
   position:fixed;top:0;left:0;right:0;z-index:300;
   display:flex;align-items:center;justify-content:space-between;
-  padding:.8rem 32px;
+  padding:.8rem max(20px,env(safe-area-inset-right,0px)) .8rem max(20px,env(safe-area-inset-left,0px));
+  padding-top:calc(.8rem + env(safe-area-inset-top,0px));
   transition:background .4s,border .4s;
 }
 .nav.scrolled{
@@ -238,7 +240,7 @@ html[dir="rtl"] .lab-card::after {right:auto;left:-1px;border-width:0 0 2px 2px;
 /* ═══════════════════════════════════════════════════════
    LAYOUT
 ═══════════════════════════════════════════════════════ */
-.wrap{max-width:1140px;margin-inline:auto;padding-inline:28px;}
+.wrap{max-width:1140px;margin-inline:auto;padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px));}
 .section{position:relative;z-index:2;padding:5.5rem 0;}
 .sec-head{text-align:center;max-width:660px;margin-inline:auto;margin-bottom:3.5rem;}
 .eyebrow{
@@ -262,9 +264,10 @@ html[dir="rtl"] .lab-card::after {right:auto;left:-1px;border-width:0 0 2px 2px;
 ═══════════════════════════════════════════════════════ */
 .hero{
   position:relative;z-index:2;
-  min-height:100vh;
+  min-height:100svh;
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:110px 28px 60px;text-align:center;
+  padding:calc(110px + env(safe-area-inset-top,0px)) max(20px,env(safe-area-inset-right,0px)) calc(60px + env(safe-area-inset-bottom,0px)) max(20px,env(safe-area-inset-left,0px));
+  text-align:center;
 }
 .hero-glow{
   position:absolute;top:35%;left:50%;transform:translate(-50%,-50%);
@@ -327,7 +330,11 @@ html[dir="rtl"] .lab-card::after {right:auto;left:-1px;border-width:0 0 2px 2px;
   font-family:var(--mono);font-size:.65rem;color:var(--text-3);
   text-transform:uppercase;letter-spacing:.1em;margin-bottom:.8rem;
 }
-.pipe-row{display:flex;align-items:center;gap:0;justify-content:center;}
+.pipe-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:.5rem;}
+.pipe-scroll::-webkit-scrollbar{height:3px;}
+.pipe-scroll::-webkit-scrollbar-track{background:transparent;}
+.pipe-scroll::-webkit-scrollbar-thumb{background:rgba(0,212,170,.2);border-radius:2px;}
+.pipe-row{display:flex;align-items:center;gap:0;justify-content:center;min-width:480px;}
 .pipe-node{
   flex-shrink:0;display:flex;flex-direction:column;align-items:center;gap:.5rem;
   width:160px;
@@ -715,7 +722,7 @@ html[dir="rtl"] .cta-card::after {right:auto;left:-1px;border-width:0 0 2px 2px;
 footer{
   position:relative;z-index:2;
   background:var(--deep);border-top:1px solid var(--rim);
-  padding:4rem 28px 2.5rem;
+  padding:4rem max(20px,env(safe-area-inset-right,0px)) calc(2.5rem + env(safe-area-inset-bottom,0px)) max(20px,env(safe-area-inset-left,0px));
 }
 .foot-grid{
   max-width:1140px;margin-inline:auto;
@@ -753,6 +760,110 @@ footer{
 .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s,transform .6s;}
 .reveal.vis{opacity:1;transform:none;}
 .d1{transition-delay:.1s;}.d2{transition-delay:.2s;}.d3{transition-delay:.3s;}
+
+/* ═══════════════════════════════════════════════════════
+   MOBILE — iOS & Android RESPONSIVE FIXES
+═══════════════════════════════════════════════════════ */
+
+/* Hide the "تحليل" and "اشترك" text buttons on phones, keep lang + hamburger */
+@media(max-width:640px){
+  .nav-right .btn{display:none;}
+  .nav-right .btn.hamburger-cta{display:none;}
+}
+
+/* Status bar: allow wrapping on very small screens */
+@media(max-width:480px){
+  .status-bar{
+    flex-wrap:wrap;justify-content:center;
+    font-size:.62rem;gap:.5rem;
+    padding:.35rem .8rem;
+  }
+}
+
+/* Hero heading — tighter on phones */
+@media(max-width:400px){
+  .hero-h1{font-size:2.1rem;}
+}
+
+/* Hero stats pills — tighter on phone */
+@media(max-width:460px){
+  .hero-stats{gap:.4rem;}
+  .hstat{padding:.4rem .75rem;font-size:.65rem;}
+  .hstat-n{font-size:.95rem;}
+}
+
+/* Hero CTAs — stack vertically on phone */
+@media(max-width:480px){
+  .hero-ctas{flex-direction:column;align-items:stretch;gap:.6rem;}
+  .hero-ctas .btn{width:100%;justify-content:center;}
+}
+
+/* Terminal: limit height on phone, add scroll */
+@media(max-width:540px){
+  .term-box{margin-top:.9rem;}
+  .term-body{max-height:120px;overflow-y:auto;}
+}
+
+/* Metrics band: smaller numbers on phone */
+@media(max-width:400px){
+  .m-num{font-size:1.5rem;}
+  .metric{padding:1rem .8rem;}
+}
+
+/* Section padding: less vertical breathing on phones */
+@media(max-width:600px){
+  .section{padding:3.5rem 0;}
+  .sec-head{margin-bottom:2.2rem;}
+}
+
+/* Steps: full width on phone already, but adjust padding */
+@media(max-width:480px){
+  .step{padding:1.5rem 1.2rem;}
+}
+
+/* AI core ring: already handled at 500px */
+/* AI core: center the ring on phone */
+@media(max-width:800px){
+  .ai-inner{text-align:center;}
+  .ai-badges{justify-content:center;}
+}
+
+/* Pricing plans — make sure cards are comfortable on phone */
+@media(max-width:480px){
+  .plan{padding:1.5rem 1.2rem;}
+  .plan-price{font-size:1.9rem;}
+}
+
+/* CTA section */
+@media(max-width:480px){
+  .cta-sec{padding:3.5rem max(16px,env(safe-area-inset-right,0px));}
+  .cta-row{flex-direction:column;align-items:stretch;}
+  .cta-row .btn{width:100%;justify-content:center;}
+}
+
+/* Footer: add bottom safe area */
+@media(max-width:460px){
+  .foot-grid{gap:1.5rem;}
+}
+
+/* Mobile menu: safe area padding */
+.m-menu{
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+.m-close{
+  top:calc(1.5rem + env(safe-area-inset-top,0px));
+  right:max(1.5rem,env(safe-area-inset-right,0px));
+}
+
+/* Touch target minimum 44px for interactive elements */
+.lbtn{min-height:36px;min-width:36px;display:flex;align-items:center;justify-content:center;}
+.hbg{min-width:44px;min-height:44px;align-items:center;justify-content:center;}
+.btn{min-height:44px;}
+.btn-sm{min-height:36px;}
+
+/* Prevent horizontal overflow from orbs/glow */
+.hero-glow,.cta-bg{max-width:100vw;overflow:hidden;}
 </style>
 </head>
 <body>
@@ -858,7 +969,7 @@ footer{
   <!-- Processing pipeline visualization -->
   <div class="pipeline">
     <p class="pipe-label" data-ar="// خط معالجة الأخبار" data-en="// news processing pipeline">// خط معالجة الأخبار</p>
-    <div class="pipe-row">
+    <div class="pipe-scroll"><div class="pipe-row">
       <div class="pipe-node">
         <div class="pn-ico">📰</div>
         <div class="pn-lbl" data-ar="INPUT" data-en="INPUT">INPUT</div>
@@ -888,7 +999,7 @@ footer{
         <div class="pn-lbl" data-ar="OUTPUT" data-en="OUTPUT">OUTPUT</div>
         <div class="pn-status" data-ar="نتيجة" data-en="RESULT">نتيجة</div>
       </div>
-    </div>
+    </div></div>
   </div>
 
   <!-- Live terminal -->

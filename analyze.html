@@ -343,6 +343,26 @@ footer a:hover{color:var(--teal);}
   .tool-body{padding:1rem;}
   .tool-header{padding:1rem 1rem .75rem;}
 }
+
+/* ── MOBILE: iOS & Android fixes ── */
+/* Touch targets */
+.btn{min-height:44px;}
+.btn-sm{min-height:40px;}
+.lang-btn{min-height:36px;min-width:36px;display:flex;align-items:center;justify-content:center;}
+
+/* Nav actions: hide subscribe btn on very small phones */
+@media(max-width:400px){
+  .nav-actions .btn-sm{display:none;}
+}
+
+/* CTA section stack on phone */
+@media(max-width:460px){
+  .cta-row{flex-direction:column;align-items:stretch;}
+  .cta-row .btn{width:100%;justify-content:center;}
+}
+
+/* Footer safe area bottom */
+footer{padding-bottom:calc(1.25rem + env(safe-area-inset-bottom,0px));}
 </style>
 </head>
 <body>
